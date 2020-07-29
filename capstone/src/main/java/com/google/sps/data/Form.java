@@ -7,17 +7,20 @@ public class Form {
     private String editURL;
     private String URL;
     private String id;
-    // private boolean isPublished;
+    private boolean isPublished;
 
     public Form(String editURL, String URL, String id) {
         this.editURL = editURL;
         this.URL = URL;
         this.id = id;
-        // this.isPublished = false;
+        this.isPublished = false;
     }
 
-    public void unpublished(){
-        this.isPublished = false;
+    public Form(Entity entity){
+        this.editURL = (String) entity.getProperty("editURL");
+        this.URL = (String) entity.getProperty("URL");
+        this.id = (String) entity.getProperty("id");
+        this.isPublished = Boolean.parseBoolean((String) entity.getProperty("isPublished"));
     }
 
     // Getters
@@ -33,23 +36,25 @@ public class Form {
         return this.id;
     }
 
-    // public boolean isPublished() {
-    //     return this.isPublished;
-    // }
+    public boolean isPublished() {
+        return this.isPublished;
+    }
 
-    // public void publish(){
-    //     this.isPublished = true;
-    // }
+    // Setters
+    public void publish(){
+        this.isPublished = true;
+    }
 
-    // public void unpublished(){
-    //     this.isPublished = false;
-    // }
+    public void unpublish(){
+        this.isPublished = false;
+    }
     
     public Entity toDatastoreEntity(){
         Entity formEntity = new Entity("Form");
         formEntity.setProperty("editURL", this.editURL);
         formEntity.setProperty("URL", this.URL);
         formEntity.setProperty("id", this.id);
+        formEntity.setProperty("isPublished", this.isPublished);
         return formEntity;
     }
 }

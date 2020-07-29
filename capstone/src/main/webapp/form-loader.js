@@ -50,7 +50,6 @@ function updateSigninStatus(isSignedIn) {
     if (isSignedIn) {
         authorizeButton.style.display = 'none';
         signoutButton.style.display = 'block';
-        // callAppsScript();
     } else {
         authorizeButton.style.display = 'block';
         signoutButton.style.display = 'none';
@@ -81,6 +80,16 @@ function appendPre(message) {
     var pre = document.getElementById('content');
     var textContent = document.createTextNode(message + '\n');
     pre.appendChild(textContent);
+}
+
+function getForms(){
+    fetch("/form-handler").then(response => response.json()).then((formsList) => {
+        console.log(formsList);
+        const formElement = document.getElementById("comment-container");
+        list.forEach((comment) => {
+            commentElement.appendChild(createListElement(comment.name + " said " + comment.content)); 
+        });
+    });
 }
 
 
@@ -125,11 +134,8 @@ function callScriptFunction() {
           appendPre('\t' + trace.function + ':' + trace.lineNumber);
         }
       }
-    } else {
-      console.log("Result :" , result); 
-
+    } else { 
       formData = result.response.result;
-
     }
   }).then((e) => {
     console.log(e);

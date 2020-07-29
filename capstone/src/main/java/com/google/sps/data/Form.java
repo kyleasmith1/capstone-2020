@@ -16,6 +16,11 @@ public class Form {
         // this.isPublished = false;
     }
 
+    public void unpublished(){
+        this.isPublished = false;
+    }
+
+    // Getters
     public String getEditURL() {
         return this.editURL;
     }

@@ -54,7 +54,10 @@ public class Form {
         formEntity.setProperty("editURL", this.editURL);
         formEntity.setProperty("URL", this.URL);
         formEntity.setProperty("id", this.id);
+<<<<<<< HEAD
         formEntity.setProperty("isPublished", this.isPublished);
+=======
+>>>>>>> MVP-K
         return formEntity;
     }
 }

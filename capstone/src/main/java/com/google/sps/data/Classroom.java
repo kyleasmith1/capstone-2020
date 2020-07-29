@@ -6,6 +6,8 @@ import com.google.sps.data.Form;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random; 
+import com.google.appengine.api.datastore.Entity;
+
 
 public class Classroom {
 
@@ -15,25 +17,28 @@ public class Classroom {
     private String subject;
     private Key key;
 
-    public Classroom(Teacher teacher, List<Student> students, List<Form> forms, String subject, Key key) {
-        this.teacher = teacher;
+    public Classroom(Entity classroomEntity, List<Student> students, List<Form> forms) {
+        this.teacher = (Teacher) classroomEntity.getProperty("teacher");
         this.students = students;
         this.forms = forms;
-        this.subject = subject;
-        this.key = key;
+        this.subject = (String) classroomEntity.getProperty("subject");
+        this.key = (Key) classroomEntity.getProperty("key");
     }
 
     // Setters
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+        // update
     }
 
     public void setSubject(String subject) {
         this.subject = subject;
+        // update
     }
 
     public void setKey(Key key) {
         this.key = key;
+        // update
     }
 
     // Getters
@@ -61,14 +66,17 @@ public class Classroom {
     // Database
     public void addStudent(Student student) { 
         students.add(student);
+        // update datstore
     }
 
     public void addForm(Form form) {
         forms.add(form);
+        // update datastore
     }
 
     public void removeStudent(Student student) {
         this.students.remove(student);
+        // update datastore
     }
 
     public boolean isStudentInClass(Student student) {
@@ -83,11 +91,11 @@ public class Classroom {
 
     public Entity toDatastoreEntity(){
         Entity classroomEntity = new Entity("Classroom");
-        classroomEntity.setProperty("teacher", teacher);
-        classroomEntity.setProperty("students", students);
-        classroomEntity.setProperty("forms", forms);
-        classroomEntity.setProperty("subject", subject);
-        classroomEntity.setProperty("key", key);
+        classroomEntity.setProperty("teacher", this.teacher);
+        classroomEntity.setProperty("students", this.students);
+        classroomEntity.setProperty("forms", this.forms);
+        classroomEntity.setProperty("subject", this.subject);
+        classroomEntity.setProperty("key", this.key);
         return classroomEntity;
     }
 }

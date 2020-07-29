@@ -5,6 +5,8 @@ import com.google.sps.data.Classroom;
 import com.google.sps.data.User;
 import java.util.ArrayList;
 import java.util.List;
+import com.google.appengine.api.datastore.Entity;
+
 
 public class Teacher implements User {
 
@@ -13,16 +15,17 @@ public class Teacher implements User {
     private String nickname;
     private int id;
 
-    public Teacher(String email, List<Classroom> classrooms, String nickname, int id) {
-        this.email = email;
+    public Teacher(Entity teacherEntity, List<Classroom> classrooms) {
+        this.email = (String) teacherEntity.getProperty("email");
         this.classrooms = classrooms;
-        this.nickname = nickname;
-        this.id = id;
+        this.nickname = (String) teacherEntity.getProperty("nickname");
+        this.id = (Integer) teacherEntity.getProperty("id");
     }
 
     // Setters
     public void setNickname(String newNickname) {
         this.nickname = newNickname;
+        // update datastore
     }
 
     // Getters
@@ -45,12 +48,14 @@ public class Teacher implements User {
     // Database
     public void addClassroom(Classroom newClass) {
         this.classrooms.add(newClass);
+        // update datastore
     }
 
     public void removeStudent(Classroom classroom, Student student) {
         if (classroom.isStudentInClass(student)) {
             classroom.removeStudent(student);
         }
+        // update datastore
     }
 
     // User Information
@@ -62,10 +67,10 @@ public class Teacher implements User {
 
     public Entity toDatastoreEntity(){
         Entity teacherEntity = new Entity("Teacher");
-        teacherEntity.setProperty("email", email);
-        teacherEntity.setProperty("classrooms", classrooms);
-        teacherEntity.setProperty("nickname", nickname);
-        teacherEntity.setProperty("id", id);
+        teacherEntity.setProperty("email", this.email);
+        teacherEntity.setProperty("classrooms", this.classrooms);
+        teacherEntity.setProperty("nickname", this.nickname);
+        teacherEntity.setProperty("id", this.id);
         return teacherEntity;
     }
 }

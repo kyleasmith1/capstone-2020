@@ -1,4 +1,4 @@
-package com.google.sps.servlets;
+/*package com.google.sps.servlets;
 
 import java.io.IOException;
 import java.io.*;
@@ -65,4 +65,4 @@ public class FormHandlerServlet extends HttpServlet {
       response.setContentType("text/html");
     //   response.sendRedirect("/form.html");
   }
-}
+}*/

@@ -9,16 +9,16 @@ public class Form {
     private String id;
     // private boolean isPublished;
 
-    public Form(String editURL, String URL, String id) {
-        this.editURL = editURL;
-        this.URL = URL;
-        this.id = id;
+    public Form(Entity formEntity) {
+        this.editURL = (String) formEntity.getProperty("editURL");
+        this.URL = (String) formEntity.getProperty("URL");
+        this.id = (String) formEntity.getProperty("id");
         // this.isPublished = false;
     }
 
-    public void unpublished(){
+    /*public void unpublished(){
         this.isPublished = false;
-    }
+    }*/
 
     // Getters
     public String getEditURL() {

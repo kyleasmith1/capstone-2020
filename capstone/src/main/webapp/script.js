@@ -37,3 +37,36 @@ function signOut() {
         console.log('User signed out.');
     });
 }
+
+// TESTING STUFF
+
+function getTest() {
+    /*fetch("/test").then(response => response.json()).then((students) => {
+            const testEl = document.getElementById('container');
+            
+            testEl.innerHTML = '';
+
+            students.forEach((student) => {
+                testEl.appendChild(createStudentElement(student));
+    });
+  });*/
+
+  fetch("/test").then(response => response.json()).then((student) => {
+      const testEl = document.getElementById("container");
+
+      testEl.innerHTML = '';
+
+      testEl.appendChild(createStudentElement(student));
+  });
+}
+
+function createStudentElement(student) {
+  const studentElement = document.createElement('li');
+  studentElement.className = 'student';
+
+  const commentElement = document.createElement('span');
+  commentElement.innerText = student;
+
+  studentElement.appendChild(commentElement);
+  return studentElement;
+}

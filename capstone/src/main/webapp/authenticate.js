@@ -1,5 +1,5 @@
-var CLIENT_ID = '1002281613740-gsmtp3tteqgtoformikuglhu8fr388et.apps.googleusercontent.com';
-var API_KEY = 'AIzaSyBS13DWNfA-RpO4AQrd4tdUE15-chVDbJc';
+var CLIENT_ID = config.CLIENT_ID;
+var API_KEY = config.API_KEY;
 var DISCOVERY_DOCS = ["https://script.googleapis.com/$discovery/rest?version=v1"];
 var SCOPES = 'https://www.googleapis.com/auth/forms';
 

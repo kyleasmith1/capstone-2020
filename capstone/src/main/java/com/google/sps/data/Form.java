@@ -2,6 +2,9 @@ package com.google.sps.data;
 import java.io.*;
 import com.google.appengine.api.datastore.Entity;
 
+/**
+ * The Form class holds the user's forms for their classes
+ */
 public class Form {
 
     private String editURL;

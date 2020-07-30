@@ -1,12 +1,6 @@
-// Client ID and API key from the Developer Console
 var CLIENT_ID = '1002281613740-gsmtp3tteqgtoformikuglhu8fr388et.apps.googleusercontent.com';
 var API_KEY = 'AIzaSyBS13DWNfA-RpO4AQrd4tdUE15-chVDbJc';
-
-// Array of API discovery doc URLs for APIs used by the quickstart
 var DISCOVERY_DOCS = ["https://script.googleapis.com/$discovery/rest?version=v1"];
-
-// Authorization scopes required by the API; multiple scopes can be
-// included, separated by spaces.
 var SCOPES = 'https://www.googleapis.com/auth/forms';
 
 var authorizeButton = document.getElementById('authorize_button');
@@ -24,22 +18,22 @@ function handleClientLoad() {
 *  listeners.
 */
 function initClient() {
-gapi.client.init({
-    apiKey: API_KEY,
-    clientId: CLIENT_ID,
-    discoveryDocs: DISCOVERY_DOCS,
-    scope: SCOPES
-}).then(function () {
-    // Listen for sign-in state changes.
-    gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+    gapi.client.init({
+        apiKey: API_KEY,
+        clientId: CLIENT_ID,
+        discoveryDocs: DISCOVERY_DOCS,
+        scope: SCOPES
+    }).then(function () {
+        // Listen for sign-in state changes.
+        gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
 
-    // Handle the initial sign-in state.
-    updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-    authorizeButton.onclick = handleAuthClick;
-    signoutButton.onclick = handleSignoutClick;
-}, function(error) {
-    appendPre(JSON.stringify(error, null, 2));
-});
+        // Handle the initial sign-in state.
+        updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+        authorizeButton.onclick = handleAuthClick;
+        signoutButton.onclick = handleSignoutClick;
+    }, function(error) {
+        appendPre(JSON.stringify(error, null, 2));
+    });
 }
 
 /**
@@ -56,17 +50,11 @@ function updateSigninStatus(isSignedIn) {
     }
 }
 
-/**
-*  Sign in the user upon button click.
-*/
-function handleAuthClick(event) {
+function handleAuthClick() {
     gapi.auth2.getAuthInstance().signIn();
 }
 
-/**
-*  Sign out the user upon button click.
-*/
-function handleSignoutClick(event) {
+function handleSignoutClick() {
     gapi.auth2.getAuthInstance().signOut();
 }
 
@@ -82,71 +70,43 @@ function appendPre(message) {
     pre.appendChild(textContent);
 }
 
-function getForms(){
-    fetch("/form-handler").then(response => response.json()).then((formsList) => {
-        console.log(formsList);
-        const formElement = document.getElementById("comment-container");
-        list.forEach((comment) => {
-            commentElement.appendChild(createListElement(comment.name + " said " + comment.content)); 
-        });
-    });
-}
-
-
 function callScriptFunction() {
-  var scriptId = "1Z_td2xr1Hq9loDzSdojcCS_3qFwKJR3apBuR2zmcyUVpdhqvfJWyMMYZ";
+    var scriptId = "1Z_td2xr1Hq9loDzSdojcCS_3qFwKJR3apBuR2zmcyUVpdhqvfJWyMMYZ";
   
-  // Call the Apps Script API run method
-  //   'scriptId' is the URL parameter that states what script to run
-  //   'resource' describes the run request body (with the function name
-  //              to execute)
-  gapi.client.script.scripts.run({
+    // Call the Apps Script API run method
+    //   'scriptId' is the URL parameter that states what script to run
+    //   'resource' describes the run request body (with the function name
+    //              to execute)
+    gapi.client.script.scripts.run({
     'scriptId': scriptId,
     'resource': {
         "function": "createForm",
-        "parameters": [
-            "Test Request Param"
-        ],
+        "parameters": [],
         "devMode": true
     }
-  }).then(function(resp) {
-    var result = resp.result;
-    if (result.error && result.error.status) {
-      // The API encountered a problem before the script
-      // started executing.
-      appendPre('Error calling API:');
-      appendPre(JSON.stringify(result, null, 2));
-    } else if (result.error) {
-      // The API executed, but the script returned an error.
-      console.log(result.error);
-      // Extract the first (and only) set of error details.
-      // The values of this object are the script's 'errorMessage' and
-      // 'errorType', and an array of stack trace elements.
-      var error = result.error.details[0];
-      appendPre('Script error message: ' + error.errorMessage);
+    }).then(function(resp) {
+        var result = resp.result;
+        if (result.error && result.error.status) {
+            // The API encountered a problem before the script started executing
+            appendPre('Error calling API:');
+            appendPre(JSON.stringify(result, null, 2));
+        } else if (result.error) {
+            // The API executed, but the script returned an error.
+            var error = result.error.details[0];
+            appendPre('Script error message: ' + error.errorMessage);
 
-      if (error.scriptStackTraceElements) {
-        // There may not be a stacktrace if the script didn't start
-        // executing.
-        appendPre('Script error stacktrace:');
-        for (var i = 0; i < error.scriptStackTraceElements.length; i++) {
-          var trace = error.scriptStackTraceElements[i];
-          appendPre('\t' + trace.function + ':' + trace.lineNumber);
+            if (error.scriptStackTraceElements) {
+                appendPre('Script error stacktrace:');
+                for (var i = 0; i < error.scriptStackTraceElements.length; i++) {
+                    var trace = error.scriptStackTraceElements[i];
+                    appendPre('\t' + trace.function + ':' + trace.lineNumber);
+                }
+            }
+        } else { 
+            formData = JSON.stringify(result.response.result);
+            fetch("/form-handler", {method: "POST", body: formData});    
         }
-      }
-    } else { 
-      formData = result.response.result;
-    }
-  }).then((e) => {
-    console.log(e);
-    console.log("formData :" + formData);
-    formData = JSON.stringify(formData);
-    fetch("/form-handler", {method: "POST", body: formData}).then(function() {
-        console.log("ok");
-    }).catch(function() {
-        console.log("error");
     });
-   });
 }
 
 

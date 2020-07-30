@@ -22,8 +22,11 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
 import com.google.sps.data.Teacher;
+import com.google.sps.data.Classroom;
 import com.google.sps.data.Student;
 import com.google.sps.data.Form;
+import com.google.sps.data.ClassKey;
+
 
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
@@ -32,30 +35,63 @@ public class TestServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // ArrayList<Student> students = new ArrayList<>();
 
-    //
     Entity studentEntity = new Entity("Student");
     studentEntity.setProperty("email", "kyle@google.com");
     studentEntity.setProperty("nickname", "kyle");
     studentEntity.setProperty("id", 1020);
 
     Student student = new Student(studentEntity);
-    //
+
+    Entity teacherEntity = new Entity("Teacher");
+    teacherEntity.setProperty("email", "teacher@google.com");
+    teacherEntity.setProperty("nickname", "teacher");
+    teacherEntity.setProperty("id", 1050);
+
+    Teacher teacher = new Teacher(teacherEntity);
+
+    List<Student> students = new ArrayList<>();
+
+    students.add(student);
+
+    System.out.println(students); // Outputs an array with a Student object
+
+    ClassKey key1 = null;
+
+    Entity classroomEntity = new Entity("Classroom");
+    classroomEntity.setProperty("teacher", teacher); // just store teacher specific ids
+
+    //"getDatabaseEntity() code
+    classroomEntity.setProperty("students", students); // store student references (ids)
+    // Iterate through
+
+    classroomEntity.setProperty("subject", "English");
+    classroomEntity.setProperty("key", key1);
+
+    Classroom classroom = new Classroom(classroomEntity, students);
+
+    classroom.userInfo(classroom.getTeacher(), classroom.getAllStudents(), "English", classroom.getKey());
+
+    // 
+
+    /*Entity keyEntity = new Entity("Key");
+    keyEntity.setProperty("classroom", classroom);
+    keyEntity.setProperty("teacher", teacher);
+    keyEntity.setProperty("id", 12345678);
+
+    ClassKey key = new ClassKey(keyEntity, 12345678);
+
+    classroomEntity.setProperty("teacher", teacher);
+    classroomEntity.setProperty("students", students);
+    classroomEntity.setProperty("subject", "English");
+    classroomEntity.setProperty("key", key);*/
+
+    //student.userInfo(student.getEmail(), student.getNickname(), student.getId());
     
-    //Query query = new Query("Students");
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    //PreparedQuery results = datastore.prepare(query);
-
-    //System.out.println(results);
-
-    /*for (Entity entity : results.asIterable()) {
-        student = new Student(entity);
-        students.add(student);
-    }*/
 
     Gson gson = new Gson();
-    String json = gson.toJson(student);
+    String json = gson.toJson(teacher);
     response.setContentType("application/json");
     response.getWriter().println(json);
   }
@@ -67,8 +103,43 @@ public class TestServlet extends HttpServlet {
     studentEntity.setProperty("nickname", "kyle");
     studentEntity.setProperty("id", 1020);
 
+    Student student = new Student(studentEntity);
+
+    Entity teacherEntity = new Entity("Teacher");
+    teacherEntity.setProperty("email", "teacher@google.com");
+    teacherEntity.setProperty("nickname", "teacher");
+    teacherEntity.setProperty("id", 1050);
+
+    Teacher teacher = new Teacher(teacherEntity);
+
+    List<Student> students = new ArrayList<>();
+
+    students.add(student);
+
+    ClassKey key1 = null;
+
+    Entity classroomEntity = new Entity("Classroom");
+    classroomEntity.setProperty("teacher", teacher);
+    classroomEntity.setProperty("students", students);
+    classroomEntity.setProperty("subject", "English");
+    classroomEntity.setProperty("key", key1);
+
+    Classroom classroom = new Classroom(classroomEntity, students);
+
+    Entity keyEntity = new Entity("Key");
+    keyEntity.setProperty("classroom", classroom);
+    keyEntity.setProperty("teacher", teacher);
+    keyEntity.setProperty("id", 12345678);
+
+    ClassKey key = new ClassKey(keyEntity, 12345678);
+
+    classroomEntity.setProperty("teacher", teacher);
+    classroomEntity.setProperty("students", students);
+    classroomEntity.setProperty("subject", "English");
+    classroomEntity.setProperty("key", key);
+
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(studentEntity);
+    datastore.put(classroomEntity);
 
     response.sendRedirect("/index.html");
   }

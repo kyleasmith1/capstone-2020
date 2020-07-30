@@ -41,32 +41,22 @@ function signOut() {
 // TESTING STUFF
 
 function getTest() {
-    /*fetch("/test").then(response => response.json()).then((students) => {
-            const testEl = document.getElementById('container');
-            
-            testEl.innerHTML = '';
-
-            students.forEach((student) => {
-                testEl.appendChild(createStudentElement(student));
-    });
-  });*/
-
-  fetch("/test").then(response => response.json()).then((student) => {
+  fetch("/test").then(response => response.json()).then((teacher) => {
       const testEl = document.getElementById("container");
 
       testEl.innerHTML = '';
 
-      testEl.appendChild(createStudentElement(student));
+      testEl.appendChild(createStudentElement(teacher));
   });
 }
 
-function createStudentElement(student) {
+function createStudentElement(teacher) {
   const studentElement = document.createElement('li');
-  studentElement.className = 'student';
+  studentElement.className = 'classroom';
 
-  const commentElement = document.createElement('span');
-  commentElement.innerText = student;
+  const emailElement = document.createElement('span');
+  emailElement.innerText = teacher.email;
 
-  studentElement.appendChild(commentElement);
+  studentElement.appendChild(emailElement);
   return studentElement;
 }

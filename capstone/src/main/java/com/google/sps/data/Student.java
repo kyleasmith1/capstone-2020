@@ -51,7 +51,7 @@ public class Student implements User {
     }
 
     // User Information
-    public void userInfo(String email, String nickname, String id) {
+    public void userInfo(String email, String nickname, int id) {
         System.out.println("Email: " + email);
         System.out.println("Nickname: " + nickname);
         System.out.println("ID: " + id);

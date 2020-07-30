@@ -7,6 +7,24 @@ import java.util.ArrayList;
 import java.util.List;
 import com.google.appengine.api.datastore.Entity;
 
+// Implement a factory function --> get the list of classrooms (want their ids), iterate and create a classroom out of the ids
+
+/*for each ...pull classrooms (list<id>)
+
+public class featureFactory() {
+
+    fetchFromDatastore(id) {
+        Datastoreservice.fetchteacherEntity...
+
+        classroom ids = teacherEntity.getProperty(classrooms)
+
+        for each id...
+            properClassroom is classroomFactory.fetchFromDatastore(id);
+
+            classrooms.add(properClassroom)
+    }
+}*/
+
 
 public class Teacher implements User {
 
@@ -15,9 +33,9 @@ public class Teacher implements User {
     private String nickname;
     private int id;
 
-    public Teacher(Entity teacherEntity, List<Classroom> classrooms) {
+    public Teacher(Entity teacherEntity) {
         this.email = (String) teacherEntity.getProperty("email");
-        this.classrooms = classrooms;
+        //this.classrooms = classrooms; --> 
         this.nickname = (String) teacherEntity.getProperty("nickname");
         this.id = (Integer) teacherEntity.getProperty("id");
     }
@@ -59,7 +77,7 @@ public class Teacher implements User {
     }
 
     // User Information
-    public void userInfo(String email, String nickname, String id) {
+    public void userInfo(String email, String nickname, int id) {
         System.out.println("Email: " + email);
         System.out.println("Nickname: " + nickname);
         System.out.println("ID: " + id);
@@ -68,7 +86,7 @@ public class Teacher implements User {
     public Entity toDatastoreEntity(){
         Entity teacherEntity = new Entity("Teacher");
         teacherEntity.setProperty("email", this.email);
-        teacherEntity.setProperty("classrooms", this.classrooms);
+        //teacherEntity.setProperty("classrooms", this.classrooms);
         teacherEntity.setProperty("nickname", this.nickname);
         teacherEntity.setProperty("id", this.id);
         return teacherEntity;

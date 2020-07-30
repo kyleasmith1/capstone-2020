@@ -15,14 +15,14 @@ public class Classroom {
     private List<Student> students = new ArrayList<>();
     private List<Form> forms = new ArrayList<>();
     private String subject;
-    private Key key;
+    private ClassKey key;
 
-    public Classroom(Entity classroomEntity, List<Student> students, List<Form> forms) {
+    public Classroom(Entity classroomEntity, List<Student> students) {
         this.teacher = (Teacher) classroomEntity.getProperty("teacher");
         this.students = students;
-        this.forms = forms;
+        //this.forms = forms;
         this.subject = (String) classroomEntity.getProperty("subject");
-        this.key = (Key) classroomEntity.getProperty("key");
+        this.key = (ClassKey) classroomEntity.getProperty("key");
     }
 
     // Setters
@@ -31,12 +31,21 @@ public class Classroom {
         // update
     }
 
+    // Will delete
+    public void userInfo(Teacher teacher, List<Student> students, String subject, ClassKey key) {
+        System.out.println("Teacher: " + teacher);
+        System.out.println("Students: " + students);
+        System.out.println("Subject: " + subject);
+        System.out.println("Key: " + key);
+    }
+    // Will delete
+
     public void setSubject(String subject) {
         this.subject = subject;
         // update
     }
 
-    public void setKey(Key key) {
+    public void setKey(ClassKey key) {
         this.key = key;
         // update
     }
@@ -58,7 +67,7 @@ public class Classroom {
         return this.forms;
     }
 
-    public Key getKey() {
+    public ClassKey getKey() {
         assert this.key.getId() != -1: "The key doesn't exist.";
         return this.key;
     }
@@ -93,7 +102,7 @@ public class Classroom {
         Entity classroomEntity = new Entity("Classroom");
         classroomEntity.setProperty("teacher", this.teacher);
         classroomEntity.setProperty("students", this.students);
-        classroomEntity.setProperty("forms", this.forms);
+       // classroomEntity.setProperty("forms", this.forms);
         classroomEntity.setProperty("subject", this.subject);
         classroomEntity.setProperty("key", this.key);
         return classroomEntity;

@@ -3,7 +3,7 @@ import java.io.*;
 import java.util.List;
 
 public interface User {
-    public void userInfo(String email, String nickname, String id);
+    public void userInfo(String email, String nickname, int id);
     public void setNickname(String newNickname);
     public String getEmail();
     public List<Classroom> getClassrooms();

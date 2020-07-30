@@ -8,13 +8,13 @@ import java.util.Random;
 import com.google.appengine.api.datastore.Entity;
 
 
-public class Key {
+public class ClassKey {
 
     private int id;
     private Classroom classroom;
     private Teacher teacher;
 
-    public Key (Entity keyEntity, int id) {
+    public ClassKey (Entity keyEntity, int id) {
         this.classroom = (Classroom) keyEntity.getProperty("classroom");
         this.teacher = (Teacher) keyEntity.getProperty("teacher");
         this.id = (Integer) keyEntity.getProperty("id");

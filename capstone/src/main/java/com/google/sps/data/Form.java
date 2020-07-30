@@ -23,7 +23,7 @@ public class Form {
         this.editURL = (String) entity.getProperty("editURL");
         this.URL = (String) entity.getProperty("URL");
         this.id = (String) entity.getProperty("id");
-        this.isPublished = Boolean.parseBoolean((String) entity.getProperty("isPublished"));
+        this.isPublished = (Boolean) entity.getProperty("isPublished");
     }
 
     // Getters

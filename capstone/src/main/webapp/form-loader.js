@@ -33,12 +33,36 @@ function callScriptFunction() {
         } else { 
             formData = JSON.stringify(result.response.result);
             fetch("/form-handler", {method: "POST", body: formData}).then((response) => {
-            console.log(response)
-            console.log(JSON.stringify(response));
-            return response.text();
-        })   
+                console.log(response)
+                console.log(JSON.stringify(response));
+                return response.text();
+            });   
         }
     });
+}
+
+function getForms() {
+    fetch("/form-handler").then(response => response.json()).then((formsList) => {
+        console.log(formsList);
+        const formElement = document.getElementById("form-container");
+        formsList.forEach((form) => {
+            formElement.appendChild(createTeacherFormElement(form.editURL));
+            formElement.appendChild(createStudentFormElement(form.URL)); 
+        });
+    });
+}
+
+function createTeacherFormElement(editURL) { 
+    const aElement = document.createElement("a");
+    aElement.innerText = "Form Edit Page";
+    aElement.href = editURL;
+    return aElement;
+}
+
+function createStudentFormElement(URL) {
+    const iframeElement = document.createElement("iframe");
+    iframeElement.src = URL;
+    return iframeElement;
 }
 
 

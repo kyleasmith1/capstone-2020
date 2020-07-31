@@ -61,6 +61,3 @@ function createStudentFormElement(URL) {
     iframeElement.src = URL;
     return iframeElement;
 }
-
-
-

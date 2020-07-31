@@ -3,6 +3,8 @@ var API_KEY = config.API_KEY;
 var DISCOVERY_DOCS = ["https://script.googleapis.com/$discovery/rest?version=v1"];
 var SCOPES = 'https://www.googleapis.com/auth/forms';
 
+document.getElementById("auth").appendChild(createLoginButton());
+document.getElementById("auth").appendChild(createLogoutButton());
 var authorizeButton = document.getElementById('authorize_button');
 var signoutButton = document.getElementById('signout_button');
 
@@ -26,7 +28,7 @@ function initClient() {
     }).then(function () {
         // Listen for sign-in state changes.
         gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
-
+        
         // Handle the initial sign-in state.
         updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
         authorizeButton.onclick = handleAuthClick;
@@ -56,6 +58,22 @@ function handleAuthClick() {
 
 function handleSignoutClick() {
     gapi.auth2.getAuthInstance().signOut();
+}
+
+function createLoginButton(){
+    const loginButtonElement = document.createElement('button');
+    loginButtonElement.id = 'authorize_button';
+    loginButtonElement.style.display = "none";
+    loginButtonElement.innerText = "Authorize";
+    return loginButtonElement;
+}
+
+function createLogoutButton(){
+    const logoutButtonElement = document.createElement('button');
+    logoutButtonElement.id = 'signout_button';
+    logoutButtonElement.style.display = "none";
+    logoutButtonElement.innerText = "Sign Out";
+    return logoutButtonElement;
 }
 
 /**

@@ -32,14 +32,19 @@ function callScriptFunction() {
             }
         } else { 
             formData = JSON.stringify(result.response.result);
-            fetch("/form-handler", {method: "POST", body: formData}).then(getForms());
+            return fetch("/form-handler", {method: "POST", body: formData});
         }
-    })
+    }).then((resp) => {
+        if (resp.ok){
+            getForms();
+        } else {
+            alert("Error has occured");
+        }
+    });
 }
 
 function getForms() {
     fetch("/form-handler").then(response => response.json()).then((formsList) => {
-        console.log(formsList);
         const formElement = document.getElementById("form-container");
         formElement.innerHTML = "";
         formsList.forEach((form) => {

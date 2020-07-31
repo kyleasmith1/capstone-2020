@@ -17,7 +17,7 @@ public class FormHandlerServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        
+
         Form form = RequestJsonParser.parseObjectFromRequest(request, Form.class);
 
         Entity formEntity = form.toDatastoreEntity();

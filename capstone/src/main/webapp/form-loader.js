@@ -32,19 +32,16 @@ function callScriptFunction() {
             }
         } else { 
             formData = JSON.stringify(result.response.result);
-            fetch("/form-handler", {method: "POST", body: formData}).then((response) => {
-                console.log(response)
-                console.log(JSON.stringify(response));
-                return response.text();
-            });   
+            fetch("/form-handler", {method: "POST", body: formData}).then(getForms());
         }
-    });
+    })
 }
 
 function getForms() {
     fetch("/form-handler").then(response => response.json()).then((formsList) => {
         console.log(formsList);
         const formElement = document.getElementById("form-container");
+        formElement.innerHTML = "";
         formsList.forEach((form) => {
             formElement.appendChild(createTeacherFormElement(form.editURL));
             formElement.appendChild(createStudentFormElement(form.URL)); 

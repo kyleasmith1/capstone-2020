@@ -32,11 +32,7 @@ function callScriptFunction() {
             }
         } else { 
             formData = JSON.stringify(result.response.result);
-            fetch("/form-handler", {method: "POST", body: formData}).then((response) => {
-            console.log(response)
-            console.log(JSON.stringify(response));
-            return response.text();
-        })   
+            fetch("/form-handler", {method: "POST", body: formData});  
         }
     });
 }

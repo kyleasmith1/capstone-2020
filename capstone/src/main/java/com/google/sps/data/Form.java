@@ -1,60 +1,53 @@
 package com.google.sps.data;
 
-import java.io.IOException;
-import java.io.*;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Entity;
-import java.util.ArrayList;
-import java.util.List;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-
-import com.google.sps.data.User;
-import com.google.sps.data.Classroom;
-
 import com.google.sps.service.DatabaseService;
 
 public class Form {
+    protected static final String FORM = "Form";
+    protected static final String EDIT_URL = "editURL";
+    protected static final String URL = "URL";
+    protected static final String PUBLISHED = "published";
 
-    private Entity entity;
+    protected Entity entity;
 
     public Form(Entity entity) {
         this.entity = entity;
     }
 
     public Form(String editURL, String URL, boolean isPublished) {
-        this.entity = new Entity("Form");
-        this.entity.setProperty("editURL", editURL);
-        this.entity.setProperty("URL", URL);
-        this.entity.setProperty("published", isPublished);
+        this.entity = new Entity(FORM);
+        this.entity.setProperty(EDIT_URL, editURL);
+        this.entity.setProperty(URL, URL);
+        this.entity.setProperty(PUBLISHED, isPublished);
     }
 
     public void publish() {
-        this.entity.setProperty("published", true);
-        DatabaseService.save(this.entity);
+        this.entity.setProperty(PUBLISHED, true);
     }
 
     public void unPublish() {
-        this.entity.setProperty("published", false);
-        DatabaseService.save(this.entity);
+        this.entity.setProperty(PUBLISHED, false);
     }
 
     public String getEditURL() {
-        return (String) this.entity.getProperty("editURL");
+        return (String) this.entity.getProperty(EDIT_URL);
     }
 
     public String getURL() {
-        return (String) this.entity.getProperty("URL");
+        return (String) this.entity.getProperty(URL);
     }
 
     public boolean publishState() {
-        return (Boolean) this.entity.getProperty("published");
+        return (Boolean) this.entity.getProperty(PUBLISHED);
     }
 
     public Entity getFormEntity() {
-        return (Entity) this.entity;
+        return this.entity;
+    }
+
+    public Key getFormKey() {
+        return this.entity.getKey();
     }
 }

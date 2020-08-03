@@ -1,24 +1,10 @@
 package com.google.sps.data;
 
-import java.io.IOException;
-import java.io.*;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Entity;
-import java.util.ArrayList;
-import java.util.List;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-
-import com.google.sps.data.Classroom;
-import com.google.sps.data.Student;
-import com.google.sps.data.Form;
-
 import com.google.sps.service.DatabaseService;
 
-public abstract class User {
+public class User {
     protected static final String NICKNAME = "nickname";
     protected static final String USER = "User";
     protected static final String EMAIL = "email";
@@ -37,7 +23,6 @@ public abstract class User {
 
     public void changeNickname(String nickname) {
         this.delegate.setProperty(NICKNAME, nickname);
-        DatabaseService.save(this.delegate);
     }
 
     public String getEmail() {
@@ -49,6 +34,10 @@ public abstract class User {
     }
 
     public Entity getUserEntity() {
-        return (Entity) this.delegate;
+        return this.delegate;
+    }
+
+    public Key getUserKey() {
+        return this.delegate.getKey();
     }
 }

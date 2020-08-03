@@ -1,95 +1,71 @@
 package com.google.sps.data;
+
+import java.io.IOException;
 import java.io.*;
-import com.google.sps.data.Form;
-import com.google.sps.data.Classroom;
-import com.google.sps.data.User;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+import com.google.appengine.api.datastore.*;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Entity;
 import java.util.ArrayList;
 import java.util.List;
-import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 
-// Implement a factory function --> get the list of classrooms (want their ids), iterate and create a classroom out of the ids
+import com.google.sps.data.Classroom;
+import com.google.sps.data.User;
+import com.google.sps.data.Form;
 
-/*for each ...pull classrooms (list<id>)
+import com.google.sps.service.DatabaseService;
 
-public class featureFactory() {
+public class Teacher extends User {
 
-    fetchFromDatastore(id) {
-        Datastoreservice.fetchteacherEntity...
-
-        classroom ids = teacherEntity.getProperty(classrooms)
-
-        for each id...
-            properClassroom is classroomFactory.fetchFromDatastore(id);
-
-            classrooms.add(properClassroom)
-    }
-}*/
-
-
-public class Teacher implements User {
-
-    private String email;
-    private List<Classroom> classrooms = new ArrayList<>();
-    private String nickname;
-    private int id;
-
-    public Teacher(Entity teacherEntity) {
-        this.email = (String) teacherEntity.getProperty("email");
-        //this.classrooms = classrooms; --> 
-        this.nickname = (String) teacherEntity.getProperty("nickname");
-        this.id = (Integer) teacherEntity.getProperty("id");
+    public Teacher(Entity entity) {
+        super(entity);
     }
 
-    // Setters
-    public void setNickname(String newNickname) {
-        this.nickname = newNickname;
-        // update datastore
+    public Teacher(String email, String nickname) {
+        super(email, nickname);
     }
 
-    // Getters
-    public String getEmail() {
-        return this.email;
-    }
-
-    public List<Classroom> getClassrooms() {
-        return this.classrooms;
-    }
-
-    public String getNickname() {
-        return this.nickname;
-    }
-
-    public int getId() {
-        return this.id;
-    }
-
-    // Database
-    public void addClassroom(Classroom newClass) {
-        this.classrooms.add(newClass);
-        // update datastore
-    }
-
-    public void removeStudent(Classroom classroom, Student student) {
-        if (classroom.isStudentInClass(student)) {
-            classroom.removeStudent(student);
+    public void addStudent(Key classroomKey, Key studentKey) { 
+        try {
+            Classroom classroom = DatabaseService.getClassroom(classroomKey);
+            classroom.addStudent(studentKey);
         }
-        // update datastore
+        catch (EntityNotFoundException e) {
+            System.out.println("Classroom does not exist.");
+        }
     }
 
-    // User Information
-    public void userInfo(String email, String nickname, int id) {
-        System.out.println("Email: " + email);
-        System.out.println("Nickname: " + nickname);
-        System.out.println("ID: " + id);
+    public void removeStudent(Key classroomKey, Key studentKey) { 
+        try {
+            Classroom classroom = DatabaseService.getClassroom(classroomKey);
+            classroom.removeStudent(studentKey);
+        }
+        catch (EntityNotFoundException e) {
+            System.out.println("Classroom does not exist.");
+        }
     }
 
-    public Entity toDatastoreEntity(){
-        Entity teacherEntity = new Entity("Teacher");
-        teacherEntity.setProperty("email", this.email);
-        //teacherEntity.setProperty("classrooms", this.classrooms);
-        teacherEntity.setProperty("nickname", this.nickname);
-        teacherEntity.setProperty("id", this.id);
-        return teacherEntity;
+    public void addForm(Key classroomKey, Key formKey) { 
+        try {
+            Classroom classroom = DatabaseService.getClassroom(classroomKey);
+            classroom.addForm(formKey);
+        }
+        catch (EntityNotFoundException e) {
+            System.out.println("Classroom does not exist.");
+        }
+    }
+
+    public void removeForm(Key classroomKey, Key formKey) { 
+        try {
+            Classroom classroom = DatabaseService.getClassroom(classroomKey);
+            classroom.removeForm(formKey);
+        }
+        catch (EntityNotFoundException e) {
+            System.out.println("Classroom does not exist.");
+        }
     }
 }
-

@@ -37,26 +37,3 @@ function signOut() {
         console.log('User signed out.');
     });
 }
-
-// TESTING STUFF
-
-function getTest() {
-  fetch("/test").then(response => response.json()).then((teacher) => {
-      const testEl = document.getElementById("container");
-
-      testEl.innerHTML = '';
-
-      testEl.appendChild(createStudentElement(teacher));
-  });
-}
-
-function createStudentElement(teacher) {
-  const studentElement = document.createElement('li');
-  studentElement.className = 'classroom';
-
-  const emailElement = document.createElement('span');
-  emailElement.innerText = teacher.email;
-
-  studentElement.appendChild(emailElement);
-  return studentElement;
-}

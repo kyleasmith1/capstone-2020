@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+  </head>
+  <body>
+    <div id="auth"></div>
+    <div id="content">
+      <p><h1>Dashboard</h1></p>
+      <button onclick="createClassroom()">Create Classroom</button>
+    </div>
+    <pre id="content"></pre>
+
+    <script src="config.js"></script>
+    <script src="authenticate.js"></script>
+    <script src="dashboard-loader.js"></script>
+    <script async defer src="https://apis.google.com/js/api.js" onload="handleClientLoad()"></script>
+  </body>
+</html>

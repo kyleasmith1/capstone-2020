@@ -17,30 +17,30 @@ public class Form {
     }
 
     public Form(String editUrl, String Url) {
-        this.entity = new Entity(FORM);
-        this.entity.setProperty(EDIT_URL, editUrl);
-        this.entity.setProperty(URL, Url);
-        this.entity.setProperty(PUBLISHED, false);
+        this.entity = new Entity(Form.FORM);
+        this.entity.setProperty(Form.EDIT_URL, editUrl);
+        this.entity.setProperty(Form.URL, Url);
+        this.entity.setProperty(Form.PUBLISHED, false);
     }
 
     public void publish() {
-        this.entity.setProperty(PUBLISHED, true);
+        this.entity.setProperty(Form.PUBLISHED, true);
     }
 
     public void unPublish() {
-        this.entity.setProperty(PUBLISHED, false);
+        this.entity.setProperty(Form.PUBLISHED, false);
     }
 
     public String getEditURL() {
-        return (String) this.entity.getProperty(EDIT_URL);
+        return (String) this.entity.getProperty(Form.EDIT_URL);
     }
 
     public String getURL() {
-        return (String) this.entity.getProperty(URL);
+        return (String) this.entity.getProperty(Form.URL);
     }
 
     public boolean publishState() {
-        return (Boolean) this.entity.getProperty(PUBLISHED);
+        return (Boolean) this.entity.getProperty(Form.PUBLISHED);
     }
 
     public Entity getFormEntity() {

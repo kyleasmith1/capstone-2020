@@ -50,8 +50,8 @@ public class LoginServlet extends HttpServlet {
                 String name = (String) payload.get("name");
 
                 Filter userFilter =
-                    new FilterPredicate(USER_ID, FilterOperator.EQUAL, userId);
-                Query query = new Query(USER).setFilter(userFilter);
+                    new FilterPredicate(LoginServlet.USER_ID, FilterOperator.EQUAL, userId);
+                Query query = new Query(LoginServlet.USER).setFilter(userFilter);
 
                 PreparedQuery results = datastore.prepare(query);
 

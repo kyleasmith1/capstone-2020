@@ -16,21 +16,21 @@ public class User {
     }
 
     public User(String userId, String nickname) {
-        this.delegate = new Entity(USER);
-        this.delegate.setProperty(NICKNAME, nickname);
-        this.delegate.setProperty(ID, userId);
+        this.delegate = new Entity(User.USER);
+        this.delegate.setProperty(User.NICKNAME, nickname);
+        this.delegate.setProperty(User.ID, userId);
     }
 
     public void changeNickname(String nickname) {
-        this.delegate.setProperty(NICKNAME, nickname);
+        this.delegate.setProperty(User.NICKNAME, nickname);
     }
 
     public String getID() {
-        return (String) this.delegate.getProperty(ID);
+        return (String) this.delegate.getProperty(User.ID);
     }
 
     public String getNickname() {
-        return (String) this.delegate.getProperty(NICKNAME);
+        return (String) this.delegate.getProperty(User.NICKNAME);
     }
 
     public Entity getUserEntity() {

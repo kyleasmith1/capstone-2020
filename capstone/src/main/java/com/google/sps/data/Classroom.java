@@ -20,23 +20,23 @@ public class Classroom {
     }
 
     public Classroom(User teacher, String subject) { 
-        this.entity = new Entity(CLASSROOM);
-        this.entity.setProperty(TEACHER, teacher.getUserKey());
-        this.entity.setProperty(SUBJECT, subject);
-        this.entity.setProperty(STUDENTS, new ArrayList<>());
-        this.entity.setProperty(FORMS, new ArrayList<>());
+        this.entity = new Entity(Classroom.CLASSROOM);
+        this.entity.setProperty(Classroom.TEACHER, teacher.getUserKey());
+        this.entity.setProperty(Classroom.SUBJECT, subject);
+        this.entity.setProperty(Classroom.STUDENTS, new ArrayList<>());
+        this.entity.setProperty(Classroom.FORMS, new ArrayList<>());
     }
 
     public void setTeacher(User teacher) { 
-        this.entity.setProperty(TEACHER, teacher.getUserKey());
+        this.entity.setProperty(Classroom.TEACHER, teacher.getUserKey());
     }
     
     public Key getTeacher() {
-        return (Key) this.entity.getProperty(TEACHER);
+        return (Key) this.entity.getProperty(Classroom.TEACHER);
     }
 
     public String getSubject() {
-        return (String) this.entity.getProperty(SUBJECT);
+        return (String) this.entity.getProperty(Classroom.SUBJECT);
     }
 
     public Entity getClassroomEntity() {
@@ -45,17 +45,17 @@ public class Classroom {
 
     @SuppressWarnings("unchecked")
     public List<Key> getAllStudents() {
-        return (ArrayList<Key>) this.entity.getProperty(STUDENTS);
+        return (ArrayList<Key>) this.entity.getProperty(Classroom.STUDENTS);
     }
 
     @SuppressWarnings("unchecked")
     public List<Key> getAllForms() { 
-        return (ArrayList<Key>) this.entity.getProperty(FORMS); 
+        return (ArrayList<Key>) this.entity.getProperty(Classroom.FORMS); 
     }
     
     @SuppressWarnings("unchecked")
     public void addStudent(User student) {
-        List<Key> students = (ArrayList<Key>) this.entity.getProperty(STUDENTS);
+        List<Key> students = (ArrayList<Key>) this.entity.getProperty(Classroom.STUDENTS);
         students.add(student.getUserKey());
 
         this.entity.setProperty(STUDENTS, students);
@@ -63,15 +63,15 @@ public class Classroom {
 
     @SuppressWarnings("unchecked")
     public void removeStudent(User student) {
-        List<Key> students = (ArrayList<Key>) this.entity.getProperty(STUDENTS);
+        List<Key> students = (ArrayList<Key>) this.entity.getProperty(Classroom.STUDENTS);
         students.remove(student.getUserKey());
 
-        this.entity.setProperty(STUDENTS, students);
+        this.entity.setProperty(Classroom.STUDENTS, students);
     }
 
     @SuppressWarnings("unchecked")
     public void addForm(Form form) {
-        List<Key> forms = (ArrayList<Key>) this.entity.getProperty(FORMS);
+        List<Key> forms = (ArrayList<Key>) this.entity.getProperty(Classroom.FORMS);
         forms.add(form.getFormKey());
 
         this.entity.setProperty(FORMS, forms);
@@ -79,7 +79,7 @@ public class Classroom {
 
     @SuppressWarnings("unchecked")
     public void removeForm(Form form) {
-        List<Key> forms = (ArrayList<Key>) this.entity.getProperty(FORMS);
+        List<Key> forms = (ArrayList<Key>) this.entity.getProperty(Classroom.FORMS);
         forms.remove(form.getFormKey());
 
         this.entity.setProperty(FORMS, forms);
@@ -87,7 +87,7 @@ public class Classroom {
 
     @SuppressWarnings("unchecked")
     public boolean isStudentInClass(User student) {
-        List<Key> students = (ArrayList<Key>) this.entity.getProperty(STUDENTS);
+        List<Key> students = (ArrayList<Key>) this.entity.getProperty(Classroom.STUDENTS);
 
         assert students.size() > 0: "There are no students in this class!";
 

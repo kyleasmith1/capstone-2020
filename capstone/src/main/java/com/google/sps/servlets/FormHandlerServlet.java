@@ -30,7 +30,7 @@ public class FormHandlerServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Query query = new Query (FORM);
+        Query query = new Query (FormHandlerServlet.FORM);
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery results = datastore.prepare(query);
         
@@ -54,8 +54,8 @@ public class FormHandlerServlet extends HttpServlet {
         JsonElement jelement = JsonParser.parseString(sb);
         JsonObject jobject = jelement.getAsJsonObject();
 
-        String editUrl = jobject.get(EDIT_URL).getAsString();
-        String Url = jobject.get(URL).getAsString();
+        String editUrl = jobject.get(FormHandlerServlet.EDIT_URL).getAsString();
+        String Url = jobject.get(FormHandlerServlet.URL).getAsString();
 
         Form form = new Form(editUrl, Url);
 

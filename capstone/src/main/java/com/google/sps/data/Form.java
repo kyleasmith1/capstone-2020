@@ -6,8 +6,8 @@ import com.google.sps.service.DatabaseService;
 
 public class Form {
     protected static final String FORM = "Form";
-    protected static final String EDIT_URL = "editURL";
-    protected static final String URL = "URL";
+    protected static final String EDIT_URL = "editUrl";
+    protected static final String URL = "Url";
     protected static final String PUBLISHED = "published";
 
     protected Entity entity;
@@ -16,11 +16,11 @@ public class Form {
         this.entity = entity;
     }
 
-    public Form(String editURL, String URL, boolean isPublished) {
+    public Form(String editUrl, String Url) {
         this.entity = new Entity(FORM);
-        this.entity.setProperty(EDIT_URL, editURL);
-        this.entity.setProperty(URL, URL);
-        this.entity.setProperty(PUBLISHED, isPublished);
+        this.entity.setProperty(EDIT_URL, editUrl);
+        this.entity.setProperty(URL, Url);
+        this.entity.setProperty(PUBLISHED, false);
     }
 
     public void publish() {

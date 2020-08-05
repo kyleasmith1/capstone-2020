@@ -45,24 +45,23 @@ function callScriptFunction() {
 function getForms() {
     fetch("/form-handler").then(response => response.json()).then((formsList) => {
         const formElement = document.getElementById("form-container");
-        console.log("getForms()");
         formElement.innerHTML = "";
         formsList.forEach((form) => {
-            formElement.appendChild(createTeacherFormElement(form.editURL));
-            formElement.appendChild(createStudentFormElement(form.URL)); 
+            formElement.appendChild(createTeacherFormElement(form.entity.propertyMap.editUrl));
+            formElement.appendChild(createStudentFormElement(form.entity.propertyMap.Url)); 
         });
     });
 }
 
-function createTeacherFormElement(editURL) { 
+function createTeacherFormElement(editUrl) { 
     const aElement = document.createElement("a");
     aElement.innerText = "Form Edit Page";
-    aElement.href = editURL;
+    aElement.href = editUrl;
     return aElement;
 }
 
-function createStudentFormElement(URL) {
+function createStudentFormElement(Url) {
     const iframeElement = document.createElement("iframe");
-    iframeElement.src = URL;
+    iframeElement.src = Url;
     return iframeElement;
 }

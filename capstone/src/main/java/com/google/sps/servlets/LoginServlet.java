@@ -19,7 +19,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import java.security.GeneralSecurityException;
 import com.google.sps.data.User;
-import com.google.sps.data.RequestJsonParser;
+import com.google.sps.data.RequestParser;
 import com.google.sps.service.DatabaseService;
 import java.util.Collections;
 import javax.servlet.annotation.WebServlet;
@@ -37,7 +37,7 @@ public class LoginServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-        String token = getBody(request).toString();
+        String token = RequestParser.parseStringFromRequest(request);
 
         GoogleIdTokenVerifier verifier = tokenVerifier();
     
@@ -66,21 +66,6 @@ public class LoginServlet extends HttpServlet {
         } catch (GeneralSecurityException e){
             System.out.println("Didn't work: (GeneralSecurityException)");
         }
-    }
-
-    // Helper Function(s)
-    public StringBuilder getBody(HttpServletRequest request) throws IOException {
-        BufferedReader reader = request.getReader();
-        StringBuilder sb = new StringBuilder();
-        try {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line).append('\n');
-            }
-        } finally {
-            reader.close();
-        }
-        return sb;
     }
 
     public GoogleIdTokenVerifier tokenVerifier() {

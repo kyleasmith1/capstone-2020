@@ -7,7 +7,7 @@ import com.google.sps.service.DatabaseService;
 public class User {
     protected static final String NICKNAME = "nickname";
     protected static final String USER = "User";
-    protected static final String EMAIL = "email";
+    protected static final String ID = "userId";
 
     protected Entity delegate;
 
@@ -15,18 +15,18 @@ public class User {
         this.delegate = delegate;
     }
 
-    public User(String email, String nickname) {
+    public User(String userId, String nickname) {
         this.delegate = new Entity(USER);
         this.delegate.setProperty(NICKNAME, nickname);
-        this.delegate.setProperty(EMAIL, email);
+        this.delegate.setProperty(ID, userId);
     }
 
     public void changeNickname(String nickname) {
         this.delegate.setProperty(NICKNAME, nickname);
     }
 
-    public String getEmail() {
-        return (String) this.delegate.getProperty(EMAIL);
+    public String getID() {
+        return (String) this.delegate.getProperty(ID);
     }
 
     public String getNickname() {

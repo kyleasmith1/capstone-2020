@@ -1,5 +1,5 @@
 function callScriptFunction() {
-    var scriptId = "1Z_td2xr1Hq9loDzSdojcCS_3qFwKJR3apBuR2zmcyUVpdhqvfJWyMMYZ";
+    var scriptId = "12MEgrvcv30Y-UlwNnsR95PcVamBrewoLJQxYUAxuDsCqcvhO5VBao5lv";
   
     // Call the Apps Script API run method
     //   'scriptId' is the URL parameter that states what script to run
@@ -11,8 +11,7 @@ function callScriptFunction() {
         "function": "createForm",
         "parameters": [],
         "devMode": true
-    }
-    }).then(function(resp) {
+    }}).then(function(resp) {
         var result = resp.result;
         if (result.error && result.error.status) {
             // The API encountered a problem before the script started executing
@@ -46,6 +45,7 @@ function callScriptFunction() {
 function getForms() {
     fetch("/form-handler").then(response => response.json()).then((formsList) => {
         const formElement = document.getElementById("form-container");
+        console.log("getForms()");
         formElement.innerHTML = "";
         formsList.forEach((form) => {
             formElement.appendChild(createTeacherFormElement(form.editURL));

@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.sps.service.DatabaseService;
+
 @WebServlet("/form-handler")
 public class FormHandlerServlet extends HttpServlet {
 
@@ -45,9 +47,7 @@ public class FormHandlerServlet extends HttpServlet {
 
         Form form = RequestJsonParser.parseObjectFromRequest(request, Form.class);
 
-        Entity formEntity = form.toDatastoreEntity();
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        datastore.put(formEntity);
+        DatabaseService.save(form.getFormEntity());
 
         response.setContentType("text/html");
         response.setStatus(HttpServletResponse.SC_OK);

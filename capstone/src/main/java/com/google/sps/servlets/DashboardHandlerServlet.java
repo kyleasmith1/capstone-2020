@@ -26,26 +26,6 @@ import com.google.sps.service.DatabaseService;
 @WebServlet("/dashboard-handler")
 public class DashboardHandlerServlet extends HttpServlet {
 
-    // @Override
-    // public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    //     List<Form> forms = new ArrayList<>();
-    //     Form form = null;
-    //     Query query = new Query ("Form");
-    //     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    //     PreparedQuery results = datastore.prepare(query);
-    
-    //     for(Entity entity : results.asIterable()){
-    //         form = new Form(entity);
-    //         forms.add(form);
-    //     }
-    
-    //     Gson gson = new Gson();
-    //     String json = gson.toJson(forms);
-    //     response.setContentType("application/json");
-    //     response.getWriter().println(json);
-    // }
-
-
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -64,12 +44,12 @@ public class DashboardHandlerServlet extends HttpServlet {
         JsonElement jelement = JsonParser.parseString(sb.toString());
         JsonObject jobject = jelement.getAsJsonObject();
 
-        User testUser = new User("Example.com", "John");
+        String name = jobject.get("name").getAsString();
+        String email = jobject.get("email").getAsString();  
+        User testUser = new User(email, name);
         DatabaseService.save(testUser.getUserEntity());
 
         String subject = jobject.get("subject").getAsString();
-        System.out.println(subject);
-        
         Classroom classroom = new Classroom(testUser, subject);
         DatabaseService.save(classroom.getClassroomEntity());
 

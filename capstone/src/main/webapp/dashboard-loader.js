@@ -1,25 +1,21 @@
 function createClassroom() {
-    let subject = document.querySelector('#subject').value;
-    var classroomData = JSON.stringify({ "subject": subject });
-    console.log(subject);
-    console.log(classroomData);
+
+    var auth2 = gapi.auth2.getAuthInstance();
+    var name = "";
+    var email = "";
+
+    if (auth2.isSignedIn.get()) {
+        var name = auth2.currentUser.get().getBasicProfile().getName();
+        var email = auth2.currentUser.get().getBasicProfile().getEmail();
+    }
+
+    var subject = document.querySelector('#subject').value;
+    var classroomData = JSON.stringify({ "name": name, "email": email, "subject": subject });
     fetch("/dashboard-handler", {method: "POST", body: classroomData}).then((resp) => {
-        console.log(resp);
+        if (resp.ok){
+            alert("Classroom Created!");
+        } else {
+            alert("Error has occured");
+        }
     });
-
 }
-
-// function getClassroom() {
-//     console.log("Getting Classroom");    
-// }
-
-
-
-// .then((response) =>{
-//         console.log(response);
-//         if (resp.ok){
-//             getClassroom();
-//         } else {
-//             alert("Error has occured");
-//         }
-//     });

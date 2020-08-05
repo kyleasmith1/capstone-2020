@@ -27,6 +27,25 @@ import com.google.sps.service.DatabaseService;
 public class DashboardHandlerServlet extends HttpServlet {
 
     @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<Classroom> classrooms = new ArrayList<>();
+        Classroom classroom = null;
+        Query query = new Query("Classroom");
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        PreparedQuery results = datastore.prepare(query);
+    
+        for(Entity entity : results.asIterable()){
+            classroom = new Classroom(entity);
+            classrooms.add(classroom);
+        }
+    
+        Gson gson = new Gson();
+        String json = gson.toJson(classrooms);
+        response.setContentType("application/json");
+        response.getWriter().println(json);
+    }
+
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         BufferedReader reader = request.getReader();

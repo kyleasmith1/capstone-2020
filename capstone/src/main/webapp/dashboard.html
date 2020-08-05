@@ -7,13 +7,18 @@
     <script src="script.js"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
   </head>
-  <body>
+  <body onload = "getClassrooms()">
+
     <div id="auth"></div>
+
     <div id="content">
       <p><h1>Dashboard</h1></p>
       <input type="text" id="subject" placeholder="Subject"> 
       <button onclick="createClassroom()">Create Classroom</button> 
     </div>
+
+    <div id="classroom-container"></div>    
+
     <pre id="content"></pre>
 
     <script src="config.js"></script>

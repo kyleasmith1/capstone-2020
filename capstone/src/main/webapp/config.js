@@ -1,5 +1,5 @@
 var config = {
-  API_KEY : 'AIzaSyDAEvsP2OojidHu-i_gDvCipppttFXbnI0',
-  CLIENT_ID : '914921573408-71bkab6m8cvktkrv4et40cboi6cemc6d.apps.googleusercontent.com',
-  PROJECT_ID : 'kyleasmith-step-2020'
+  API_KEY : 'AIzaSyBS13DWNfA-RpO4AQrd4tdUE15-chVDbJc',
+  CLIENT_ID : '1002281613740-gsmtp3tteqgtoformikuglhu8fr388et.apps.googleusercontent.com',
+  PROJECT_ID : 'adpham-step-2020'
 }

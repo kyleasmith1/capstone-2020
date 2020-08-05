@@ -10,12 +10,18 @@ import com.google.appengine.api.datastore.Entity;
 import java.util.List;
 import java.util.ArrayList;
 import com.google.gson.Gson;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.sps.data.Form;
 import com.google.sps.data.RequestJsonParser;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.google.sps.data.User;
+import com.google.sps.data.Classroom;
+import com.google.sps.service.DatabaseService;
 
 @WebServlet("/dashboard-handler")
 public class DashboardHandlerServlet extends HttpServlet {
@@ -40,16 +46,34 @@ public class DashboardHandlerServlet extends HttpServlet {
     // }
 
 
-    // @Override
-    // public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-    //     Form form = RequestJsonParser.parseObjectFromRequest(request, Form.class);
+        BufferedReader reader = request.getReader();
+        StringBuilder sb = new StringBuilder();
+        try {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append('\n');
+            }
+        } finally {
+            reader.close();
+        }
 
-    //     Entity formEntity = form.toDatastoreEntity();
-    //     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    //     datastore.put(formEntity);
+        System.out.println(sb.toString());
+        JsonElement jelement = JsonParser.parseString(sb.toString());
+        JsonObject jobject = jelement.getAsJsonObject();
 
-    //     response.setContentType("text/html");
-    //     response.setStatus(HttpServletResponse.SC_OK);
-    // }
+        User testUser = new User("Example.com", "John");
+        DatabaseService.save(testUser.getUserEntity());
+
+        String subject = jobject.get("subject").getAsString();
+        System.out.println(subject);
+        
+        Classroom classroom = new Classroom(testUser, subject);
+        DatabaseService.save(classroom.getClassroomEntity());
+
+        response.setContentType("text/html");
+        response.setStatus(HttpServletResponse.SC_OK);
+    }
 }

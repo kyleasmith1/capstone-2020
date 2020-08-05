@@ -1,5 +1,5 @@
 function callScriptFunction() {
-    var scriptId = "1Z_td2xr1Hq9loDzSdojcCS_3qFwKJR3apBuR2zmcyUVpdhqvfJWyMMYZ";
+    var scriptId = "12MEgrvcv30Y-UlwNnsR95PcVamBrewoLJQxYUAxuDsCqcvhO5VBao5lv";
   
     // Call the Apps Script API run method
     //   'scriptId' is the URL parameter that states what script to run
@@ -48,21 +48,21 @@ function getForms() {
         const formElement = document.getElementById("form-container");
         formElement.innerHTML = "";
         formsList.forEach((form) => {
-            formElement.appendChild(createTeacherFormElement(form.editURL));
-            formElement.appendChild(createStudentFormElement(form.URL)); 
+            formElement.appendChild(createTeacherFormElement(form.entity.propertyMap.editUrl));
+            formElement.appendChild(createStudentFormElement(form.entity.propertyMap.Url)); 
         });
     });
 }
 
-function createTeacherFormElement(editURL) { 
+function createTeacherFormElement(editUrl) { 
     const aElement = document.createElement("a");
     aElement.innerText = "Form Edit Page";
-    aElement.href = editURL;
+    aElement.href = editUrl;
     return aElement;
 }
 
-function createStudentFormElement(URL) {
+function createStudentFormElement(Url) {
     const iframeElement = document.createElement("iframe");
-    iframeElement.src = URL;
+    iframeElement.src = Url;
     return iframeElement;
 }

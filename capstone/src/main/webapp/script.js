@@ -16,6 +16,8 @@ function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
   var id_token = googleUser.getAuthResponse().id_token;
   console.log(profile.getEmail() + " has signed in!");
+
+  window.location.href = "form.html";
 }
 
 function printOauthProfile(){

@@ -15,10 +15,10 @@ function callScriptFunction() {
         "devMode": true
     }
     }).then(function(resp) {
-        if (resp.result?.error?.status) {
+        if (resp.result?.error?.status != null) {
             // The API encountered a problem before the script started executing
             console.log('Error calling API: ' + result);
-        } else if (resp.result?.error) {
+        } else if (resp.result?.error != null) {
             // The API executed, but the script returned an error.
             console.log("Script error message: " + result.error);
         } else { 

@@ -30,11 +30,9 @@ public class FormHandlerServlet extends HttpServlet {
             forms.add(new Form(entity));
         }
     
-        String json = (new Gson()).toJson(forms);
         response.setContentType("application/json");
-        response.getWriter().println(json);
+        response.getWriter().println(new Gson().toJson(forms));
     }
-
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {

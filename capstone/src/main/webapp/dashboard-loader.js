@@ -24,43 +24,28 @@ function getClassrooms() {
         classroomElement.innerHTML = "";
         classroomsList.forEach((classroom) => {
             console.log(classroom);
-            formElement.appendChild(createTeacherFormElement(form.editURL));
-            formElement.appendChild(createStudentFormElement(form.URL)); 
+            classroomElement.appendChild(createClassroomDivElement(classroom));
         });
     });
 }
 
-// function createClassroomElement(classroom) { 
-//     const divElement = document.createElement("div");
-//     const h2Element = document.createElement("h2");
-//     const imgElement = document.createElement("img");
-//     const pElement = document.createElement("p");
+function createClassroomDivElement(classroom) {
+    const divElement = document.createElement("div");
+    const h2Element = document.createElement("h2");
+    const liElement = document.createElement("li");
+    const pElement = document.createElement("p");
+    const aElement = document.createElement("a");
     
-//     h2Element.innerText = memepost.author;
-//     pElement.innerText = memepost.description;
-//     imgElement.src = memepost.imageUrl;
+    h2Element.innerText = classroom.entity.propertyMap.subject;
+    pElement.innerText = "Classroom ID : " + classroom.entity.key.id;
+    liElement.innerText = "Teacher ID : " + classroom.entity.propertyMap.teacher.id;
+    aElement.href = "form.html";
+    aElement.innerText = "Classroom Link";
 
-//     divElement.appendChild(h2Element);
-//     divElement.appendChild(imgElement);
-//     divElement.appendChild(pElement);
+    divElement.appendChild(h2Element);
+    divElement.appendChild(liElement);
+    divElement.appendChild(pElement);
+    divElement.appendChild(aElement);
 
-//     return divElement;
-// }
-
-
-// function createImageContainer(memepost) {
-//     const divElement = document.createElement("div");
-//     const h2Element = document.createElement("h2");
-//     const imgElement = document.createElement("img");
-//     const pElement = document.createElement("p");
-    
-//     h2Element.innerText = memepost.author;
-//     pElement.innerText = memepost.description;
-//     imgElement.src = memepost.imageUrl;
-
-//     divElement.appendChild(h2Element);
-//     divElement.appendChild(imgElement);
-//     divElement.appendChild(pElement);
-
-//     return divElement;
-// }
+    return divElement;
+}

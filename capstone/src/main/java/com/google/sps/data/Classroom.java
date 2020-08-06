@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Random; 
 import com.google.appengine.api.datastore.Entity;
 
-
 public class Classroom {
 
     private Teacher teacher;

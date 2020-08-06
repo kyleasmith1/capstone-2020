@@ -2,28 +2,28 @@ package com.google.sps.data;
 import java.io.*;
 import com.google.appengine.api.datastore.Entity;
 
-
+/**
+ * The Form class holds the user's forms for their classes
+ */
 public class Form {
 
     private String editURL;
     private String URL;
-    private int id;
+    private String id;
     private boolean isPublished;
 
-    public Form(String editURL, String URL, int id) {
+    public Form(String editURL, String URL, String id) {
         this.editURL = editURL;
         this.URL = URL;
         this.id = id;
         this.isPublished = false;
     }
 
-    // Setters
-    public void publish(){
-        this.isPublished = true;
-    }
-
-    public void unpublished(){
-        this.isPublished = false;
+    public Form(Entity entity){
+        this.editURL = (String) entity.getProperty("editURL");
+        this.URL = (String) entity.getProperty("URL");
+        this.id = (String) entity.getProperty("id");
+        this.isPublished = (Boolean) entity.getProperty("isPublished");
     }
 
     // Getters
@@ -35,7 +35,7 @@ public class Form {
         return this.URL;
     }
 
-    public int getID() {
+    public String getID() {
         return this.id;
     }
 
@@ -43,11 +43,21 @@ public class Form {
         return this.isPublished;
     }
 
+    // Setters
+    public void publish(){
+        this.isPublished = true;
+    }
+
+    public void unpublish(){
+        this.isPublished = false;
+    }
+    
     public Entity toDatastoreEntity(){
         Entity formEntity = new Entity("Form");
         formEntity.setProperty("editURL", this.editURL);
         formEntity.setProperty("URL", this.URL);
         formEntity.setProperty("id", this.id);
+        formEntity.setProperty("isPublished", this.isPublished);
         return formEntity;
     }
 }

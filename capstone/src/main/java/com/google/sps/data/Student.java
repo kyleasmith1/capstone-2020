@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import com.google.appengine.api.datastore.Entity;
 
-
 public class Student implements User {
 
     private String email;

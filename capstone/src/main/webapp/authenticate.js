@@ -5,16 +5,32 @@ var SCOPES = 'https://www.googleapis.com/auth/forms';
 
 var [dynamicButton, authorizeButton, signoutButton] = createDynamicSigninButton();
 
+/**
+*  Create login and logout buttons to use
+*/
 function createDynamicSigninButton() {
     console.log("Creating buttons");
     var dynamicButton = document.createElement("div");
     var loginButton = dynamicButton.appendChild(createLoginButton());
     var logoutButton = dynamicButton.appendChild(createLogoutButton());
-    // document.getElementById("auth").appendChild(loginButton);
-    // document.getElementById("auth").appendChild(logoutButton);
     return [dynamicButton, loginButton, logoutButton];
 }
 
+function createLoginButton(){
+    const loginButtonElement = document.createElement('button');
+    loginButtonElement.id = 'authorize_button';
+    loginButtonElement.style.display = "none";
+    loginButtonElement.innerText = "Authorize";
+    return loginButtonElement;
+}
+
+function createLogoutButton(){
+    const logoutButtonElement = document.createElement('button');
+    logoutButtonElement.id = 'signout_button';
+    logoutButtonElement.style.display = "none";
+    logoutButtonElement.innerText = "Sign Out";
+    return logoutButtonElement;
+}
 
 /**
 *  On load, called to load the auth2 library and API client library.
@@ -59,18 +75,4 @@ function updateSigninStatus(isSignedIn) {
     }
 }
 
-function createLoginButton(){
-    const loginButtonElement = document.createElement('button');
-    loginButtonElement.id = 'authorize_button';
-    loginButtonElement.style.display = "none";
-    loginButtonElement.innerText = "Authorize";
-    return loginButtonElement;
-}
 
-function createLogoutButton(){
-    const logoutButtonElement = document.createElement('button');
-    logoutButtonElement.id = 'signout_button';
-    logoutButtonElement.style.display = "none";
-    logoutButtonElement.innerText = "Sign Out";
-    return logoutButtonElement;
-}

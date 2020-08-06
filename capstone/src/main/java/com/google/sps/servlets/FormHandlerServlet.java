@@ -30,22 +30,17 @@ public class FormHandlerServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Query query = new Query (FormHandlerServlet.FORM);
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        PreparedQuery results = datastore.prepare(query);
+        PreparedQuery results = datastore.prepare(new Query(Form.FORM_ENTITY_NAME));
         
-        List<Form> forms = new ArrayList<>();
+        List<Form> forms = new ArrayList<>();    
         for(Entity entity : results.asIterable()){
-            Form form = new Form(entity);
-            forms.add(form);
+            forms.add(new Form(entity));
         }
     
-        Gson gson = new Gson();
-        String json = gson.toJson(forms);
         response.setContentType("application/json");
-        response.getWriter().println(json);
+        response.getWriter().println(new Gson().toJson(forms));
     }
-
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -54,13 +49,11 @@ public class FormHandlerServlet extends HttpServlet {
         JsonElement jelement = JsonParser.parseString(sb);
         JsonObject jobject = jelement.getAsJsonObject();
 
-        String editUrl = jobject.get(FormHandlerServlet.EDIT).getAsString();
-        String url = jobject.get(FormHandlerServlet.URL).getAsString();
-
-        Form form = new Form(editUrl, url);
-
-        DatabaseService.save(form.getFormEntity());
-
+        String editUrl = jobject.get(Form.EDIT_URL_PROPERTY_KEY).getAsString();
+        String url = jobject.get(Form.URL_PROPERTY_KEY).getAsString();
+        
+        DatabaseService.save((new Form(editUrl, url)).getFormEntity());
+        
         response.setContentType("text/html");
         response.setStatus(HttpServletResponse.SC_OK);
     }

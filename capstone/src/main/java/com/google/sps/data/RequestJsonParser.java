@@ -19,6 +19,7 @@ public class RequestJsonParser {
         } finally {
             reader.close();
         }
+        System.out.println(sb.toString());
         return new Gson().fromJson(sb.toString(), type);
     }
 }

@@ -25,7 +25,7 @@ import com.google.sps.service.DatabaseService;
 @WebServlet("/form-handler")
 public class FormHandlerServlet extends HttpServlet {
     protected static final String FORM = "Form";
-    protected static final String EDIT_URL = "editUrl";
+    protected static final String EDIT = "editUrl";
     protected static final String URL = "Url";
 
     @Override
@@ -54,10 +54,10 @@ public class FormHandlerServlet extends HttpServlet {
         JsonElement jelement = JsonParser.parseString(sb);
         JsonObject jobject = jelement.getAsJsonObject();
 
-        String editUrl = jobject.get(FormHandlerServlet.EDIT_URL).getAsString();
-        String Url = jobject.get(FormHandlerServlet.URL).getAsString();
+        String editUrl = jobject.get(FormHandlerServlet.EDIT).getAsString();
+        String url = jobject.get(FormHandlerServlet.URL).getAsString();
 
-        Form form = new Form(editUrl, Url);
+        Form form = new Form(editUrl, url);
 
         DatabaseService.save(form.getFormEntity());
 

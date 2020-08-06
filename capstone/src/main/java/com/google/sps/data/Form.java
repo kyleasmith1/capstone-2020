@@ -1,55 +1,53 @@
 package com.google.sps.data;
-import java.io.*;
+
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Entity;
+import com.google.sps.service.DatabaseService;
 
-/**
- * The Form class holds the user's forms for their classes
- */
 public class Form {
+    public static final String FORM_ENTITY_NAME = "Form";
+    public static final String EDIT_URL_PROPERTY_KEY = "editUrl";
+    public static final String URL_PROPERTY_KEY = "url";
+    public static final String PUBLISHED_PROPERTY_KEY = "published";
 
-    private String editUrl;
-    private String Url;
-    private boolean isPublished;
+    private Entity entity;
 
-    public Form(String editUrl, String Url) {
-        this.editUrl = editUrl;
-        this.Url = Url;
-        this.isPublished = false;
+    public Form(Entity entity) {
+        this.entity = entity;
     }
 
-    public Form(Entity entity){
-        this.editUrl = (String) entity.getProperty("editUrl");
-        this.Url = (String) entity.getProperty("Url");
-        this.isPublished = false;
+    public Form(String editUrl, String url) {
+        this.entity = new Entity(Form.FORM_ENTITY_NAME);
+        this.entity.setProperty(Form.EDIT_URL_PROPERTY_KEY, editUrl);
+        this.entity.setProperty(Form.URL_PROPERTY_KEY, url);
+        this.entity.setProperty(Form.PUBLISHED_PROPERTY_KEY, false);
     }
 
-    // Getters
-    public String geteditUrl() {
-        return this.editUrl;
+    public void publish() {
+        this.entity.setProperty(Form.PUBLISHED_PROPERTY_KEY, true);
     }
 
-    public String getUrl() {
-        return this.Url;
+    public void unPublish() {
+        this.entity.setProperty(Form.PUBLISHED_PROPERTY_KEY, false);
     }
 
-    public boolean isPublished() {
-        return this.isPublished;
+    public String getEditURL() {
+        return (String) this.entity.getProperty(Form.EDIT_URL_PROPERTY_KEY);
     }
 
-    // Setters
-    public void publish(){
-        this.isPublished = true;
+    public String getURL() {
+        return (String) this.entity.getProperty(Form.URL_PROPERTY_KEY);
     }
 
-    public void unpublish(){
-        this.isPublished = false;
+    public boolean publishState() {
+        return (Boolean) this.entity.getProperty(Form.PUBLISHED_PROPERTY_KEY);
     }
-    
-    public Entity toDatastoreEntity(){
-        Entity formEntity = new Entity("Form");
-        formEntity.setProperty("editUrl", this.editUrl);
-        formEntity.setProperty("Url", this.Url);
-        formEntity.setProperty("isPublished", this.isPublished);
-        return formEntity;
+
+    public Entity getFormEntity() {
+        return this.entity;
     }
+
+    public Key getFormKey() {
+        return this.entity.getKey();
+    }  
 }

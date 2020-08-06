@@ -22,7 +22,7 @@ function callScriptFunction() {
             // The API executed, but the script returned an error.
             console.log("Script error message: " + result.error);
         } else { 
-            fetch("/form-handler", {method: "POST", body: JSON.stringify(resp.result.response.result)});  
+            return fetch("/form-handler", {method: "POST", body: JSON.stringify(resp.result.response.result)});  
         }
     }).then((resp) => {
         if (resp.ok){
@@ -38,8 +38,8 @@ function getForms() {
         const formElement = document.getElementById("form-container");
         formElement.innerHTML = "";
         for (form of formsList) {
-            formElement.appendChild(createTeacherFormElement(form.editUrl));
-            formElement.appendChild(createStudentFormElement(form.Url)); 
+            formElement.appendChild(createTeacherFormElement(form.entity.propertyMap.editUrl));
+            formElement.appendChild(createStudentFormElement(form.entity.propertyMap.url)); 
         };
     });
 }
@@ -51,8 +51,8 @@ function createTeacherFormElement(editUrl) {
     return aElement;
 }
 
-function createStudentFormElement(Url) {
+function createStudentFormElement(url) {
     const iframeElement = document.createElement("iframe");
-    iframeElement.src = Url;
+    iframeElement.src = url;
     return iframeElement;
 }

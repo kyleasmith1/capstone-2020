@@ -6,7 +6,7 @@ import java.io.BufferedReader;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
-public class RequestJsonParser {
+public class RequestParser {
 
     public static <T> T parseObjectFromRequest(HttpServletRequest request, Class<T> type) throws IOException, JsonSyntaxException {
         return (new Gson()).fromJson(parseStringFromRequest(request), type);

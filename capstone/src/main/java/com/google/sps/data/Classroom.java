@@ -1,94 +1,85 @@
 package com.google.sps.data;
-import java.io.*;
-import com.google.sps.data.Teacher;
-import com.google.sps.data.Student;
-import com.google.sps.data.Form;
+
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Entity;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random; 
-import com.google.appengine.api.datastore.Entity;
+import com.google.sps.service.DatabaseService;
 
 public class Classroom {
+    public static final String CLASSROOM_ENTITY_NAME = "Classroom";
+    public static final String TEACHER_PROPERTY_KEY = "teacher";
+    public static final String SUBJECT_PROPERTY_KEY = "subject";
+    public static final String STUDENTS_PROPERTY_KEY = "students";
+    public static final String FORMS_PROPERTY_KEY = "forms";
 
-    private Teacher teacher;
-    private List<Student> students = new ArrayList<>();
-    private List<Form> forms = new ArrayList<>();
-    private String subject;
-    private Key key;
+    private Entity entity;
 
-    public Classroom(Teacher teacher, List<Student> students, List<Form> forms, String subject, Key key) {
-        this.teacher = teacher;
-        this.students = students;
-        this.forms = forms;
-        this.subject = subject;
-        this.key = key;
+    public Classroom(Entity entity) {
+        this.entity = entity;
     }
 
-    // Setters
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
+    public Classroom(User teacher, String subject) { 
+        this.entity = new Entity(Classroom.CLASSROOM_ENTITY_NAME);
+        this.entity.setProperty(Classroom.TEACHER_PROPERTY_KEY, teacher.getUserKey());
+        this.entity.setProperty(Classroom.SUBJECT_PROPERTY_KEY, subject);
+        this.entity.setProperty(Classroom.STUDENTS_PROPERTY_KEY, new ArrayList<>());
+        this.entity.setProperty(Classroom.FORMS_PROPERTY_KEY, new ArrayList<>());
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setTeacher(User teacher) { 
+        this.entity.setProperty(Classroom.TEACHER_PROPERTY_KEY, teacher.getUserKey());
     }
-
-    public void setKey(Key key) {
-        this.key = key;
-    }
-
-    // Getters
-    public Teacher getTeacher() {
-        return this.teacher;
+    
+    public Key getTeacher() {
+        return (Key) this.entity.getProperty(Classroom.TEACHER_PROPERTY_KEY);
     }
 
     public String getSubject() {
-        return this.subject;
+        return (String) this.entity.getProperty(Classroom.SUBJECT_PROPERTY_KEY);
     }
 
-    public List<Student> getAllStudents() {
-        return this.students;
+    public Entity getClassroomEntity() {
+        return this.entity;
     }
 
-    public List<Form> getForms() {
-        return this.forms;
+    @SuppressWarnings("unchecked")
+    public List<Key> getAllStudents() {
+        return (ArrayList<Key>) this.entity.getProperty(Classroom.STUDENTS_PROPERTY_KEY);
     }
 
-    public Key getKey() {
-        assert this.key.getId() != -1: "The key doesn't exist.";
-        return this.key;
+    @SuppressWarnings("unchecked")
+    public List<Key> getAllForms() { 
+        return (ArrayList<Key>) this.entity.getProperty(Classroom.FORMS_PROPERTY_KEY); 
+    }
+    
+    @SuppressWarnings("unchecked")
+    public void addStudent(User student) {
+        List<Key> students = (ArrayList<Key>) this.entity.getProperty(Classroom.STUDENTS_PROPERTY_KEY);
+        students.add(student.getUserKey());
     }
 
-    // Database
-    public void addStudent(Student student) { 
-        students.add(student);
+    @SuppressWarnings("unchecked")
+    public void removeStudent(User student) {
+        List<Key> students = (ArrayList<Key>) this.entity.getProperty(Classroom.STUDENTS_PROPERTY_KEY);
+        students.remove(student.getUserKey());
     }
 
+    @SuppressWarnings("unchecked")
     public void addForm(Form form) {
-        forms.add(form);
+        List<Key> forms = (ArrayList<Key>) this.entity.getProperty(Classroom.FORMS_PROPERTY_KEY);
+        forms.add(form.getFormKey());
     }
 
-    public void removeStudent(Student student) {
-        this.students.remove(student);
+    @SuppressWarnings("unchecked")
+    public void removeForm(Form form) {
+        List<Key> forms = (ArrayList<Key>) this.entity.getProperty(Classroom.FORMS_PROPERTY_KEY);
+        forms.remove(form.getFormKey());
     }
 
-    public boolean isStudentInClass(Student student) {
-        assert students.size() > 0: "There are no students in this class!";
-
-        if (students.lastIndexOf(student) == -1) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public Entity toDatastoreEntity(){
-        Entity classroomEntity = new Entity("Classroom");
-        classroomEntity.setProperty("teacher", this.teacher);
-        classroomEntity.setProperty("students", this.students);
-        classroomEntity.setProperty("forms", this.forms);
-        classroomEntity.setProperty("subject", this.subject);
-        classroomEntity.setProperty("key", this.key);
-        return classroomEntity;
+    @SuppressWarnings("unchecked")
+    public boolean isStudentInClass(User student) {
+        List<Key> students = (ArrayList<Key>) this.entity.getProperty(Classroom.STUDENTS_PROPERTY_KEY);
+        return (!(students.lastIndexOf(student.getUserKey()) == -1));
     }
 }

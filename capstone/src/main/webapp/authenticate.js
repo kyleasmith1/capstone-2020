@@ -11,7 +11,6 @@ window.addEventListener('load', handleClientLoad);
 *  Create login and logout buttons to use
 */
 function createDynamicSigninButton() {
-    console.log("Creating buttons");
     var dynamicButton = document.createElement("div");
     var loginButton = dynamicButton.appendChild(createLoginButton());
     var logoutButton = dynamicButton.appendChild(createLogoutButton());

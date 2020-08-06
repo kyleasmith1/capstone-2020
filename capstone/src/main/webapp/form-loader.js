@@ -1,7 +1,7 @@
 document.body.prepend(dynamicButton);
 
 function callScriptFunction() {
-    var scriptId = "12MEgrvcv30Y-UlwNnsR95PcVamBrewoLJQxYUAxuDsCqcvhO5VBao5lv";
+    var scriptId = "1Z_td2xr1Hq9loDzSdojcCS_3qFwKJR3apBuR2zmcyUVpdhqvfJWyMMYZ";
   
     // Call the Apps Script API run method
     //   'scriptId' is the URL parameter that states what script to run
@@ -22,7 +22,7 @@ function callScriptFunction() {
             // The API executed, but the script returned an error.
             console.log("Script error message: " + result.error);
         } else { 
-            fetch("/form-handler", {method: "POST", body: JSON.stringify(resp.result.response.result)});  
+            return fetch("/form-handler", {method: "POST", body: JSON.stringify(resp.result.response.result)});  
         }
     }).then((resp) => {
         if (resp.ok){
@@ -38,8 +38,8 @@ function getForms() {
         const formElement = document.getElementById("form-container");
         formElement.innerHTML = "";
         for (form of formsList) {
-            formElement.appendChild(createTeacherFormElement(form.editUrl));
-            formElement.appendChild(createStudentFormElement(form.Url)); 
+            formElement.appendChild(createTeacherFormElement(form.entity.propertyMap.editUrl));
+            formElement.appendChild(createStudentFormElement(form.entity.propertyMap.url)); 
         };
     });
 }

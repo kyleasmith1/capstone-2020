@@ -49,7 +49,7 @@ function getForms() {
         formElement.innerHTML = "";
         formsList.forEach((form) => {
             formElement.appendChild(createTeacherFormElement(form.entity.propertyMap.editUrl));
-            formElement.appendChild(createStudentFormElement(form.entity.propertyMap.Url)); 
+            formElement.appendChild(createStudentFormElement(form.entity.propertyMap.url)); 
         });
     });
 }
@@ -61,8 +61,8 @@ function createTeacherFormElement(editUrl) {
     return aElement;
 }
 
-function createStudentFormElement(Url) {
+function createStudentFormElement(url) {
     const iframeElement = document.createElement("iframe");
-    iframeElement.src = Url;
+    iframeElement.src = url;
     return iframeElement;
 }

@@ -5,6 +5,7 @@ var SCOPES = 'https://www.googleapis.com/auth/forms';
 
 var [dynamicButton, authorizeButton, signoutButton] = createDynamicSigninButton();
 document.currentScript.after(createAPIScriptElement());
+window.onload = handleClientLoad;
 
 /**
 *  Create login and logout buttons to use
@@ -38,7 +39,6 @@ function createAPIScriptElement() {
     scriptElement.async = true;
     scriptElement.defer = true;
     scriptElement.src = "https://apis.google.com/js/api.js";
-    scriptElement.onload = handleClientLoad();
     return scriptElement;
 }
 

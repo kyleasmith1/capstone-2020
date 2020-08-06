@@ -25,20 +25,17 @@ public class FormHandlerServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Query query = new Query (Form.FORM_ENTITY_NAME);
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        PreparedQuery results = datastore.prepare(query);
+        PreparedQuery results = datastore.prepare(new Query(Form.FORM_ENTITY_NAME));
         
         List<Form> forms = new ArrayList<>();    
         for(Entity entity : results.asIterable()){
             forms.add(new Form(entity));
         }
     
-        String json = (new Gson()).toJson(forms);
         response.setContentType("application/json");
-        response.getWriter().println(json);
+        response.getWriter().println(new Gson().toJson(forms));
     }
-
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {

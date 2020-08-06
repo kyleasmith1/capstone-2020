@@ -1,3 +1,5 @@
+document.body.prepend(dynamicButton);
+
 function callScriptFunction() {
     var scriptId = "12MEgrvcv30Y-UlwNnsR95PcVamBrewoLJQxYUAxuDsCqcvhO5VBao5lv";
   
@@ -13,26 +15,14 @@ function callScriptFunction() {
         "devMode": true
     }
     }).then(function(resp) {
-        var result = resp.result;
-        if (result.error && result.error.status) {
+        if (resp.result?.error?.status != null) {
             // The API encountered a problem before the script started executing
-            appendPre('Error calling API:');
-            appendPre(JSON.stringify(result, null, 2));
-        } else if (result.error) {
+            console.log('Error calling API: ' + result);
+        } else if (resp.result?.error != null) {
             // The API executed, but the script returned an error.
-            var error = result.error.details[0];
-            appendPre('Script error message: ' + error.errorMessage);
-
-            if (error.scriptStackTraceElements) {
-                appendPre('Script error stacktrace:');
-                for (var i = 0; i < error.scriptStackTraceElements.length; i++) {
-                    var trace = error.scriptStackTraceElements[i];
-                    appendPre('\t' + trace.function + ':' + trace.lineNumber);
-                }
-            }
+            console.log("Script error message: " + result.error);
         } else { 
-            formData = JSON.stringify(result.response.result);
-            return fetch("/form-handler", {method: "POST", body: formData});
+            fetch("/form-handler", {method: "POST", body: JSON.stringify(resp.result.response.result)});  
         }
     }).then((resp) => {
         if (resp.ok){
@@ -47,10 +37,10 @@ function getForms() {
     fetch("/form-handler").then(response => response.json()).then((formsList) => {
         const formElement = document.getElementById("form-container");
         formElement.innerHTML = "";
-        formsList.forEach((form) => {
-            formElement.appendChild(createTeacherFormElement(form.entity.propertyMap.editUrl));
-            formElement.appendChild(createStudentFormElement(form.entity.propertyMap.url)); 
-        });
+        for (form of formsList) {
+            formElement.appendChild(createTeacherFormElement(form.editUrl));
+            formElement.appendChild(createStudentFormElement(form.Url)); 
+        };
     });
 }
 

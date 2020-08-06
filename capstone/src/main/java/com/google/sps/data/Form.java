@@ -7,36 +7,29 @@ import com.google.appengine.api.datastore.Entity;
  */
 public class Form {
 
-    private String editURL;
-    private String URL;
-    private String id;
+    private String editUrl;
+    private String Url;
     private boolean isPublished;
 
-    public Form(String editURL, String URL, String id) {
-        this.editURL = editURL;
-        this.URL = URL;
-        this.id = id;
+    public Form(String editUrl, String Url) {
+        this.editUrl = editUrl;
+        this.Url = Url;
         this.isPublished = false;
     }
 
     public Form(Entity entity){
-        this.editURL = (String) entity.getProperty("editURL");
-        this.URL = (String) entity.getProperty("URL");
-        this.id = (String) entity.getProperty("id");
-        this.isPublished = (Boolean) entity.getProperty("isPublished");
+        this.editUrl = (String) entity.getProperty("editUrl");
+        this.Url = (String) entity.getProperty("Url");
+        this.isPublished = false;
     }
 
     // Getters
-    public String getEditURL() {
-        return this.editURL;
+    public String geteditUrl() {
+        return this.editUrl;
     }
 
-    public String getURL() {
-        return this.URL;
-    }
-
-    public String getID() {
-        return this.id;
+    public String getUrl() {
+        return this.Url;
     }
 
     public boolean isPublished() {
@@ -54,9 +47,8 @@ public class Form {
     
     public Entity toDatastoreEntity(){
         Entity formEntity = new Entity("Form");
-        formEntity.setProperty("editURL", this.editURL);
-        formEntity.setProperty("URL", this.URL);
-        formEntity.setProperty("id", this.id);
+        formEntity.setProperty("editUrl", this.editUrl);
+        formEntity.setProperty("Url", this.Url);
         formEntity.setProperty("isPublished", this.isPublished);
         return formEntity;
     }

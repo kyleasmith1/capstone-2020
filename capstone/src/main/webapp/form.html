@@ -7,12 +7,14 @@
     <script src="script.js"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
   </head>
-  <body>
+  <body onload = "getForms()">
 
     <div id="content">
       <h1>Quiz</h1>
       <button onclick="callScriptFunction()">Create Form</button>
     </div>
+
+    <div id="form-container"></div>
 
     <script src="config.js"></script>
     <script src="authenticate.js"></script>

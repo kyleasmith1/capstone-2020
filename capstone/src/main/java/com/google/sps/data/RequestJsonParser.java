@@ -9,6 +9,10 @@ import com.google.gson.JsonSyntaxException;
 public class RequestJsonParser {
 
     public static <T> T parseObjectFromRequest(HttpServletRequest request, Class<T> type) throws IOException, JsonSyntaxException {
+        return (new Gson()).fromJson(parseStringFromRequest(request), type);
+    }
+
+    public static String parseStringFromRequest(HttpServletRequest request) throws IOException, JsonSyntaxException {
         BufferedReader reader = request.getReader();
         StringBuilder sb = new StringBuilder();
         try {
@@ -19,7 +23,6 @@ public class RequestJsonParser {
         } finally {
             reader.close();
         }
-        System.out.println(sb.toString());
-        return new Gson().fromJson(sb.toString(), type);
+        return sb.toString();
     }
 }

@@ -5,42 +5,42 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.sps.service.DatabaseService;
 
 public class Form {
-    protected static final String FORM = "Form";
-    protected static final String EDIT_URL = "editUrl";
-    protected static final String URL = "Url";
-    protected static final String PUBLISHED = "published";
+    public static final String FORM_ENTITY_NAME = "Form";
+    public static final String EDIT_URL_PROPERTY_KEY = "editUrl";
+    public static final String URL_PROPERTY_KEY = "url";
+    public static final String PUBLISHED_PROPERTY_KEY = "published";
 
-    protected Entity entity;
+    private Entity entity;
 
     public Form(Entity entity) {
         this.entity = entity;
     }
 
-    public Form(String editUrl, String Url) {
-        this.entity = new Entity(FORM);
-        this.entity.setProperty(EDIT_URL, editUrl);
-        this.entity.setProperty(URL, Url);
-        this.entity.setProperty(PUBLISHED, false);
+    public Form(String editUrl, String url) {
+        this.entity = new Entity(Form.FORM_ENTITY_NAME);
+        this.entity.setProperty(Form.EDIT_URL_PROPERTY_KEY, editUrl);
+        this.entity.setProperty(Form.URL_PROPERTY_KEY, url);
+        this.entity.setProperty(Form.PUBLISHED_PROPERTY_KEY, false);
     }
 
     public void publish() {
-        this.entity.setProperty(PUBLISHED, true);
+        this.entity.setProperty(Form.PUBLISHED_PROPERTY_KEY, true);
     }
 
     public void unPublish() {
-        this.entity.setProperty(PUBLISHED, false);
+        this.entity.setProperty(Form.PUBLISHED_PROPERTY_KEY, false);
     }
 
     public String getEditURL() {
-        return (String) this.entity.getProperty(EDIT_URL);
+        return (String) this.entity.getProperty(Form.EDIT_URL_PROPERTY_KEY);
     }
 
     public String getURL() {
-        return (String) this.entity.getProperty(URL);
+        return (String) this.entity.getProperty(Form.URL_PROPERTY_KEY);
     }
 
     public boolean publishState() {
-        return (Boolean) this.entity.getProperty(PUBLISHED);
+        return (Boolean) this.entity.getProperty(Form.PUBLISHED_PROPERTY_KEY);
     }
 
     public Entity getFormEntity() {

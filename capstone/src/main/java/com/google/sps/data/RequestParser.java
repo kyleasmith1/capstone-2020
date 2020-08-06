@@ -8,18 +8,8 @@ import com.google.gson.Gson;
 public class RequestParser {
 
     public static <T> T parseObjectFromRequest(HttpServletRequest request, Class<T> type) throws IOException {
-        BufferedReader reader = request.getReader();
-        StringBuilder sb = new StringBuilder();
-        try {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line).append('\n');
-            }
-        } finally {
-            reader.close();
-        }
         Gson gson = new Gson();
-        T object = gson.fromJson(sb.toString(), type);
+        T object = gson.fromJson(parseStringFromRequest(request), type);
         return object;
     }
 

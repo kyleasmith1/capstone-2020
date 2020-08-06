@@ -25,20 +25,16 @@ public class FormHandlerServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Query query = new Query ("Form");
+        Query query = new Query (Form.FORM_ENTITY_NAME);
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery results = datastore.prepare(query);
         
-        List<Form> forms = new ArrayList<>();
-        Form form = null;
-    
+        List<Form> forms = new ArrayList<>();    
         for(Entity entity : results.asIterable()){
-            form = new Form(entity);
-            forms.add(form);
+            forms.add(new Form(entity));
         }
     
-        Gson gson = new Gson();
-        String json = gson.toJson(forms);
+        String json = (new Gson()).toJson(forms);
         response.setContentType("application/json");
         response.getWriter().println(json);
     }
@@ -51,12 +47,10 @@ public class FormHandlerServlet extends HttpServlet {
         JsonElement jelement = JsonParser.parseString(sb);
         JsonObject jobject = jelement.getAsJsonObject();
 
-        String editUrl = jobject.get("editUrl").getAsString();
-        String Url = jobject.get("Url").getAsString();
+        String editUrl = jobject.get(Form.EDIT_URL_PROPERTY_KEY).getAsString();
+        String url = jobject.get(Form.URL_PROPERTY_KEY).getAsString();
 
-        Form form = new Form(editUrl, Url);
-
-        DatabaseService.save(form.getFormEntity());
+        DatabaseService.save((new Form(editUrl, url)).getFormEntity());
 
         response.setContentType("text/html");
         response.setStatus(HttpServletResponse.SC_OK);

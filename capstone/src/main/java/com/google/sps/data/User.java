@@ -5,32 +5,32 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.sps.service.DatabaseService;
 
 public class User {
-    protected static final String NICKNAME = "nickname";
-    protected static final String USER = "User";
-    protected static final String EMAIL = "email";
+    public static final String USER_ENTITY_NAME = "User";
+    public static final String NICKNAME_PROPERTY_KEY = "nickname";
+    public static final String USER_ID_PROPERTY_KEY = "userId";
 
-    protected Entity delegate;
+    private Entity delegate;
 
     public User(Entity delegate) {
         this.delegate = delegate;
     }
 
-    public User(String email, String nickname) {
-        this.delegate = new Entity(USER);
-        this.delegate.setProperty(NICKNAME, nickname);
-        this.delegate.setProperty(EMAIL, email);
+    public User(String id, String nickname) {
+        this.delegate = new Entity(User.USER_ENTITY_NAME);
+        this.delegate.setProperty(User.NICKNAME_PROPERTY_KEY, nickname);
+        this.delegate.setProperty(User.USER_ID_PROPERTY_KEY, id);
     }
 
     public void changeNickname(String nickname) {
-        this.delegate.setProperty(NICKNAME, nickname);
+        this.delegate.setProperty(User.NICKNAME_PROPERTY_KEY, nickname);
     }
 
-    public String getEmail() {
-        return (String) this.delegate.getProperty(EMAIL);
+    public String getId() {
+        return (String) this.delegate.getProperty(User.USER_ID_PROPERTY_KEY);
     }
 
     public String getNickname() {
-        return (String) this.delegate.getProperty(NICKNAME);
+        return (String) this.delegate.getProperty(User.NICKNAME_PROPERTY_KEY);
     }
 
     public Entity getUserEntity() {

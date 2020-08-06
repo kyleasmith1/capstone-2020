@@ -16,8 +16,9 @@ function callScriptFunction() {
         var result = resp.result;
         if (result.error && result.error.status) {
             // The API encountered a problem before the script started executing
-            appendPre('Error calling API:');
-            appendPre(JSON.stringify(result, null, 2));
+            console.log('Error calling API: ' + result);
+            // appendPre('Error calling API:');
+            // appendPre(JSON.stringify(result, null, 2));
         } else if (result.error) {
             // The API executed, but the script returned an error.
             var error = result.error.details[0];
@@ -31,8 +32,7 @@ function callScriptFunction() {
                 }
             }
         } else { 
-            formData = JSON.stringify(result.response.result);
-            fetch("/form-handler", {method: "POST", body: formData});  
+            fetch("/form-handler", {method: "POST", body: JSON.stringify(result.response.result)});  
         }
     });
 }

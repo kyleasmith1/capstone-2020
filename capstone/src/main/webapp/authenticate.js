@@ -4,6 +4,7 @@ var DISCOVERY_DOCS = ["https://script.googleapis.com/$discovery/rest?version=v1"
 var SCOPES = 'https://www.googleapis.com/auth/forms';
 
 var [dynamicButton, authorizeButton, signoutButton] = createDynamicSigninButton();
+document.currentScript.after(createAPIScriptElement());
 
 /**
 *  Create login and logout buttons to use
@@ -30,6 +31,15 @@ function createLogoutButton(){
     logoutButtonElement.style.display = "none";
     logoutButtonElement.innerText = "Sign Out";
     return logoutButtonElement;
+}
+
+function createAPIScriptElement() {
+    const scriptElement = document.createElement('script');
+    scriptElement.async = true;
+    scriptElement.defer = true;
+    scriptElement.src = "https://apis.google.com/js/api.js";
+    scriptElement.onload = handleClientLoad();
+    return scriptElement;
 }
 
 /**
@@ -74,5 +84,4 @@ function updateSigninStatus(isSignedIn) {
         signoutButton.style.display = 'none';
     }
 }
-
 

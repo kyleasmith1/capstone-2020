@@ -15,7 +15,13 @@
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
   var id_token = googleUser.getAuthResponse().id_token;
-  console.log(profile.getEmail() + " has signed in!");
+  return fetch("/login", {method: "POST", body: id_token}).then((resp) => {
+        if (resp.ok){
+            window.location.href = "form.html";
+        } else {
+            alert("Error has occured");
+        }
+    });
 }
 
 function printOauthProfile(){

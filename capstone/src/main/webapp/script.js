@@ -16,7 +16,7 @@ function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
   var id_token = googleUser.getAuthResponse().id_token;
   return fetch("/login", {method: "POST", body: id_token}).then((resp) => {
-        if (resp.ok){
+        if (resp?.ok){
             window.location.href = "form.html";
         } else {
             alert("Error has occured");

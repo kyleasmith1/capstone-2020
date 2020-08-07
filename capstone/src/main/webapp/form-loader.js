@@ -1,7 +1,7 @@
 document.body.prepend(dynamicButton);
 
 function callScriptFunction() {
-    var scriptId = "";
+    var scriptId = config.SCRIPT_ID;
   
     // Call the Apps Script API run method
     //   'scriptId' is the URL parameter that states what script to run
@@ -12,7 +12,7 @@ function callScriptFunction() {
     'resource': {
         "function": "createForm",
         "parameters": [],
-        "devMode": true
+        "devMode": false
     }
     }).then(function(resp) {
         if (resp.result?.error?.status != null) {

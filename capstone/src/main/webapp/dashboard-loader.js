@@ -24,10 +24,10 @@ function getClassrooms() {
     fetch("/dashboard-handler").then(response => response.json()).then((classroomsList) => {
         const classroomElement = document.getElementById("classroom-container");
         classroomElement.innerHTML = "";
-        classroomsList.forEach((classroom) => {
+        for (classroom of classroomsList) {
             console.log(classroom);
             classroomElement.appendChild(createClassroomDivElement(classroom));
-        });
+        };
     });
 }
 

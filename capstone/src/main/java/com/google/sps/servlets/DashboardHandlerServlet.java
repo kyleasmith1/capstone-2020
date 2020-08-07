@@ -26,21 +26,16 @@ public class DashboardHandlerServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        List<Classroom> classrooms = new ArrayList<>();
-        Classroom classroom = null;
-        Query query = new Query("Classroom");
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        PreparedQuery results = datastore.prepare(query);
+        PreparedQuery results = datastore.prepare(new Query(Classroom.CLASSROOM_ENTITY_NAME));
     
+        List<Classroom> classrooms = new ArrayList<>();
         for(Entity entity : results.asIterable()){
-            classroom = new Classroom(entity);
-            classrooms.add(classroom);
+            classrooms.add(new Classroom(entity));
         }
-    
-        Gson gson = new Gson();
-        String json = gson.toJson(classrooms);
+
         response.setContentType("application/json");
-        response.getWriter().println(json);
+        response.getWriter().println(new Gson().toJson(classrooms));
     }
 
     @Override

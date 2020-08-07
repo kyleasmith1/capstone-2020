@@ -8,7 +8,7 @@ function createClassroom() {
     }
 
     var subject = document.querySelector('#subject').value;
-    var classroomData = JSON.stringify({ "name": name, "userId": email, "nickname": subject });
+    var classroomData = JSON.stringify({ "nickname": name, "userId": email, "subject": subject });
     fetch("/dashboard-handler", {method: "POST", body: classroomData}).then((resp) => {
         if (resp.ok){
             console.log("Classroom Created!");

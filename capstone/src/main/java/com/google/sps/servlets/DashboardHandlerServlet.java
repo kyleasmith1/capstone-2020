@@ -29,10 +29,7 @@ public class DashboardHandlerServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        System.out.println(RequestParser.parseStringFromRequest(request));
-
-        JsonElement jelement = JsonParser.parseString(RequestParser.parseStringFromRequest(request));
-        JsonObject jobject = jelement.getAsJsonObject();
+        JsonObject jobject = JsonParser.parseString(RequestParser.parseStringFromRequest(request)).getAsJsonObject();
 
         User teacher = new User(jobject.get(User.USER_ID_PROPERTY_KEY).getAsString(),
             jobject.get(User.NICKNAME_PROPERTY_KEY).getAsString());

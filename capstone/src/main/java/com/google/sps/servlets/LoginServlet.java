@@ -18,7 +18,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import java.security.GeneralSecurityException;
 import com.google.sps.data.User;
-import com.google.sps.data.Config;
+// import com.google.sps.data.Config;
 import com.google.sps.data.RequestParser;
 import com.google.sps.service.DatabaseService;
 import java.util.Collections;
@@ -62,7 +62,7 @@ public class LoginServlet extends HttpServlet {
 
     public GoogleIdTokenVerifier tokenVerifier() {
         return new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
-            .setAudience(Collections.singletonList(Config.CLIENT_ID))
+            .setAudience(Collections.singletonList("1002281613740-gsmtp3tteqgtoformikuglhu8fr388et.apps.googleusercontent.com"))
             .build();
     }
 }

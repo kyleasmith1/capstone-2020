@@ -9,7 +9,6 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
-import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
@@ -31,24 +30,20 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginServlet extends HttpServlet {
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
-        String token = RequestParser.parseStringFromRequest(request);
-
-        GoogleIdTokenVerifier verifier = tokenVerifier();
-    
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {    
         try {
-            GoogleIdToken idToken = verifier.verify(token);
+            GoogleIdToken idToken = tokenVerifier().verify(RequestParser.parseStringFromRequest(request));
             if (idToken != null) {
                 Payload payload = idToken.getPayload();
 
                 String userId = payload.getSubject();
                 String name = (String) payload.get("name");
 
+                DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
                 Filter userFilter =
-                    new FilterPredicate(LoginServlet.USER_ID, FilterOperator.EQUAL, userId);
-                Query query = new Query(LoginServlet.USER).setFilter(userFilter);
+                    new FilterPredicate(User.USER_ID_PROPERTY_KEY, FilterOperator.EQUAL, userId);
+                Query query = new Query(User.USER_ENTITY_NAME).setFilter(userFilter);
 
                 PreparedQuery results = datastore.prepare(query);
 
@@ -61,14 +56,14 @@ public class LoginServlet extends HttpServlet {
                 System.out.println("Invalid ID token.");
             }
         } catch (GeneralSecurityException e){
-            System.out.println("Didn't work: (GeneralSecurityException)");
+            System.out.println("Cannot verify token: (GeneralSecurityException)");
         }
     }
 
     public GoogleIdTokenVerifier tokenVerifier() {
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
         // Specify the CLIENT_ID of the app that accesses the backend:
-        .setAudience(Collections.singletonList("YOUR CLIENT ID HERE"))
+        .setAudience(Collections.singletonList("914921573408-h6di03psfac1qc76n53p2qb6kjkge8pn.apps.googleusercontent.com"))
         // Or, if multiple clients access the backend:
         .build();
         return verifier;

@@ -1,3 +1,5 @@
+document.body.prepend(dynamicButton);
+
 function createClassroom() {
     var auth2 = gapi.auth2.getAuthInstance();
     var name = "";

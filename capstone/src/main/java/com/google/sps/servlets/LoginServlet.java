@@ -18,7 +18,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import java.security.GeneralSecurityException;
 import com.google.sps.data.User;
-// import com.google.sps.data.Config;
+import com.google.sps.data.Config;
 import com.google.sps.data.RequestParser;
 import com.google.sps.service.DatabaseService;
 import java.util.Collections;

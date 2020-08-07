@@ -4,22 +4,25 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.BufferedReader;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
-public class RequestJsonParser {
+public class RequestParser {
+  
+    public static <T> T parseObjectFromRequest(HttpServletRequest request, Class<T> type) throws IOException, JsonSyntaxException {
+        return (new Gson()).fromJson(parseStringFromRequest(request), type);
+    }
 
-    public static <T> T parseObjectFromRequest(HttpServletRequest request, Class<T> type) throws IOException {
+    public static String parseStringFromRequest(HttpServletRequest request) throws IOException, JsonSyntaxException {
         BufferedReader reader = request.getReader();
         StringBuilder sb = new StringBuilder();
         try {
             String line;
             while ((line = reader.readLine()) != null) {
-                sb.append(line).append('\n');
+                sb.append(line);
             }
         } finally {
             reader.close();
         }
-        Gson gson = new Gson();
-        T object = gson.fromJson(sb.toString(), type);
-        return object;
+        return sb.toString();
     }
 }

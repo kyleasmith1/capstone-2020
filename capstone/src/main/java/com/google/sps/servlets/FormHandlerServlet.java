@@ -24,9 +24,6 @@ import com.google.sps.service.DatabaseService;
 
 @WebServlet("/form-handler")
 public class FormHandlerServlet extends HttpServlet {
-    protected static final String FORM = "Form";
-    protected static final String EDIT = "editUrl";
-    protected static final String URL = "Url";
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

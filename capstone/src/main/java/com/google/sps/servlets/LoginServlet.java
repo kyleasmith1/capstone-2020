@@ -30,9 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
-    protected static final String USER = "User";
-    protected static final String USER_ID = "userId";
-
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();

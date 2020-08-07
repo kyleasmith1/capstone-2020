@@ -62,7 +62,7 @@ public class LoginServlet extends HttpServlet {
 
     public GoogleIdTokenVerifier tokenVerifier() {
         return new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
-            .setAudience(Collections.singletonList("1002281613740-gsmtp3tteqgtoformikuglhu8fr388et.apps.googleusercontent.com"))
+            .setAudience(Collections.singletonList(Config.CLIENT_ID))
             .build();
     }
 }

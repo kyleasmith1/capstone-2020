@@ -12,7 +12,7 @@ function callScriptFunction() {
     'resource': {
         "function": "createForm",
         "parameters": [],
-        "devMode": true
+        "devMode": false
     }
     }).then(function(resp) {
         if (resp.result?.error?.status != null) {

@@ -40,6 +40,7 @@ public class LoginServlet extends HttpServlet {
                 String name = (String) idToken.getPayload().get(LoginServlet.NAME_PROPERTY_KEY);
 
                 DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
                 Filter userFilter = new FilterPredicate(User.USER_ID_PROPERTY_KEY, FilterOperator.EQUAL, userId);
                 Query query = new Query(User.USER_ENTITY_NAME).setFilter(userFilter);
                 PreparedQuery results = datastore.prepare(query);
@@ -52,7 +53,8 @@ public class LoginServlet extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_OK);
             } else {
                 response.setContentType("text/html");
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);            }
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);         
+            }
         } catch (GeneralSecurityException e){
             System.out.println("Cannot verify token: " + e);
         }

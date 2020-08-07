@@ -32,34 +32,36 @@ public class LoginServlet extends HttpServlet {
     private static final String NAME_PROPERTY_KEY = "name";
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {    
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {  
+        GoogleIdToken idToken = null;
+
         try {
-            GoogleIdToken idToken = tokenVerifier().verify(RequestParser.parseStringFromRequest(request));
-
-            if (idToken == null) {
-                response.setContentType("text/html");
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                return;
-            }
-            
-            String userId = idToken.getPayload().getSubject();
-            String name = (String) idToken.getPayload().get(LoginServlet.NAME_PROPERTY_KEY);
-
-            DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
-            Filter userFilter = new FilterPredicate(User.USER_ID_PROPERTY_KEY, FilterOperator.EQUAL, userId);
-            Query query = new Query(User.USER_ENTITY_NAME).setFilter(userFilter);
-            PreparedQuery results = datastore.prepare(query);
-
-            if (results.countEntities() == 0) {
-                DatabaseService.save(new User(userId, name).getUserEntity());
-            }
-
-            response.setContentType("text/html");
-            response.setStatus(HttpServletResponse.SC_OK); 
+           idToken = tokenVerifier().verify(RequestParser.parseStringFromRequest(request));
         } catch (GeneralSecurityException e){
             System.out.println("Cannot verify token: " + e);
         }
+
+        if (idToken == null) {
+            response.setContentType("text/html");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
+        
+        String userId = idToken.getPayload().getSubject();
+        String name = (String) idToken.getPayload().get(LoginServlet.NAME_PROPERTY_KEY);
+
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+        Filter userFilter = new FilterPredicate(User.USER_ID_PROPERTY_KEY, FilterOperator.EQUAL, userId);
+        Query query = new Query(User.USER_ENTITY_NAME).setFilter(userFilter);
+        PreparedQuery results = datastore.prepare(query);
+
+        if (results.countEntities() == 0) {
+            DatabaseService.save(new User(userId, name).getUserEntity());
+        }
+
+        response.setContentType("text/html");
+        response.setStatus(HttpServletResponse.SC_OK); 
     }
 
     public GoogleIdTokenVerifier tokenVerifier() {

@@ -25,7 +25,6 @@ function getClassrooms() {
         const classroomElement = document.getElementById("classroom-container");
         classroomElement.innerHTML = "";
         for (classroom of classroomsList) {
-            console.log(classroom);
             classroomElement.appendChild(createClassroomDivElement(classroom));
         };
     });

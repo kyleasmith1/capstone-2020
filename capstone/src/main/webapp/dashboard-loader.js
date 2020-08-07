@@ -8,12 +8,12 @@ function createClassroom() {
     }
 
     var subject = document.querySelector('#subject').value;
-    var classroomData = JSON.stringify({ "name": name, "email": email, "subject": subject });
+    var classroomData = JSON.stringify({ "nickname": name, "userId": email, "subject": subject });
     fetch("/dashboard-handler", {method: "POST", body: classroomData}).then((resp) => {
         if (resp.ok){
             getClassrooms();
         } else {
-            alert("Error has occured");
+            console.log("Error has occured");
         }
     });
 }

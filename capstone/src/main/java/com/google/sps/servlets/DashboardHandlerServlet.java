@@ -1,27 +1,16 @@
 package com.google.sps.servlets;
 import java.io.IOException;
-import java.io.BufferedReader;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.appengine.api.datastore.Entity;
-import java.util.List;
-import java.util.ArrayList;
-import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.sps.data.Form;
-import com.google.sps.data.RequestJsonParser;
+import com.google.sps.data.User;
+import com.google.sps.data.Classroom;
+import com.google.sps.service.DatabaseService;
+import com.google.sps.data.RequestParser;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.google.sps.data.User;
-import com.google.sps.data.Classroom;
-import com.google.sps.service.DatabaseService;
 
 @WebServlet("/dashboard-handler")
 public class DashboardHandlerServlet extends HttpServlet {
@@ -48,28 +37,13 @@ public class DashboardHandlerServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        BufferedReader reader = request.getReader();
-        StringBuilder sb = new StringBuilder();
-        try {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line).append('\n');
-            }
-        } finally {
-            reader.close();
-        }
+        JsonObject jobject = JsonParser.parseString(RequestParser.parseStringFromRequest(request)).getAsJsonObject();
 
-        System.out.println(sb.toString());
-        JsonElement jelement = JsonParser.parseString(sb.toString());
-        JsonObject jobject = jelement.getAsJsonObject();
+        User teacher = new User(jobject.get(User.USER_ID_PROPERTY_KEY).getAsString(),
+            jobject.get(User.NICKNAME_PROPERTY_KEY).getAsString());
+        DatabaseService.save(teacher.getUserEntity());
 
-        String name = jobject.get("name").getAsString();
-        String email = jobject.get("email").getAsString();  
-        User testUser = new User(email, name);
-        DatabaseService.save(testUser.getUserEntity());
-
-        String subject = jobject.get("subject").getAsString();
-        Classroom classroom = new Classroom(testUser, subject);
+        Classroom classroom = new Classroom(teacher, jobject.get(Classroom.SUBJECT_PROPERTY_KEY).getAsString());
         DatabaseService.save(classroom.getClassroomEntity());
 
         response.setContentType("text/html");

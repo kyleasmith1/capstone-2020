@@ -5,25 +5,19 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
   </head>
   <body onload = "getClassrooms()">
 
-    <div id="auth"></div>
-
     <div id="content">
-      <p><h1>Dashboard</h1></p>
+      <h1>Dashboard</h1>
       <input type="text" id="subject" placeholder="Subject"> 
       <button onclick="createClassroom()">Create Classroom</button> 
     </div>
 
     <div id="classroom-container"></div>    
 
-    <pre id="content"></pre>
-
     <script src="config.js"></script>
     <script src="authenticate.js"></script>
     <script src="dashboard-loader.js"></script>
-    <script async defer src="https://apis.google.com/js/api.js" onload="handleClientLoad()"></script>
   </body>
 </html>

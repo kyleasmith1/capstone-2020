@@ -39,12 +39,11 @@ public class LoginServlet extends HttpServlet {
            idToken = tokenVerifier().verify(RequestParser.parseStringFromRequest(request));
         } catch (GeneralSecurityException e){
             System.out.println("Cannot verify token: " + e);
-        }
-
-        if (idToken == null) {
-            response.setContentType("text/html");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
+            if (idToken == null) {
+                response.setContentType("text/html");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
         }
         
         String userId = idToken.getPayload().getSubject();

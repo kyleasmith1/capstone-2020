@@ -5,8 +5,8 @@ function createClassroom() {
     var name = "";
     var email = "";
     if (auth2.isSignedIn.get()) {
-        var name = auth2.currentUser.get().getBasicProfile().getName();
-        var email = auth2.currentUser.get().getBasicProfile().getEmail();
+        name = auth2.currentUser.get().getBasicProfile().getName();
+        email = auth2.currentUser.get().getBasicProfile().getEmail();
     }
 
     var subject = document.querySelector('#subject').value;

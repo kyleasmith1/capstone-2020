@@ -20,6 +20,7 @@ public class DashboardHandlerServlet extends HttpServlet {
 
         JsonObject jobject = JsonParser.parseString(RequestParser.parseStringFromRequest(request)).getAsJsonObject();
 
+        // Creates a dummy user (real User implementation will be added in a future CL)
         User teacher = new User(jobject.get(User.USER_ID_PROPERTY_KEY).getAsString(),
             jobject.get(User.NICKNAME_PROPERTY_KEY).getAsString());
         DatabaseService.save(teacher.getUserEntity());
@@ -27,7 +28,6 @@ public class DashboardHandlerServlet extends HttpServlet {
         Classroom classroom = new Classroom(teacher, jobject.get(Classroom.SUBJECT_PROPERTY_KEY).getAsString());
         DatabaseService.save(classroom.getClassroomEntity());
 
-        response.setContentType("text/html");
         response.setStatus(HttpServletResponse.SC_OK);
     }
 }

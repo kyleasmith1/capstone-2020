@@ -57,7 +57,6 @@ public class LoginServlet extends HttpServlet {
         if (results.countEntities() == 0) {
             DatabaseService.save(new User(userId, name).getUserEntity());
         }
-
         response.setStatus(HttpServletResponse.SC_OK); 
     }
 

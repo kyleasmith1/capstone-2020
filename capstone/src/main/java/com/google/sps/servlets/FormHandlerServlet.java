@@ -1,16 +1,16 @@
 package com.google.sps.servlets;
 import java.io.IOException;
-import java.io.BufferedReader;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Entity;
-import com.google.sps.service.DatabaseService;
 import java.util.List;
 import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.sps.data.Form;
+import com.google.sps.data.RequestParser;
+import com.google.sps.service.DatabaseService;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -18,8 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.google.sps.service.DatabaseService;
-import com.google.sps.data.RequestParser;
+
 
 @WebServlet("/form-handler")
 public class FormHandlerServlet extends HttpServlet {

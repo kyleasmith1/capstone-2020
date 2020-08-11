@@ -49,10 +49,8 @@ public class LoginServlet extends HttpServlet {
                     DatabaseService.save(new User(userId, name).getUserEntity());
                 }
 
-                response.setContentType("text/html");
                 response.setStatus(HttpServletResponse.SC_OK);
             } else {
-                response.setContentType("text/html");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);         
             }
         } catch (GeneralSecurityException e){

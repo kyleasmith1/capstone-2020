@@ -46,7 +46,6 @@ public class FormHandlerServlet extends HttpServlet {
         
         DatabaseService.save(new Form(editUrl, url).getFormEntity());
         
-        response.setContentType("text/html");
         response.setStatus(HttpServletResponse.SC_OK);
     }
 }

@@ -6,6 +6,7 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Entity;
+import com.google.sps.service.DatabaseService;
 import java.util.List;
 import java.util.ArrayList;
 import com.google.gson.Gson;
@@ -39,17 +40,13 @@ public class FormHandlerServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String sb = RequestParser.parseStringFromRequest(request);
-
-        JsonElement jelement = JsonParser.parseString(sb);
-        JsonObject jobject = jelement.getAsJsonObject();
+        JsonObject jobject = JsonParser.parseString(RequestParser.parseStringFromRequest(request)).getAsJsonObject();
 
         String editUrl = jobject.get(Form.EDIT_URL_PROPERTY_KEY).getAsString();
         String url = jobject.get(Form.URL_PROPERTY_KEY).getAsString();
         
-        DatabaseService.save((new Form(editUrl, url)).getFormEntity());
-
-        response.setContentType("text/html");
+        DatabaseService.save(new Form(editUrl, url).getFormEntity());
+        
         response.setStatus(HttpServletResponse.SC_OK);
     }
 }

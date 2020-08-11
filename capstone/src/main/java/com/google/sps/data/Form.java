@@ -15,7 +15,7 @@ public class Form {
     public Form(Entity entity) {
         this.entity = entity;
     }
-
+     
     public Form(String editUrl, String url) {
         this.entity = new Entity(Form.FORM_ENTITY_NAME);
         this.entity.setProperty(Form.EDIT_URL_PROPERTY_KEY, editUrl);

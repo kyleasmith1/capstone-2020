@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet("/form-handler")
+@WebServlet("/form")
 public class FormHandlerServlet extends HttpServlet {
 
     @Override

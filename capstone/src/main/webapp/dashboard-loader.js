@@ -11,7 +11,7 @@ function createClassroom() {
 
     var subject = document.querySelector('#subject').value;
     var classroomData = JSON.stringify({ "nickname": name, "userId": email, "subject": subject });
-    fetch("/dashboard-handler", {method: "POST", body: classroomData}).then((resp) => {
+    fetch("/dashboard", {method: "POST", body: classroomData}).then((resp) => {
         if (resp.ok){
             getClassrooms();
         } else {
@@ -21,7 +21,7 @@ function createClassroom() {
 }
 
 function getClassrooms() {
-    fetch("/dashboard-handler").then(response => response.json()).then((classroomsList) => {
+    fetch("/dashboard").then(response => response.json()).then((classroomsList) => {
         const classroomElement = document.getElementById("classroom-container");
         classroomElement.innerHTML = "";
         for (classroom of classroomsList) {

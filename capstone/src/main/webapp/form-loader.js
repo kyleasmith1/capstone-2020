@@ -22,7 +22,7 @@ function callScriptFunction() {
             // The API executed, but the script returned an error.
             console.log("Script error message: " + result.error);
         } else { 
-            return fetch("/form-handler", {method: "POST", body: JSON.stringify(resp.result.response.result)});  
+            return fetch("/form", {method: "POST", body: JSON.stringify(resp.result.response.result)});  
         }
     }).then((resp) => {
         if (resp.ok){
@@ -34,7 +34,7 @@ function callScriptFunction() {
 }
 
 function getForms() {
-    fetch("/form-handler").then(response => response.json()).then((formsList) => {
+    fetch("/form").then(response => response.json()).then((formsList) => {
         const formElement = document.getElementById("form-container");
         formElement.innerHTML = "";
         for (form of formsList) {

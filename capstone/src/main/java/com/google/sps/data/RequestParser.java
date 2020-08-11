@@ -42,6 +42,15 @@ public class RequestParser {
             throw new GeneralSecurityException();
         }
     }
+
+    public static GoogleIdToken verifyTokenFromRequestHeader(HttpServletRequest request, String headerName) throws IOException, GeneralSecurityException {    
+        GoogleIdToken idToken = tokenVerifier().verify(request.getHeader(headerName));
+        if (idToken != null){
+            return idToken;
+        } else {
+            throw new GeneralSecurityException();
+        }
+    }
  
     private static GoogleIdTokenVerifier tokenVerifier() {
         return new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())

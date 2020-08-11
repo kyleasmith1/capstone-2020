@@ -36,10 +36,13 @@ public class AuthenticateFilter implements Filter {
         System.out.println("I WAS HERE");
         GoogleIdToken idToken = null;
         try {
-            idToken = RequestParser.verifyTokenFromRequest(req);
+            idToken = RequestParser.verifyTokenFromRequestHeader(req, "id_token");
         } catch (GeneralSecurityException e){
             System.out.println("Cannot verify token: " + e);
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        } catch (Exception e){
+            res.setStatus(HttpServletResponse.INTERNAL_SERVER_ERROR);
             return;
         }
  

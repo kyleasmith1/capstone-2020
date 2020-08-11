@@ -44,6 +44,7 @@ public class RequestParser {
     }
 
     public static GoogleIdToken verifyTokenFromRequestHeader(HttpServletRequest request, String headerName) throws IOException, GeneralSecurityException {    
+        System.out.println(request.getHeader(headerName));
         GoogleIdToken idToken = tokenVerifier().verify(request.getHeader(headerName));
         if (idToken != null){
             return idToken;

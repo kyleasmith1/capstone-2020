@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/dashboard-handler")
+@WebServlet("/dashboard")
 public class DashboardHandlerServlet extends HttpServlet {
 
     @Override

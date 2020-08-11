@@ -40,7 +40,6 @@ public class LoginServlet extends HttpServlet {
         } catch (GeneralSecurityException e){
             System.out.println("Cannot verify token: " + e);
             if (idToken == null) {
-                response.setContentType("text/html");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
@@ -59,7 +58,6 @@ public class LoginServlet extends HttpServlet {
             DatabaseService.save(new User(userId, name).getUserEntity());
         }
 
-        response.setContentType("text/html");
         response.setStatus(HttpServletResponse.SC_OK); 
     }
 

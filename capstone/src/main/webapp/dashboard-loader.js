@@ -31,21 +31,18 @@ function getClassrooms() {
 }
 
 function createClassroomDivElement(classroom) {
+    let domparser = new DOMParser();
+    let doc = domparser.parseFromString(string, "text/html");
+
     const divElement = document.createElement("div");
     const h2Element = document.createElement("h2");
-    const liElement = document.createElement("li");
-    const pElement = document.createElement("p");
     const aElement = document.createElement("a");
     
     h2Element.innerText = classroom.entity.propertyMap.subject;
-    pElement.innerText = "Classroom ID : " + classroom.entity.key.id;
-    liElement.innerText = "Teacher ID : " + classroom.entity.propertyMap.teacher.id;
     aElement.href = "form.html";
     aElement.innerText = "Classroom Link";
 
     divElement.appendChild(h2Element);
-    divElement.appendChild(liElement);
-    divElement.appendChild(pElement);
     divElement.appendChild(aElement);
 
     return divElement;

@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/dashboard")
+@WebServlet("/dashboard-handler")
 public class DashboardHandlerServlet extends HttpServlet {
 
     @Override
@@ -30,8 +30,6 @@ public class DashboardHandlerServlet extends HttpServlet {
         
         // TODO: In a later CL we will make it so that it only gets User-specific classrooms
         PreparedQuery results = datastore.prepare(new Query(Classroom.CLASSROOM_ENTITY_NAME));
-
-       // List<Entity> classrooms = results.asList();
     
         ArrayList<Classroom> classrooms = new ArrayList<>();
         for(Entity entity : results.asIterable()){

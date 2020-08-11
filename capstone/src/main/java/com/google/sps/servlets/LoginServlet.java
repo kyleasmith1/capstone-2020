@@ -13,12 +13,8 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import java.security.GeneralSecurityException;
 import com.google.sps.data.User;
-import com.google.sps.data.Config;
 import com.google.sps.data.RequestParser;
 import com.google.sps.service.DatabaseService;
 import java.util.Collections;
@@ -36,13 +32,11 @@ public class LoginServlet extends HttpServlet {
         GoogleIdToken idToken = null;
 
         try {
-           idToken = tokenVerifier().verify(RequestParser.parseStringFromRequest(request));
+           idToken = RequestParser.verifyTokenFromRequest(request);
         } catch (GeneralSecurityException e){
             System.out.println("Cannot verify token: " + e);
-            if (idToken == null) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                return;
-            }
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
         }
         
         String userId = idToken.getPayload().getSubject();
@@ -58,11 +52,5 @@ public class LoginServlet extends HttpServlet {
             DatabaseService.save(new User(userId, name).getUserEntity());
         }
         response.setStatus(HttpServletResponse.SC_OK); 
-    }
-
-    public GoogleIdTokenVerifier tokenVerifier() {
-        return new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
-            .setAudience(Collections.singletonList(Config.CLIENT_ID))
-            .build();
     }
 }

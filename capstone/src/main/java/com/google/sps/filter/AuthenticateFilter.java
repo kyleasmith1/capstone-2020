@@ -13,22 +13,43 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import java.security.GeneralSecurityException;
+import com.google.sps.data.RequestParser;
  
 @WebFilter("/auth-filter")
 public class AuthenticateFilter implements Filter {
  
     private ServletContext context;
+
+    public void init(FilterConfig filterConfig) throws ServletException{
+
+    }
  
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
-        
-        // System.out.println(req.getHeaderNames());
- 
-        // System.out.println(req.getHeader("id_token"));
+        HttpServletResponse res = (HttpServletResponse) response;
  
         System.out.println("I WAS HERE");
+        GoogleIdToken idToken = null;
+        try {
+            idToken = RequestParser.verifyTokenFromRequest(req);
+        } catch (GeneralSecurityException e){
+            System.out.println("Cannot verify token: " + e);
+            res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
  
+        System.out.println("Verified");
+        
         chain.doFilter(request, response);
     }
- 
+    
+    public void destroy() {
+        
+    }
+
 }

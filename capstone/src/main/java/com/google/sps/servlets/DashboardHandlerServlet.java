@@ -30,8 +30,10 @@ public class DashboardHandlerServlet extends HttpServlet {
         
         // TODO: In a later CL we will make it so that it only gets User-specific classrooms
         PreparedQuery results = datastore.prepare(new Query(Classroom.CLASSROOM_ENTITY_NAME));
+
+       // List<Entity> classrooms = results.asList();
     
-        List<Classroom> classrooms = new ArrayList<>();
+        ArrayList<Classroom> classrooms = new ArrayList<>();
         for(Entity entity : results.asIterable()){
             classrooms.add(new Classroom(entity));
         }

@@ -11,10 +11,8 @@ function createClassroom(subject) {
         id_token = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
     }
 
-    console.log(id_token);
-
     var classroomData = JSON.stringify({ "nickname": name, "userId": email, "subject": subject });
-    fetch("/dashboard-handler", {method: "POST", headers: new Headers({"authorization" : id_token}), body: classroomData}).then((resp) => {
+    fetch("/dashboard-handler", {method: "POST", headers: new Headers({id_token}), body: classroomData}).then((resp) => {
         if (resp.ok){
             getClassrooms();
         } else {
@@ -24,7 +22,7 @@ function createClassroom(subject) {
 }
 
 function getClassrooms() {
-    fetch("/dashboard-handler").then(response => response.json()).then((classroomsList) => {
+    fetch("/dashboard-handler", {method: "GET", headers: new Headers({id_token})}).then(response => response.json()).then((classroomsList) => {
         const classroomElement = document.getElementById("classroom-container");
         classroomElement.innerHTML = "";
         for (classroom of classroomsList) {

@@ -3,7 +3,6 @@ package com.google.sps.filter;
 import java.io.IOException;
 import java.util.Enumeration;
  
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
@@ -14,6 +13,15 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.google.sps.data.User;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Entity;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -21,9 +29,7 @@ import java.security.GeneralSecurityException;
 import com.google.sps.data.RequestParser;
  
 @WebFilter("/auth-filter")
-public class AuthenticateFilter implements Filter {
- 
-    private ServletContext context;
+public class AuthenticateFilter implements javax.servlet.Filter {
 
     public void init(FilterConfig filterConfig) throws ServletException{
 
@@ -32,13 +38,10 @@ public class AuthenticateFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
- 
-        System.out.println("I WAS HERE");
-        System.out.println(req.getHeader("authorization"));
 
         GoogleIdToken idToken = null;
         try {
-            idToken = RequestParser.verifyTokenFromRequestHeader(req, "authorization");
+            idToken = RequestParser.verifyTokenFromRequestHeader(req, "id_token");
         } catch (GeneralSecurityException e){
             System.out.println("Cannot verify token: " + e);
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -47,8 +50,15 @@ public class AuthenticateFilter implements Filter {
             res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return;
         }
- 
-        System.out.println("Verified");
+
+        String userId = idToken.getPayload().getSubject();
+
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        Filter userFilter = new FilterPredicate(User.USER_ID_PROPERTY_KEY, FilterOperator.EQUAL, userId);
+        Query query = new Query(User.USER_ENTITY_NAME).setFilter(userFilter);
+        PreparedQuery results = datastore.prepare(query);
+
+        request.setAttribute(User.USER_ENTITY_NAME, new User(results.asSingleEntity()));
         
         chain.doFilter(request, response);
     }

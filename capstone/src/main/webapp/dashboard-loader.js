@@ -1,4 +1,5 @@
 document.body.prepend(dynamicButton);
+window.addEventListener('load', getClassrooms);
 
 function createClassroom(subject) {
     var auth2 = gapi.auth2.getAuthInstance();
@@ -22,7 +23,8 @@ function createClassroom(subject) {
 }
 
 function getClassrooms() {
-    fetch("/dashboard").then(response => response.json()).then((classroomsList) => {
+    var id_token = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
+    fetch("/dashboard", {method: "GET", headers: new Headers({id_token})}).then(response => response.json()).then((classroomsList) => {
         const classroomElement = document.getElementById("classroom-container");
         classroomElement.innerHTML = "";
         for (classroom of classroomsList) {

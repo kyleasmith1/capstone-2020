@@ -32,7 +32,7 @@ import com.google.sps.data.RequestParser;
 public class AuthenticateFilter implements javax.servlet.Filter {
 
     public void init(FilterConfig filterConfig) throws ServletException{
-
+        
     }
  
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

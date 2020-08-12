@@ -12,7 +12,7 @@ function createClassroom(subject) {
     }
 
     var classroomData = JSON.stringify({ "nickname": name, "userId": email, "subject": subject });
-    fetch("/dashboard-handler", {method: "POST", headers: new Headers({id_token}), body: classroomData}).then((resp) => {
+    fetch("/dashboard", {method: "POST", headers: new Headers({id_token}), body: classroomData}).then((resp) => {
         if (resp.ok){
             getClassrooms();
         } else {

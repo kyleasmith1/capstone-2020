@@ -32,18 +32,11 @@ function getClassrooms() {
 
 function createClassroomDivElement(classroom) {
     let domparser = new DOMParser();
-    let doc = domparser.parseFromString(string, "text/html");
-
-    const divElement = document.createElement("div");
-    const h2Element = document.createElement("h2");
-    const aElement = document.createElement("a");
-    
-    h2Element.innerText = classroom.entity.propertyMap.subject;
-    aElement.href = "form.html";
-    aElement.innerText = "Classroom Link";
-
-    divElement.appendChild(h2Element);
-    divElement.appendChild(aElement);
-
-    return divElement;
+    let doc = domparser.parseFromString(`
+            <div class="classroom">
+                <h2>${classroom.entity.propertyMap.subject}</h2>
+                <p><a href="form.html">Classroom Link</a></p>
+            </div>
+            `, "text/html");
+    return doc.body;
 }

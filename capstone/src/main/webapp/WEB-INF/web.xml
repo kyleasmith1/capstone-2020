@@ -10,6 +10,6 @@
  
     <filter-mapping>
         <filter-name>authFilter</filter-name>
-        <url-pattern>/dashboard-handler</url-pattern>
+        <url-pattern>/dashboard</url-pattern>
     </filter-mapping>
 </web-app>

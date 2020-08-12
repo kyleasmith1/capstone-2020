@@ -21,15 +21,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/dashboard-handler")
+@WebServlet("/dashboard")
 public class DashboardHandlerServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        
+        // TODO: In a later CL we will make it so that it only gets User-specific classrooms
         PreparedQuery results = datastore.prepare(new Query(Classroom.CLASSROOM_ENTITY_NAME));
     
-        List<Classroom> classrooms = new ArrayList<>();
+        ArrayList<Classroom> classrooms = new ArrayList<>();
         for(Entity entity : results.asIterable()){
             classrooms.add(new Classroom(entity));
         }

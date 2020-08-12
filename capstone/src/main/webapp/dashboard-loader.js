@@ -12,7 +12,11 @@ function createClassroom(subject) {
     }
 
     var classroomData = JSON.stringify({ "nickname": name, "userId": email, "subject": subject });
+<<<<<<< HEAD
     fetch("/dashboard-handler", {method: "POST", headers: new Headers({id_token}), body: classroomData}).then((resp) => {
+=======
+    fetch("/dashboard", {method: "POST", body: classroomData}).then((resp) => {
+>>>>>>> 53ad7dc8f1095bd19754945bbf65d09d33716f6a
         if (resp.ok){
             getClassrooms();
         } else {
@@ -22,7 +26,11 @@ function createClassroom(subject) {
 }
 
 function getClassrooms() {
+<<<<<<< HEAD
     fetch("/dashboard-handler", {method: "GET", headers: new Headers({id_token})}).then(response => response.json()).then((classroomsList) => {
+=======
+    fetch("/dashboard").then(response => response.json()).then((classroomsList) => {
+>>>>>>> 53ad7dc8f1095bd19754945bbf65d09d33716f6a
         const classroomElement = document.getElementById("classroom-container");
         classroomElement.innerHTML = "";
         for (classroom of classroomsList) {
@@ -32,22 +40,12 @@ function getClassrooms() {
 }
 
 function createClassroomDivElement(classroom) {
-    const divElement = document.createElement("div");
-    const h2Element = document.createElement("h2");
-    const liElement = document.createElement("li");
-    const pElement = document.createElement("p");
-    const aElement = document.createElement("a");
-    
-    h2Element.innerText = classroom.entity.propertyMap.subject;
-    pElement.innerText = "Classroom ID : " + classroom.entity.key.id;
-    liElement.innerText = "Teacher ID : " + classroom.entity.propertyMap.teacher.id;
-    aElement.href = "form.html";
-    aElement.innerText = "Classroom Link";
-
-    divElement.appendChild(h2Element);
-    divElement.appendChild(liElement);
-    divElement.appendChild(pElement);
-    divElement.appendChild(aElement);
-
-    return divElement;
+    let domparser = new DOMParser();
+    let doc = domparser.parseFromString(`
+            <div class="classroom">
+                <h2>${classroom.entity.propertyMap.subject}</h2>
+                <p><a href="form.html">Classroom Link</a></p>
+            </div>
+            `, "text/html");
+    return doc.body;
 }

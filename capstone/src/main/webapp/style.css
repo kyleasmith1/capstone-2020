@@ -1,8 +1,100 @@
+a {
+    color: #474e5d;
+}
+
+.bg-1 { 
+    background-color: #474e5d;
+    color: #ffffff;
+    padding-bottom: 30px;
+}
+
+.bg-4 {
+    background-color: #000000;
+    color: #ffffff;
+}
+
 body {
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  width: 650px;
+    font: 20px Montserrat, sans-serif;
+    line-height: 1.8;
+    color: #474e5d;
+}
+
+.btn {
+    background-color:#ffffff;
+    border-color: #ffffff;
+}
+
+#btn-color-main {
+    color: #474e5d;
+}
+
+.btn-outline-primary {
+    color: #474e5d;
+    background-color: transparent;
+    background-image: none;
+    border-color: #474e5d;
+}
+ 
+.btn-outline-primary:hover {
+    color: #ffffff;
+    background-color: #474e5d;
+    border-color: #474e5d;
+}
+ 
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:focus {
+    background-color:#474e5d;
+    border-color: #474e5d;
+}
+
+.container {
+    color: #474e5d;
+}
+
+.container-fluid {
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+.container-main {
+    color: #ffffff;
+}
+
+.container-sub {
+    color: #474e5d;
+}
+
+.g-signin2 {
+    display: inline-block;
+    padding-bottom: 60px; 
+}
+
+#g-theme-blue {
+    color: #4285f4;
+    display: inline-block;
+}
+
+#g-theme-green {
+    color: #0f9d58;
+    display: inline-block;
+}
+
+#g-theme-red {
+    color: #db4437;
+    display: inline-block;
+}
+
+#g-theme-yellow {
+    color: #f4b400;
+    display: inline-block;
+}
+
+.home-img {
+    width: 125px;
+    height: 125px;
 }
 
 iframe {
@@ -11,6 +103,44 @@ iframe {
     border: 0px;
 }
 
-.g-signin2 {
+.img-responsive {
+    display: inline;
+    width: 250px; 
+    height: 250px;
+}
+
+.margin {
+    margin-bottom: 30px;
+}
+
+.navbar {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+    font-size: 12px;
+    letter-spacing: 5px;
+}
+  
+.navbar-nav, li, a:hover {
+    color: #4285f4 !important;
+}
+
+.navbar-nav>li {
+    float: none;
+    text-align: center;
     display: inline-block;
+}
+
+p {
+    font-size: 16px;
+}
+
+.spacing-bottom {
+    padding-bottom: 40px;
+}
+
+.spacing-top {
+    padding-top: 45px;
 }

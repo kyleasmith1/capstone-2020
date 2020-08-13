@@ -30,6 +30,8 @@ import com.google.sps.data.RequestParser;
 @WebFilter("/auth-filter")
 public class AuthenticateFilter implements javax.servlet.Filter {
 
+    private static final String AUTH_HEADER_NAME = "id_token";
+
     public void init(FilterConfig filterConfig) throws ServletException{
         
     }
@@ -40,7 +42,7 @@ public class AuthenticateFilter implements javax.servlet.Filter {
 
         GoogleIdToken idToken = null;
         try {
-            idToken = RequestParser.verifyToken(req.getHeader("id_token"));
+            idToken = RequestParser.verifyToken(req.getHeader(AuthenticateFilter.AUTH_HEADER_NAME));
         } catch (GeneralSecurityException e){
             System.out.println("Cannot verify token: " + e);
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

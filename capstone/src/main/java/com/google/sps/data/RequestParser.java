@@ -34,27 +34,14 @@ public class RequestParser {
         return sb.toString();
     }
 
-    public static GoogleIdToken verifyTokenFromRequest(HttpServletRequest request) throws IOException, GeneralSecurityException {    
-        GoogleIdToken idToken = tokenVerifier().verify(RequestParser.parseStringFromRequest(request));
-        if (idToken != null){
-            return idToken;
-        } else {
-            throw new GeneralSecurityException();
-        }
-    }
-
-    public static GoogleIdToken verifyTokenFromRequestHeader(HttpServletRequest request, String headerName) throws IOException, GeneralSecurityException {    
-        GoogleIdToken idToken = tokenVerifier().verify(request.getHeader(headerName));
-        if (idToken != null){
-            return idToken;
-        } else {
-            throw new GeneralSecurityException();
-        }
-    }
- 
-    private static GoogleIdTokenVerifier tokenVerifier() {
-        return new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
+    public static GoogleIdToken verifyToken(String tokenToVerify) throws IOException, GeneralSecurityException {
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
             .setAudience(Collections.singletonList(Config.CLIENT_ID))
             .build();
+        GoogleIdToken idToken = verifier.verify(tokenToVerify);
+        if (idToken != null) {
+            return idToken;
+        }
+        throw new GeneralSecurityException();
     }
 }

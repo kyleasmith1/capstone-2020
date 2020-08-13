@@ -32,7 +32,7 @@ public class LoginServlet extends HttpServlet {
         GoogleIdToken idToken = null;
 
         try {
-           idToken = RequestParser.verifyTokenFromRequest(request);
+           idToken = RequestParser.verifyToken(RequestParser.parseStringFromRequest(request));
         } catch (GeneralSecurityException e){
             System.out.println("Cannot verify token: " + e);
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

@@ -22,7 +22,6 @@ function createClassroom(subject) {
 }
 
 function getClassrooms() {
-    console.log(ID_TOKEN);
     fetch("/dashboard", {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((classroomsList) => {
         const classroomElement = document.getElementById("classroom-container");
         classroomElement.innerHTML = "";

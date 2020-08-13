@@ -2,6 +2,7 @@ var CLIENT_ID = config.CLIENT_ID;
 var API_KEY = config.API_KEY;
 var DISCOVERY_DOCS = ["https://script.googleapis.com/$discovery/rest?version=v1"];
 var SCOPES = 'https://www.googleapis.com/auth/forms';
+var ID_TOKEN;
 
 var [dynamicButton, authorizeButton, signoutButton] = createDynamicSigninButton();
 document.currentScript.after(createAPIScriptElement());
@@ -59,6 +60,9 @@ function initClient() {
         discoveryDocs: DISCOVERY_DOCS,
         scope: SCOPES
     }).then(function () {
+        ID_TOKEN = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
+        window.dispatchEvent(new Event('authorized'));
+
         // Sign in and listen for sign-in state changes.
         updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
         gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);

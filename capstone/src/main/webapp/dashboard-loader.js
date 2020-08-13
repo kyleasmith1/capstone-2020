@@ -1,19 +1,18 @@
 document.body.prepend(dynamicButton);
-window.addEventListener('load', getClassrooms);
+window.addEventListener('authorized', getClassrooms);
 
 function createClassroom(subject) {
     var auth2 = gapi.auth2.getAuthInstance();
     var name = "";
     var email = "";
-    var id_token = "";
+
     if (auth2.isSignedIn.get()) {
         name = auth2.currentUser.get().getBasicProfile().getName();
         email = auth2.currentUser.get().getBasicProfile().getEmail();
-        id_token = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
     }
 
     var classroomData = JSON.stringify({ "nickname": name, "userId": email, "subject": subject });
-    fetch("/dashboard", {method: "POST", headers: new Headers({id_token}), body: classroomData}).then((resp) => {
+    fetch("/dashboard", {method: "POST", headers: new Headers({ID_TOKEN}), body: classroomData}).then((resp) => {
         if (resp.ok){
             getClassrooms();
         } else {
@@ -23,8 +22,8 @@ function createClassroom(subject) {
 }
 
 function getClassrooms() {
-    var id_token = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
-    fetch("/dashboard", {method: "GET", headers: new Headers({id_token})}).then(response => response.json()).then((classroomsList) => {
+    console.log(ID_TOKEN);
+    fetch("/dashboard", {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((classroomsList) => {
         const classroomElement = document.getElementById("classroom-container");
         classroomElement.innerHTML = "";
         for (classroom of classroomsList) {

@@ -2,7 +2,6 @@ package com.google.sps.filter;
  
 import java.io.IOException;
 import java.util.Enumeration;
- 
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
@@ -41,7 +40,7 @@ public class AuthenticateFilter implements javax.servlet.Filter {
 
         GoogleIdToken idToken = null;
         try {
-            idToken = RequestParser.verifyTokenFromRequestHeader(req, "id_token");
+            idToken = RequestParser.verifyToken(req.getHeader("id_token"));
         } catch (GeneralSecurityException e){
             System.out.println("Cannot verify token: " + e);
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -66,5 +65,4 @@ public class AuthenticateFilter implements javax.servlet.Filter {
     public void destroy() {
         
     }
-
 }

@@ -1,4 +1,5 @@
 document.body.prepend(dynamicButton);
+window.addEventListener('authorized', getForms);
 
 function callScriptFunction() {
     var scriptId = config.SCRIPT_ID;
@@ -22,7 +23,7 @@ function callScriptFunction() {
             // The API executed, but the script returned an error.
             console.log("Script error message: " + result.error);
         } else { 
-            return fetch("/form", {method: "POST", body: JSON.stringify(resp.result.response.result)});  
+            return fetch("/forms", {method: "POST", headers: new Headers({ID_TOKEN}), body: JSON.stringify(resp.result.response.result)});  
         }
     }).then((resp) => {
         if (resp.ok){
@@ -34,7 +35,7 @@ function callScriptFunction() {
 }
 
 function getForms() {
-    fetch("/form").then(response => response.json()).then((formsList) => {
+    fetch("/forms", {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((formsList) => {
         const formElement = document.getElementById("form-container");
         formElement.innerHTML = "";
         for (form of formsList) {

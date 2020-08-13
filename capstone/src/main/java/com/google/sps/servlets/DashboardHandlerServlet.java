@@ -6,6 +6,10 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Key;
 import java.util.List;
 import java.util.ArrayList;
 import com.google.gson.Gson;
@@ -28,8 +32,13 @@ public class DashboardHandlerServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         
+        Key userKey = ((User) request.getAttribute(User.USER_ENTITY_NAME)).getUserKey();
         // TODO: In a later CL we will make it so that it only gets User-specific classrooms
-        PreparedQuery results = datastore.prepare(new Query(Classroom.CLASSROOM_ENTITY_NAME));
+        // DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        Filter classroomFilter = new FilterPredicate(Classroom.TEACHER_PROPERTY_KEY, FilterOperator.EQUAL, userKey);
+        Query query = new Query(Classroom.CLASSROOM_ENTITY_NAME).setFilter(classroomFilter);
+        PreparedQuery results = datastore.prepare(query);
+        // PreparedQuery results = datastore.prepare(new Query(Classroom.CLASSROOM_ENTITY_NAME));
     
         ArrayList<Classroom> classrooms = new ArrayList<>();
         for(Entity entity : results.asIterable()){
@@ -45,12 +54,19 @@ public class DashboardHandlerServlet extends HttpServlet {
 
         JsonObject jobject = JsonParser.parseString(RequestParser.parseStringFromRequest(request)).getAsJsonObject();
 
-        // Creates a dummy user (real User implementation will be added in a future CL)
-        User teacher = new User(jobject.get(User.USER_ID_PROPERTY_KEY).getAsString(),
-            jobject.get(User.NICKNAME_PROPERTY_KEY).getAsString());
-        DatabaseService.save(teacher.getUserEntity());
+        System.out.println(request.getAttribute(User.USER_ENTITY_NAME));
 
-        Classroom classroom = new Classroom(teacher, jobject.get(Classroom.SUBJECT_PROPERTY_KEY).getAsString());
+        // DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        // Filter userFilter = new FilterPredicate(User.USER_ID_PROPERTY_KEY, FilterOperator.EQUAL, userId);
+        // Query query = new Query(User.USER_ENTITY_NAME).setFilter(userFilter);
+        // PreparedQuery results = datastore.prepare(query);
+
+        // // Creates a dummy user (real User implementation will be added in a future CL)
+        // User teacher = new User(jobject.get(User.USER_ID_PROPERTY_KEY).getAsString(),
+        //     jobject.get(User.NICKNAME_PROPERTY_KEY).getAsString());
+        // DatabaseService.save(teacher.getUserEntity());
+
+        Classroom classroom = new Classroom((User) request.getAttribute(User.USER_ENTITY_NAME), jobject.get(Classroom.SUBJECT_PROPERTY_KEY).getAsString());
         DatabaseService.save(classroom.getClassroomEntity());
 
         response.setStatus(HttpServletResponse.SC_OK);

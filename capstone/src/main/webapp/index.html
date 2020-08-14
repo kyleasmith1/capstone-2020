@@ -2,19 +2,71 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vollkorn:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <meta name="google-signin-client_id" content='1002281613740-gsmtp3tteqgtoformikuglhu8fr388et.apps.googleusercontent.com'>
   </head>
   <body>
-
-    <div id="content">
-      <h1>Login</h1>
-      <a href='#' onclick="signOut()">Sign Out</a>
-      <div class="g-signin2" data-onsuccess="onSignIn"></div>
+      
+    <nav class="navbar navbar-default">
+        <ul class="nav navbar-nav navbar-left">
+            <li><a class="navbar-brand" href="index.html">Rooms</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><button type="button" class="btn btn-default" onclick="window.location.href='https://github.com/googleinterns/step152-2020'">View On Github</button></li>
+        </ul>
+    </nav>
+ 
+    <div class="container-main container-fluid text-center bg-1 py-1">
+        <h1 class="margin spacing-top"> 
+            <div id="g-theme-blue">The</div> 
+            <div id="g-theme-green">New</div> 
+            Platform 
+            <div id="g-theme-red">for</div> 
+            <div id="g-theme-yellow">Learning</div>
+        </h1> 
+        <img class="img-responsive" src="/assets/soundwave.svg" alt="Sound Wave"> 
+        <p><h4>Serving 314 Users</h4></p>
+        <button type="button" class="btn" onclick="window.location.href='login.html'">Join Now</button>
+        <div class="spacing-bottom"></div>
     </div>
-
+ 
+    <div class ="container text-center"> 
+        <h1 class="spacing-top">Why Rooms?</h1>
+        <p> Rooms provides a platform where users can interact and share information that stimulates learning.</p>
+    </div>
+    
+    <div class="container-sub">
+        <div class ="container-fluid text-center">
+            <div class="row">
+                <div class="col-sm-4 text-center">
+                    <img class="home-img" src="/assets/bar-chart-line.svg" alt="">
+                    <h3>Analyze Progress</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='login.html'">Try It Out</button>
+                </div>
+                <div class="col-sm-4 text-center">
+                    <img class="home-img" src="/assets/people.svg" alt="">
+                    <h3>Advance Grouping Algorithm</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='login.html'">Try It Out</button>
+                </div>
+                <div class="col-sm-4 text-center">
+                    <img class="home-img" src="/assets/chat-right-dots.svg" alt="">
+                    <h3>Built-in Discussion</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='login.html'">Try It Out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="container-fluid bg-4 text-center">
+        <p>Site made by: Andrew Pham and Kyle Smith</p> 
+    </footer>
   </body>
 </html>

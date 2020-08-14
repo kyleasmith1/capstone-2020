@@ -1,8 +1,129 @@
+a {
+    color: #2c2c2c;
+}
+
+.bg {
+    background-color: #2c2c2c;
+}
+
+.bg-1 { 
+    background-color: #2c2c2c;
+    color: #ffffff;
+    padding-bottom: 30px;
+}
+
+.bg-4 {
+    background-color: #000000;
+    color: #ffffff;
+}
+
 body {
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  width: 650px;
+    font-family: 'Vollkorn', serif;
+    line-height: 1.8;
+    color: #2c2c2c;
+}
+
+.btn {
+    background-color:#ffffff;
+    border-color: #2c2c2c;
+}
+
+#btn-color-main {
+    color: #2c2c2c;
+}
+
+.btn-default:hover {
+    background-color: #2c2c2c;
+    border-color: #2c2c2c;
+    color: #ffffff;
+}
+
+.btn-outline-primary {
+    color: #2c2c2c;
+    background-color: transparent;
+    background-image: none;
+    border-color: #2c2c2c;
+}
+ 
+.btn-outline-primary:hover {
+    color: #ffffff;
+    background-color: #2c2c2c;
+    border-color: #2c2c2c;
+}
+ 
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:focus {
+    background-color:#2c2c2c;
+    border-color: #2c2c2c;
+}
+
+.btn-secondary {
+    background-color: #2c2c2c;
+    border-color: #2c2c2c;
+}
+
+.card {
+    width: 16rem;
+    border-radius: 10px;
+}
+
+.card:hover{
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}
+
+.container {
+    color: #2c2c2c;
+}
+
+.container-fluid {
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+.container-main {
+    color: #ffffff;
+}
+
+.container-sub {
+    color: #2c2c2c;
+}
+
+.g-signin2 {
+    display: inline-block;
+    padding-bottom: 60px; 
+}
+
+#g-theme-blue {
+    color: #4285f4;
+    display: inline-block;
+}
+
+#g-theme-green {
+    color: #0f9d58;
+    display: inline-block;
+}
+
+#g-theme-red {
+    color: #db4437;
+    display: inline-block;
+}
+
+#g-theme-yellow {
+    color: #f4b400;
+    display: inline-block;
+}
+
+h1 {
+    font-size: 350%;
+}
+
+.home-img {
+    width: 125px;
+    height: 125px;
 }
 
 iframe {
@@ -11,6 +132,90 @@ iframe {
     border: 0px;
 }
 
-.g-signin2 {
+.img-responsive {
+    display: inline;
+    width: 250px; 
+    height: 250px;
+}
+
+.jumbotron {
+    background-color: #ffffff
+}
+
+.jumbotron-fluid {
+    background-color: #474e5d;
+}
+
+li {
+    display: inline-block !important;
+}
+
+.margin {
+    margin-bottom: 30px;
+}
+
+.margin-left {
+    margin-left: 60px;
+}
+
+.margin-right {
+    margin-right: 15px;
+}
+
+.navbar {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+    font-size: 12px;
+    letter-spacing: 5px;
+}
+  
+.navbar-nav, li, a:hover {
+    color: #db4437 !important;
+}
+
+.navbar-nav>li {
+    float: none;
+    text-align: center;
     display: inline-block;
+}
+
+p {
+    font-size: 16px;
+}
+
+.small-text {
+    font-size: 11px;
+    padding-bottom: 0px;
+}
+
+.small-spacing-bottom {
+    padding-bottom: 6.5px;
+}
+
+.spacing-bottom {
+    padding-bottom: 45px;
+}
+
+.spacing-top {
+    padding-top: 45px;
+}
+
+.text-inline {
+    display: inline-block;
+}
+
+#text-login {
+    color: #474e5d;
+    font-size: 200%
+}
+ 
+.vertical-center {
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one :-)       */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

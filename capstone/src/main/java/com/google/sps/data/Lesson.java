@@ -17,7 +17,6 @@ public abstract class Lesson {
     public static final String ISDRAFT_PROPERTY_KEY = "isDraft";
     public static final String TITLE_PROPERTY_KEY = "title";
     public static final String DESCRIPTION_PROPERTY_KEY = "description";
-    // public static final String TAGS_PROPERTY_KEY = "tags";
     public static final String DATE_PROPERTY_KEY = "date";
 
     public static final String TYPE_FORM = "form";
@@ -76,28 +75,7 @@ public abstract class Lesson {
         this.entity.setProperty(Lesson.DESCRIPTION_PROPERTY_KEY, description);
     }
 
-    public Date getDate(){
+    public Date getDate() {
         return (Date) this.entity.getProperty(Lesson.DATE_PROPERTY_KEY);
     }
-
-    // public static Lesson serializeJson(String json) throws IOException {
-    //     JsonObject jobject = JsonParser.parseString(json).getAsJsonObject();
-
-    //     switch(jobject.get(Lesson.TYPE_PROPERTY_KEY).getAsString()) {
-    //         case Lesson.TYPE_FORM:
-    //             return new Form(jobject.get(Lesson.TITLE_PROPERTY_KEY).getAsString(), 
-    //                 jobject.get(Lesson.DESCRIPTION_PROPERTY_KEY).getAsString(), jobject.get(Form.EDIT_URL_PROPERTY_KEY).getAsString(),
-    //                 jobject.get(Form.URL_PROPERTY_KEY).getAsString());
-    //         // case Lesson.TYPE_VIDEO:
-    //         //     return;
-    //         // case Lesson.TYPE_IMAGE:
-    //         //     return;
-    //         // case Lesson.TYPE_CONTENT:
-    //         //     return;
-    //         default:
-    //             throw new IOException(); 
-    //     }
-        
-    // }
-
 }

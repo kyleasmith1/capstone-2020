@@ -24,10 +24,4 @@ public final class LessonTest {
     public void setUp() {
         helper.setUp();
     }
-
-    @After
-    public void tearDown() {
-        helper.tearDown();
-    }
-
 }

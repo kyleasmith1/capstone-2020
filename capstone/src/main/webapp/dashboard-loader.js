@@ -20,7 +20,7 @@ function getRooms() {
         const roomElement = document.getElementById("room-container");
         roomElement.innerHTML = "";
         for (room of roomsList) {
-            roomElement.appendChild(createClassroomDivElement(room));
+            roomElement.appendChild(createRoomDivElement(room));
         };
     });
 }
@@ -32,7 +32,7 @@ function createRoomDivElement(room) {
             <div class="card margin margin-left">
                 <img class="card-img-top" src="/assets/soundwave.svg" alt="Room Card">
                 <div class="card-body text-center">
-                    <h5 class="card-title">${room.entity.propertyMap.subject}</h5>
+                    <h5 class="card-title">${room.entity.propertyMap.title}</h5>
                     <a class="card-text small-text" href="#">Kyle Smith</a>
                     <div class="card-text small-text">Followers: Infinite</div>
                     <div class="card-text small-text">Tag(s): </div>

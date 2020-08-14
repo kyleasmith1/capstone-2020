@@ -1,5 +1,14 @@
 package com.google.sps.servlets;
 import java.io.IOException;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.Entity;
+import java.util.List;
+import java.util.ArrayList;
+import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -12,8 +21,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/dashboard-handler")
+@WebServlet("/dashboard")
 public class DashboardHandlerServlet extends HttpServlet {
+
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        
+        // TODO: In a later CL we will make it so that it only gets User-specific classrooms
+        PreparedQuery results = datastore.prepare(new Query(Classroom.CLASSROOM_ENTITY_NAME));
+    
+        ArrayList<Classroom> classrooms = new ArrayList<>();
+        for(Entity entity : results.asIterable()){
+            classrooms.add(new Classroom(entity));
+        }
+
+        response.setContentType("application/json");
+        response.getWriter().println(new Gson().toJson(classrooms));
+    }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {

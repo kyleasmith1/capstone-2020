@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet("/form-handler")
+@WebServlet("/form")
 public class FormHandlerServlet extends HttpServlet {
 
     @Override
@@ -28,7 +28,7 @@ public class FormHandlerServlet extends HttpServlet {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery results = datastore.prepare(new Query(Form.FORM_ENTITY_NAME));
         
-        List<Form> forms = new ArrayList<>();    
+        ArrayList<Form> forms = new ArrayList<>();    
         for(Entity entity : results.asIterable()){
             forms.add(new Form(entity));
         }

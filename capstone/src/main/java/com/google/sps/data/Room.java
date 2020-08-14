@@ -61,13 +61,13 @@ public class Room {
     }
     
     @SuppressWarnings("unchecked")
-    public void addStudent(User follower) {
+    public void addFollower(User follower) {
         List<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
         followers.add(follower.getUserKey());
     }
 
     @SuppressWarnings("unchecked")
-    public void removeStudent(User follower) {
+    public void removeFollower(User follower) {
         List<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
         followers.remove(follower.getUserKey());
     }

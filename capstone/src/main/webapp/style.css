@@ -1,14 +1,8 @@
 a {
-    color: #2c2c2c;
+    color: #2c2c2c
 }
 
-.bg-1 { 
-    background-color: #2c2c2c;
-    color: #ffffff;
-    padding-bottom: 30px;
-}
-
-.bg-4 {
+.bg-footer {
     background-color: #000000;
     color: #ffffff;
 }
@@ -24,27 +18,15 @@ body {
     border-color: #2c2c2c;
 }
 
-.btn-bg {
+.btn-default {
     background-color: #ffffff;
     border-color: #ffffff;
-    color: #2c2c2c;
-}
-
-#btn-color-main {
-    color: #2c2c2c;
-}
-
-.btn-default:hover {
-    background-color: #2c2c2c;
-    border-color: #2c2c2c;
-    color: #ffffff;
 }
 
 .btn-outline-primary {
-    color: #2c2c2c;
-    background-color: transparent;
-    background-image: none;
+  background-color: transparent;
     border-color: #2c2c2c;
+    color: #2c2c2c;
 }
  
 .btn-outline-primary:hover {
@@ -60,6 +42,7 @@ body {
 .btn-primary:focus {
     background-color:#2c2c2c;
     border-color: #2c2c2c;
+    color: #ffffff;
 }
 
 .btn-secondary {
@@ -77,16 +60,9 @@ body {
     box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
 }
 
-.container {
-    color: #2c2c2c;
-}
-
 .container-main {
+    background-color: #2c2c2c;
     color: #ffffff;
-}
-
-.container-sub {
-    color: #2c2c2c;
 }
 
 .g-signin2 {
@@ -118,7 +94,7 @@ h1 {
     font-size: 350%;
 }
 
-.home-img {
+.img-home {
     width: 125px;
     height: 125px;
 }
@@ -153,7 +129,7 @@ h1 {
     display: inline-block;
 }
 
-.padding-lg {
+.py-6 {
     padding-bottom: 45px;
     padding-top: 45px;
 }

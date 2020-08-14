@@ -48,6 +48,8 @@ public class DashboardHandlerServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+        System.out.println(RequestParser.parseStringFromRequest(request));
+
         JsonObject jobject = JsonParser.parseString(RequestParser.parseStringFromRequest(request)).getAsJsonObject();
 
         Room room = new Room((User) request.getAttribute(User.USER_ENTITY_NAME), 

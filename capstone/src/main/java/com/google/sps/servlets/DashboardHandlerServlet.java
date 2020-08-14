@@ -17,7 +17,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.sps.data.User;
-import com.google.sps.data.Classroom;
+import com.google.sps.data.Room;
 import com.google.sps.service.DatabaseService;
 import com.google.sps.data.RequestParser;
 import javax.servlet.annotation.WebServlet;
@@ -32,13 +32,13 @@ public class DashboardHandlerServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Key userKey = ((User) request.getAttribute(User.USER_ENTITY_NAME)).getUserKey();
-        Filter classroomFilter = new FilterPredicate(Classroom.TEACHER_PROPERTY_KEY, FilterOperator.EQUAL, userKey);
-        Query query = new Query(Classroom.CLASSROOM_ENTITY_NAME).setFilter(classroomFilter);
+        Filter roomFilter = new FilterPredicate(Room.HOST_PROPERTY_KEY, FilterOperator.EQUAL, userKey);
+        Query query = new Query(Room.ROOM_ENTITY_NAME).setFilter(roomFilter);
         PreparedQuery results = datastore.prepare(query);
     
-        ArrayList<Classroom> classrooms = new ArrayList<>();
+        ArrayList<Room> classrooms = new ArrayList<>();
         for(Entity entity : results.asIterable()){
-            classrooms.add(new Classroom(entity));
+            classrooms.add(new Room(entity));
         }
 
         response.setContentType("application/json");
@@ -50,8 +50,9 @@ public class DashboardHandlerServlet extends HttpServlet {
 
         JsonObject jobject = JsonParser.parseString(RequestParser.parseStringFromRequest(request)).getAsJsonObject();
 
-        Classroom classroom = new Classroom((User) request.getAttribute(User.USER_ENTITY_NAME), jobject.get(Classroom.SUBJECT_PROPERTY_KEY).getAsString());
-        DatabaseService.save(classroom.getClassroomEntity());
+        Room classroom = new Room((User) request.getAttribute(User.USER_ENTITY_NAME), 
+            jobject.get(Room.TITLE_PROPERTY_KEY).getAsString(), jobject.get(Room.DESCRIPTION_PROPERTY_KEY).getAsString());
+        DatabaseService.save(classroom.getRoomEntity());
 
         response.setStatus(HttpServletResponse.SC_OK);
     }

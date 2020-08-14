@@ -18,11 +18,11 @@ function createDynamicSigninButton() {
 }
 
 function createLogoutButton(){
-    const logoutButtonElement = document.createElement('button');
-    logoutButtonElement.id = 'signout_button';
-    logoutButtonElement.style.display = "block";
-    logoutButtonElement.innerText = "Sign Out";
-    return logoutButtonElement;
+    let domparser = new DOMParser();
+    let doc = domparser.parseFromString(`
+            <button type="button" class="btn btn-default" id="signout_button">Sign Out</button>
+            `, "text/html");
+    return doc.body;
 }
 
 function createAPIScriptElement() {
@@ -73,4 +73,3 @@ function updateSigninStatus(isSignedIn) {
         window.location.href = "index.html";
     }
 }
-

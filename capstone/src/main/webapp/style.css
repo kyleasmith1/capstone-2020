@@ -28,6 +28,12 @@ body {
     border-color: #2c2c2c;
 }
 
+.btn-bg {
+    background-color: #ffffff;
+    border-color: #ffffff;
+    color: #2c2c2c;
+}
+
 #btn-color-main {
     color: #2c2c2c;
 }

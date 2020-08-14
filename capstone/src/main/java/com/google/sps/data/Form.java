@@ -27,7 +27,7 @@ public class Form extends Lesson {
         return (String) super.entity.getProperty(Form.URL_PROPERTY_KEY);
     }
 
-    public Entity getLessonEntity() {
+    public Entity getFormEntity() {
         return super.entity;
     }
 }

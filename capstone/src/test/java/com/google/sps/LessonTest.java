@@ -10,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.google.sps.data.Form;
 
 @RunWith(JUnit4.class)
 public final class LessonTest {

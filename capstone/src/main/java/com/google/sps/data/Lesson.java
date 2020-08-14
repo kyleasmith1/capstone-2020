@@ -20,4 +20,11 @@ public abstract class Lesson {
         this.delegate = delegate;
     }
 
+    public Lesson(String title, String description) {
+        this.delegate = new Entity(Lesson.LESSON_ENTITY_NAME);
+        this.delegate.setProperty(Lesson.ISDRAFT_PROPERTY_KEY, false);
+        this.delegate.setProperty(User.NICKNAME_PROPERTY_KEY, title);
+        this.delegate.setProperty(User.USER_ID_PROPERTY_KEY, description);
+    }
+
 }

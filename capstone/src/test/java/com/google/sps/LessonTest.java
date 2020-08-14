@@ -30,11 +30,4 @@ public final class LessonTest {
         helper.tearDown();
     }
 
-    @Test
-    public void alwaysPass() {
-        Form form = new Form("e", "a");
-
-        Assert.assertEquals(1, 1);
-    }
-
 }

@@ -12,7 +12,6 @@ public class Room {
     public static final String DESCRIPTION_PROPERTY_KEY = "description";
     public static final String HOST_PROPERTY_KEY = "host";
     public static final String FOLLOWERS_PROPERTY_KEY = "followers";
-    public static final String FORMS_PROPERTY_KEY = "forms";
     
 
     private Entity entity;
@@ -27,7 +26,6 @@ public class Room {
         this.entity.setProperty(Room.DESCRIPTION_PROPERTY_KEY, description);
         this.entity.setProperty(Room.HOST_PROPERTY_KEY, host.getUserKey());
         this.entity.setProperty(Room.FOLLOWERS_PROPERTY_KEY, new ArrayList<>());
-        this.entity.setProperty(Room.FORMS_PROPERTY_KEY, new ArrayList<>());
     }
 
     public Entity getRoomEntity() {
@@ -54,11 +52,6 @@ public class Room {
     public List<Key> getAllFollowers() {
         return (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
     }
-
-    @SuppressWarnings("unchecked")
-    public List<Key> getAllForms() { 
-        return (ArrayList<Key>) this.entity.getProperty(Room.FORMS_PROPERTY_KEY); 
-    }
     
     @SuppressWarnings("unchecked")
     public void addStudent(User follower) {
@@ -70,18 +63,6 @@ public class Room {
     public void removeStudent(User follower) {
         List<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
         followers.remove(follower.getUserKey());
-    }
-
-    @SuppressWarnings("unchecked")
-    public void addForm(Form form) {
-        List<Key> forms = (ArrayList<Key>) this.entity.getProperty(Room.FORMS_PROPERTY_KEY);
-        forms.add(form.getFormKey());
-    }
-
-    @SuppressWarnings("unchecked")
-    public void removeForm(Form form) {
-        List<Key> forms = (ArrayList<Key>) this.entity.getProperty(Room.FORMS_PROPERTY_KEY);
-        forms.remove(form.getFormKey());
     }
 
     @SuppressWarnings("unchecked")

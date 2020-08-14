@@ -25,7 +25,7 @@ public abstract class Lesson {
     public static final String TYPE_IMAGE = "image";
     public static final String TYPE_CONTENT = "content";          
     
-    private Entity entity;
+    protected Entity entity;
 
     public Lesson(Entity entity) {
         this.entity = entity;

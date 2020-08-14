@@ -36,13 +36,13 @@ public class DashboardHandlerServlet extends HttpServlet {
         Query query = new Query(Room.ROOM_ENTITY_NAME).setFilter(roomFilter);
         PreparedQuery results = datastore.prepare(query);
     
-        ArrayList<Room> classrooms = new ArrayList<>();
+        ArrayList<Room> rooms = new ArrayList<>();
         for(Entity entity : results.asIterable()){
-            classrooms.add(new Room(entity));
+            rooms.add(new Room(entity));
         }
 
         response.setContentType("application/json");
-        response.getWriter().println(new Gson().toJson(classrooms));
+        response.getWriter().println(new Gson().toJson(rooms));
     }
 
     @Override
@@ -50,9 +50,9 @@ public class DashboardHandlerServlet extends HttpServlet {
 
         JsonObject jobject = JsonParser.parseString(RequestParser.parseStringFromRequest(request)).getAsJsonObject();
 
-        Room classroom = new Room((User) request.getAttribute(User.USER_ENTITY_NAME), 
+        Room room = new Room((User) request.getAttribute(User.USER_ENTITY_NAME), 
             jobject.get(Room.TITLE_PROPERTY_KEY).getAsString(), jobject.get(Room.DESCRIPTION_PROPERTY_KEY).getAsString());
-        DatabaseService.save(classroom.getRoomEntity());
+        DatabaseService.save(room.getRoomEntity());
 
         response.setStatus(HttpServletResponse.SC_OK);
     }

@@ -25,7 +25,7 @@ public class Room {
         this.entity.setProperty(Room.TITLE_PROPERTY_KEY, title);
         this.entity.setProperty(Room.DESCRIPTION_PROPERTY_KEY, description);
         this.entity.setProperty(Room.HOST_PROPERTY_KEY, host.getUserKey());
-        this.entity.setProperty(Room.FOLLOWERS_PROPERTY_KEY, new ArrayList<>());
+        this.entity.setProperty(Room.FOLLOWERS_PROPERTY_KEY, null);
     }
 
     public Entity getRoomEntity() {
@@ -54,13 +54,16 @@ public class Room {
     }
     
     @SuppressWarnings("unchecked")
-    public void addStudent(User follower) {
+    public void addFollower(User follower) {
         List<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
+        if(followers == null){
+            followers = new ArrayList<>();
+        }
         followers.add(follower.getUserKey());
     }
 
     @SuppressWarnings("unchecked")
-    public void removeStudent(User follower) {
+    public void removeFollower(User follower) {
         List<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
         followers.remove(follower.getUserKey());
     }

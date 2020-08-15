@@ -19,17 +19,16 @@ public class Room {
     public Room(Entity entity) {
         this.entity = entity;
     }
-
+    // add get/set/add Lessons, get/set/add Tags, get/set/add Followers
     public Room(User host, String title, String description) { 
         this.entity = new Entity(Room.ROOM_ENTITY_NAME);
         this.entity.setProperty(Room.TITLE_PROPERTY_KEY, title);
         this.entity.setProperty(Room.DESCRIPTION_PROPERTY_KEY, description);
         this.entity.setProperty(Room.HOST_PROPERTY_KEY, host.getUserKey());
-        this.entity.setProperty(Room.FOLLOWERS_PROPERTY_KEY, null);
     }
 
     public void setTagList() {
-        this.entity.setProperty(Lesson.TAG_LIST_PROPERTY_KEY, Tag.all);
+        this.entity.setProperty(Lesson.TAG_LIST_PROPERTY_KEY, Tag.all());
     }
 
     public Key getHost() {

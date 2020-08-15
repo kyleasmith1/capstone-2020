@@ -44,7 +44,7 @@ public abstract class Lesson {
     }
 
     public void setTagList() {
-        this.entity.setProperty(Lesson.TAG_LIST_PROPERTY_KEY, Tag.all);
+        this.entity.setProperty(Lesson.TAG_LIST_PROPERTY_KEY, Tag.all());
     }
 
     public String getType() {

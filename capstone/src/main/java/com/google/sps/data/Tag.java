@@ -1,8 +1,14 @@
 package com.google.sps.data;
 import java.util.List;
 import java.util.Arrays;
+import java.util.ArrayList;
 
 public final class Tag {
+
+    private Tag() {
+        
+    }
+    
     private static final String TAG_MATH = "Math";
     private static final String TAG_ENGLISH = "English";
     private static final String TAG_SCIENCE = "Science";
@@ -53,61 +59,6 @@ public final class Tag {
     private static final String TAG_FIVE_MINUTES = "5:00";
     private static final String TAG_TEN_MINUTES = "10:00";
     private static final String TAG_TWENTY_MINUTES = "20:00+";
-
-    private Tag() {
-        
-    }
-
-    public static final List<String> all = Arrays.asList(
-        Tag.TAG_MATH,
-        Tag.TAG_ENGLISH,
-        Tag.TAG_SCIENCE,
-        Tag.TAG_HISTORY,
-        Tag.TAG_COOKING,
-        Tag.TAG_FITNESS,
-        Tag.TAG_JAZZ,
-        Tag.TAG_CLASSICAL,
-        Tag.TAG_ROCK,
-        Tag.TAG_LITERATURE,
-        Tag.TAG_READING,
-        Tag.TAG_MUSIC,
-        Tag.TAG_TECHNOLOGY,
-        Tag.TAG_RANDOM,
-        Tag.TAG_MISCELLANEOUS,
-        Tag.TAG_RELIGIOUS,
-        Tag.TAG_ALTERNATIVE,
-        Tag.TAG_K_POP,
-        Tag.TAG_HIP_HOP,
-        Tag.TAG_ANCIENT,
-        Tag.TAG_SPACE,
-        Tag.TAG_BRAIN_TEASER,
-        Tag.TAG_ROMANTIC,
-        Tag.TAG_WARNING,
-        Tag.TAG_COMEDY,
-        Tag.TAG_COMIC,
-        Tag.TAG_ART,
-        Tag.TAG_BAKING,
-        Tag.TAG_DANCING,
-        Tag.TAG_CHALLENGE,
-        Tag.TAG_BODY_BUILDING,
-        Tag.TAG_DIETING,
-        Tag.TAG_DESSERTS,
-        Tag.TAG_ADVENTURE,
-        Tag.TAG_EXPLORATION,
-        Tag.TAG_MEDITATION,
-        Tag.TAG_NEWS,
-        Tag.TAG_TIPS,
-        Tag.TAG_EASY_DIFFICULTY,
-        Tag.TAG_MEDIUM_DIFFICULTY,
-        Tag.TAG_HARD_DIFFICULTY,
-        Tag.TAG_ONE_MINUTE,
-        Tag.TAG_TWO_MINUTES,
-        Tag.TAG_THREE_MINUTES,
-        Tag.TAG_FOUR_MINUTES,
-        Tag.TAG_FIVE_MINUTES,
-        Tag.TAG_TEN_MINUTES,
-        Tag.TAG_TWENTY_MINUTES
-    );
 
     public static final List<String> category = Arrays.asList(
         Tag.TAG_MATH,
@@ -165,4 +116,11 @@ public final class Tag {
         Tag.TAG_TEN_MINUTES,
         Tag.TAG_TWENTY_MINUTES
     );
+
+    public static List<String> all() {
+        List<String> tags = new ArrayList(Tag.category);
+        tags.addAll(Tag.difficulty);
+        tags.addAll(Tag.time);
+        return tags;
+    }
 }

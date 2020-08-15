@@ -19,8 +19,8 @@ public class DatabaseService {
         return new Room(DatastoreServiceFactory.getDatastoreService().get(key));  
     }
 
-    public static Lesson getLesson(Key key) throws EntityNotFoundException {
-        return new Lesson(DatastoreServiceFactory.getDatastoreService().get(key));
+    public static Survey getSurvey(Key key) throws EntityNotFoundException {
+        return new Survey(DatastoreServiceFactory.getDatastoreService().get(key));
     }
 
     public static void save(Entity entity) {

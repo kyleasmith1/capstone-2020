@@ -7,6 +7,8 @@ import com.google.sps.data.Lesson;
 
 public class Image extends Lesson {
 
+    public static final String URL_PROPERTY_KEY = "url";
+
     public Image(Entity entity) {
         super(entity);
     }

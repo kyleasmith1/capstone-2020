@@ -27,9 +27,6 @@ public abstract class Lesson {
     protected static final String TYPE_IMAGE = "image";
     protected static final String TYPE_CONTENT = "content";
     protected static final String TYPE_TAG = "tag";  
-
-    protected static final String URL_PROPERTY_KEY = "url";
-    protected static final String EDIT_URL_PROPERTY_KEY = "editUrl";
  
     protected Entity entity;
 

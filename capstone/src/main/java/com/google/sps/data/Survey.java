@@ -7,6 +7,9 @@ import com.google.sps.data.Lesson;
 
 public class Survey extends Lesson {
 
+    public static final String URL_PROPERTY_KEY = "url";
+    public static final String EDIT_URL_PROPERTY_KEY = "editUrl";
+
     public Survey(Entity entity) {
         super(entity);
     }

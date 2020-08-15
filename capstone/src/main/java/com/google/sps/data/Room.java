@@ -12,7 +12,7 @@ public class Room {
     public static final String DESCRIPTION_PROPERTY_KEY = "description";
     public static final String HOST_PROPERTY_KEY = "host";
     public static final String FOLLOWERS_PROPERTY_KEY = "followers";
-    
+    public static final String TAG_LIST_PROPERTY_KEY = "tagList";
 
     private Entity entity;
 
@@ -28,8 +28,8 @@ public class Room {
         this.entity.setProperty(Room.FOLLOWERS_PROPERTY_KEY, null);
     }
 
-    public Entity getRoomEntity() {
-        return this.entity;
+    public void setTagList() {
+        this.entity.setProperty(Lesson.TAG_LIST_PROPERTY_KEY, Tag.all);
     }
 
     public Key getHost() {
@@ -72,5 +72,9 @@ public class Room {
     public boolean isFollowerInClass(User follower) {
         List<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
         return (!(followers.lastIndexOf(follower.getUserKey()) == -1));
+    }
+
+    public Entity getRoomEntity() {
+        return this.entity;
     }
 }

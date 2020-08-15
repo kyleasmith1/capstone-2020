@@ -4,26 +4,33 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Entity;
 import com.google.sps.service.DatabaseService;
 import java.util.Date;
-import com.google.sps.data.Form;
+import com.google.sps.data.Survey;
 import java.io.IOException;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import java.util.List;
+import java.util.ArrayList;
 
 public abstract class Lesson {
 
-    public static final String LESSON_ENTITY_NAME = "Lesson";
-    public static final String TYPE_PROPERTY_KEY = "type";
-    public static final String ISDRAFT_PROPERTY_KEY = "isDraft";
-    public static final String TITLE_PROPERTY_KEY = "title";
-    public static final String DESCRIPTION_PROPERTY_KEY = "description";
-    public static final String DATE_PROPERTY_KEY = "date";
+    protected static final String LESSON_ENTITY_NAME = "Lesson";
+    protected static final String TYPE_PROPERTY_KEY = "type";
+    protected static final String ISDRAFT_PROPERTY_KEY = "isDraft";
+    protected static final String TITLE_PROPERTY_KEY = "title";
+    protected static final String DESCRIPTION_PROPERTY_KEY = "description";
+    protected static final String DATE_PROPERTY_KEY = "date";
+    protected static final String TAG_LIST_PROPERTY_KEY = "tagList";
 
-    public static final String TYPE_FORM = "form";
-    public static final String TYPE_VIDEO = "video";
-    public static final String TYPE_IMAGE = "image";
-    public static final String TYPE_CONTENT = "content";          
-    
+    protected static final String TYPE_SURVEY = "survey";
+    protected static final String TYPE_VIDEO = "video";
+    protected static final String TYPE_IMAGE = "image";
+    protected static final String TYPE_CONTENT = "content";
+    protected static final String TYPE_TAG = "tag";  
+
+    protected static final String URL_PROPERTY_KEY = "url";
+    protected static final String EDIT_URL_PROPERTY_KEY = "editUrl";
+ 
     protected Entity entity;
 
     public Lesson(Entity entity) {
@@ -39,8 +46,8 @@ public abstract class Lesson {
         this.entity.setProperty(Lesson.DATE_PROPERTY_KEY, new Date());
     }
 
-    public Entity getLessonEntity() {
-        return this.entity;
+    public void setTagList() {
+        this.entity.setProperty(Lesson.TAG_LIST_PROPERTY_KEY, Tag.all);
     }
 
     public String getType() {
@@ -77,5 +84,9 @@ public abstract class Lesson {
 
     public Date getDate() {
         return (Date) this.entity.getProperty(Lesson.DATE_PROPERTY_KEY);
+    }
+
+    public Entity getLessonEntity() {
+        return this.entity;
     }
 }

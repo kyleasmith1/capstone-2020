@@ -2,17 +2,11 @@ package com.google.sps.data;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Entity;
-import com.google.sps.service.DatabaseService;
 import java.util.Date;
-import java.io.IOException;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import java.util.List;
 import java.util.ArrayList;
 
 public abstract class Lesson {
-
     protected static final String LESSON_ENTITY_NAME = "Lesson";
     protected static final String TYPE_PROPERTY_KEY = "type";
     protected static final String ISDRAFT_PROPERTY_KEY = "isDraft";

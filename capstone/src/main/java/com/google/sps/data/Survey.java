@@ -2,7 +2,6 @@ package com.google.sps.data;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Entity;
-import com.google.sps.service.DatabaseService;
 import com.google.sps.data.Lesson;
 
 public class Survey extends Lesson {

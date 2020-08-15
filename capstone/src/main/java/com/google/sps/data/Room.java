@@ -4,7 +4,6 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Entity;
 import java.util.ArrayList;
 import java.util.List;
-import com.google.sps.service.DatabaseService;
 
 public class Room {
     public static final String ROOM_ENTITY_NAME = "Room";

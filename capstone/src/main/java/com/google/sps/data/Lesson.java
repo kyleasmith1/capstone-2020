@@ -43,7 +43,7 @@ public abstract class Lesson {
         this.entity.setProperty(Lesson.DATE_PROPERTY_KEY, new Date());
     }
 
-    public void setTagList() {
+    public void setTags() {
         this.entity.setProperty(Lesson.TAG_LIST_PROPERTY_KEY, Tag.all());
     }
 
@@ -85,5 +85,9 @@ public abstract class Lesson {
 
     public Entity getLessonEntity() {
         return this.entity;
+    }
+
+    public Key getLessonKey() {
+        return this.entity.getKey();
     }
 }

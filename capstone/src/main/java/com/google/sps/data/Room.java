@@ -13,13 +13,14 @@ public class Room {
     public static final String HOST_PROPERTY_KEY = "host";
     public static final String FOLLOWERS_PROPERTY_KEY = "followers";
     public static final String TAG_LIST_PROPERTY_KEY = "tagList";
+    public static final String LESSONS_PROPERTY_KEY = "lessons";
 
     private Entity entity;
 
     public Room(Entity entity) {
         this.entity = entity;
     }
-    // add get/set/add Lessons, get/set/add Tags, get/set/add Followers
+
     public Room(User host, String title, String description) { 
         this.entity = new Entity(Room.ROOM_ENTITY_NAME);
         this.entity.setProperty(Room.TITLE_PROPERTY_KEY, title);
@@ -27,7 +28,7 @@ public class Room {
         this.entity.setProperty(Room.HOST_PROPERTY_KEY, host.getUserKey());
     }
 
-    public void setTagList() {
+    public void setTags() {
         this.entity.setProperty(Lesson.TAG_LIST_PROPERTY_KEY, Tag.all());
     }
 
@@ -47,24 +48,58 @@ public class Room {
         this.entity.setProperty(Room.TITLE_PROPERTY_KEY, title);
     }
 
+    public String getDescription() {
+        return (String) this.entity.getProperty(Room.DESCRIPTION_PROPERTY_KEY);
+    }
+
+    public void setDescription(String description) {
+        this.entity.setProperty(Room.DESCRIPTION_PROPERTY_KEY, description);
+    }
+
     @SuppressWarnings("unchecked")
-    public List<Key> getAllFollowers() {
+    public List<Key> getAllFollowers() { // For Andrew: Your data model showed these as actual User objects. Was that on purpose?
+        if (this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY) == null) {
+            return new ArrayList<Key>();
+        }
         return (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
     }
-    
+
     @SuppressWarnings("unchecked")
     public void addFollower(User follower) {
-        List<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
-        if(followers == null){
-            followers = new ArrayList<>();
+        if (this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY) == null) {
+            this.entity.setProperty(Room.FOLLOWERS_PROPERTY_KEY, new ArrayList<Key>());
         }
+        ArrayList<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
         followers.add(follower.getUserKey());
     }
 
     @SuppressWarnings("unchecked")
     public void removeFollower(User follower) {
-        List<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
+        ArrayList<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
         followers.remove(follower.getUserKey());
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Key> getAllLessons() { // For Andrew: Your data model showed these as actual Lesson objects. Was that on purpose?
+        if (this.entity.getProperty(Room.LESSONS_PROPERTY_KEY) == null) {
+            return new ArrayList<Key>();
+        }
+        return (ArrayList<Key>) this.entity.getProperty(Room.LESSONS_PROPERTY_KEY); 
+    }
+    
+    @SuppressWarnings("unchecked")
+    public void addLesson(Lesson lesson) {
+        if (this.entity.getProperty(Room.LESSONS_PROPERTY_KEY) == null) {
+            this.entity.setProperty(Room.LESSONS_PROPERTY_KEY, new ArrayList<Key>());
+        }
+        ArrayList<Key> lessons = (ArrayList<Key>) this.entity.getProperty(Room.LESSONS_PROPERTY_KEY);
+        lessons.add(lesson.getLessonKey());
+    }
+
+    @SuppressWarnings("unchecked")
+    public void removeLesson(Lesson lesson) {
+        ArrayList<Key> lessons = (ArrayList<Key>) this.entity.getProperty(Room.LESSONS_PROPERTY_KEY);
+        lessons.remove(lesson.getLessonKey());
     }
 
     @SuppressWarnings("unchecked")
@@ -75,5 +110,9 @@ public class Room {
 
     public Entity getRoomEntity() {
         return this.entity;
+    }
+
+    public Key getRoomKey() {
+        return this.entity.getKey();
     }
 }

@@ -4,7 +4,6 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Entity;
 import com.google.sps.service.DatabaseService;
 import java.util.Date;
-import com.google.sps.data.Survey;
 import java.io.IOException;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonElement;

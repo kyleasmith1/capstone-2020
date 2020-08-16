@@ -9,6 +9,7 @@ import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.sps.data.User;
 import com.google.sps.data.Form;
 import com.google.sps.data.Room;
+import com.google.sps.data.Lesson;
 
 public class DatabaseService {
     public static User getUser(Key key) throws EntityNotFoundException { 
@@ -20,6 +21,10 @@ public class DatabaseService {
     }
 
     public static Form getForm(Key key) throws EntityNotFoundException {
+        return new Form(DatastoreServiceFactory.getDatastoreService().get(key));
+    }
+
+    public static Lesson getLesson(Key key) throws EntityNotFoundException {
         return new Form(DatastoreServiceFactory.getDatastoreService().get(key));
     }
 

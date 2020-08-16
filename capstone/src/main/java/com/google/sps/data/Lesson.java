@@ -78,4 +78,26 @@ public abstract class Lesson {
     public Date getDate() {
         return (Date) this.entity.getProperty(Lesson.DATE_PROPERTY_KEY);
     }
+
+    public static Lesson deserializeJson(String json) throws IOException {
+        JsonObject jobject = JsonParser.parseString(json).getAsJsonObject();
+
+        switch(jobject.get(Lesson.TYPE_PROPERTY_KEY).getAsString()) {
+            case Lesson.TYPE_FORM:
+                return new Form(jobject.get(Lesson.TITLE_PROPERTY_KEY).getAsString(), 
+                    jobject.get(Lesson.DESCRIPTION_PROPERTY_KEY).getAsString(), jobject.get(Form.EDIT_URL_PROPERTY_KEY).getAsString(),
+                    jobject.get(Form.URL_PROPERTY_KEY).getAsString());
+            default:
+                throw new IOException(); 
+        }
+    }
+
+    public static Lesson serializeJson(Entity entity) throws IOException {
+        switch((String) entity.getProperty(Lesson.TYPE_PROPERTY_KEY)) {
+            case Lesson.TYPE_FORM:
+                return new Form(entity);
+            default:
+                throw new IOException(); 
+        }
+    }
 }

@@ -124,4 +124,8 @@ public final class Tag {
         tags.addAll(Tag.time);
         return tags;
     }
+
+    public static String get(String tag) {
+        return tag;
+    }
 }

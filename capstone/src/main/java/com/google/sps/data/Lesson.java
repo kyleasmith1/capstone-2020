@@ -7,21 +7,21 @@ import java.util.List;
 import java.util.ArrayList;
 
 public abstract class Lesson {
-    protected static final String LESSON_ENTITY_NAME = "Lesson";
-    protected static final String TYPE_PROPERTY_KEY = "type";
-    protected static final String ISDRAFT_PROPERTY_KEY = "isDraft";
-    protected static final String TITLE_PROPERTY_KEY = "title";
-    protected static final String DESCRIPTION_PROPERTY_KEY = "description";
-    protected static final String DATE_PROPERTY_KEY = "date";
-    protected static final String TAG_LIST_PROPERTY_KEY = "tagList";
+    public static final String LESSON_ENTITY_NAME = "Lesson";
+    public static final String TYPE_PROPERTY_KEY = "type";
+    public static final String ISDRAFT_PROPERTY_KEY = "isDraft";
+    public static final String TITLE_PROPERTY_KEY = "title";
+    public static final String DESCRIPTION_PROPERTY_KEY = "description";
+    public static final String DATE_PROPERTY_KEY = "date";
+    public static final String TAGS_PROPERTY_KEY = "tags";
 
-    protected static final String TYPE_SURVEY = "survey";
-    protected static final String TYPE_VIDEO = "video";
-    protected static final String TYPE_IMAGE = "image";
-    protected static final String TYPE_CONTENT = "content";
-    protected static final String TYPE_TAG = "tag";  
+    public static final String TYPE_SURVEY = "survey";
+    public static final String TYPE_VIDEO = "video";
+    public static final String TYPE_IMAGE = "image";
+    public static final String TYPE_CONTENT = "content";
+    public static final String TYPE_TAG = "tag";  
  
-    protected Entity entity;
+    public Entity entity;
 
     public Lesson(Entity entity) {
         this.entity = entity;
@@ -36,8 +36,27 @@ public abstract class Lesson {
         this.entity.setProperty(Lesson.DATE_PROPERTY_KEY, new Date());
     }
 
-    public void setTags() {
-        this.entity.setProperty(Lesson.TAG_LIST_PROPERTY_KEY, Tag.all());
+    @SuppressWarnings("unchecked")
+    public void addTag(String tag) {
+        if (this.entity.getProperty(Lesson.TAGS_PROPERTY_KEY) == null) {
+            this.entity.setProperty(Lesson.TAGS_PROPERTY_KEY, new ArrayList<>());
+        }
+        List<String> tags = (ArrayList<String>) this.entity.getProperty(Lesson.TAGS_PROPERTY_KEY);
+        tags.add(tag);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public void removeTag(String tag) {
+        ArrayList<String> tags = (ArrayList<String>) this.entity.getProperty(Lesson.TAGS_PROPERTY_KEY);
+        tags.remove(tag);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<String> getAllTags() { 
+        if (this.entity.getProperty(Lesson.TAGS_PROPERTY_KEY) == null) {
+            return new ArrayList<String>();
+        }
+        return (ArrayList<String>) this.entity.getProperty(Lesson.TAGS_PROPERTY_KEY);
     }
 
     public String getType() {

@@ -52,7 +52,7 @@ function initClient() {
         scope: SCOPES
     }).then(function () {
         // Set ID_TOKEN and dispatch event
-        ID_TOKEN = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
+        window.ID_TOKEN = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
         window.dispatchEvent(new Event('authorized'));
 
         // Sign in and listen for sign-in state changes.

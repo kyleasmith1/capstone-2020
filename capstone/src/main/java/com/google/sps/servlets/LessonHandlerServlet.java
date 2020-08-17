@@ -17,14 +17,8 @@ public class LessonHandlerServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        // JsonObject jobject = JsonParser.parseString(RequestParser.parseStringFromRequest(request)).getAsJsonObject();
-
-        // System.out.println(jobject);
-
-        // Lesson lesson = new Lesson(jobject.get(Lesson.TITLE_PROPERTY_KEY).getAsString(), jobject.get(Lesson.DESCRIPTION_PROPERTY_KEY).getAsString());
-        // DatabaseService.save(room.getRoomEntity());
-
-        // response.setStatus(HttpServletResponse.SC_OK);
+        Lesson lesson = Lesson.deserializeJson(RequestParser.parseStringFromRequest(request));
+        DatabaseService.save(lesson.getLessonEntity());
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 }

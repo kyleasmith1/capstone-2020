@@ -12,6 +12,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   </head>
   <body>
+      
+    <!-- UI updates in a future PR, this was created so that I could get a basic structure-->
 
     <nav class="navbar navbar-default">
         <ul class="nav navbar-nav navbar-left">
@@ -25,10 +27,10 @@
                             <img src="/assets/plus.svg"> Create
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                            <button type="button" class="dropdown-item btn-default" data-toggle="modal" data-target="#ModalCenter">Content</button>
-                            <button type="button" class="dropdown-item btn-default" data-toggle="modal" data-target="#ModalCenter">Form</button>
-                            <button type="button" class="dropdown-item btn-default" data-toggle="modal" data-target="#ModalCenter">Image</button>
-                            <button type="button" class="dropdown-item btn-default" data-toggle="modal" data-target="#ModalCenter">Video</button>
+                            <button type="button" class="dropdown-item btn-default" data-toggle="modal" data-target="#ModalCenterContent">Content</button>
+                            <button type="button" class="dropdown-item btn-default" data-toggle="modal" data-target="#ModalCenterForm">Form</button>
+                            <button type="button" class="dropdown-item btn-default" data-toggle="modal" data-target="#ModalCenterImage">Image</button>
+                            <button type="button" class="dropdown-item btn-default" data-toggle="modal" data-target="#ModalCenterVideo">Video</button>
                         </div>
                     </div>
                 </li>  
@@ -37,23 +39,97 @@
         </div>
     </nav>
  
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="ModalCenterForm" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Pick A Lesson Title</h5>
+                    <h5 class="modal-title" id="ModalCenterTitle">Form</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                        <p> Lesson Title: </p>
+                        <p> Form Information: </p>
                         <input type="text" id="title" placeholder="Title" required>
                         <input type="text" id="description" placeholder="Description" required>  
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="createLesson(document.getElementById('title').value, document.getElementById('description').value)" data-dismiss="modal">Create Lesson</button>
+                    <button type="button" class="btn btn-primary" onclick="createForm(document.getElementById('title').value, 
+                    document.getElementById('description').value)" data-dismiss="modal">Create Form</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="ModalCenterVideo" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalCenterTitle">Video</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                        <p> Video Information: </p>
+                        <input type="text" id="title" placeholder="Title" required>
+                        <input type="text" id="description" placeholder="Description" required>  
+                        <input type="text" id="url" placeholder="URL" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="createVideo(document.getElementById('title').value, document.getElementById('description').value, 
+                    document.getElementById('url').value)" data-dismiss="modal">Create Video</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="ModalCenterImage" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalCenterTitle">Image</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                        <p> Image Information: </p>
+                        <input type="text" id="title" placeholder="Title" required>
+                        <input type="text" id="description" placeholder="Description" required>  
+                        <input type="text" id="url" placeholder="URL" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="createImage(document.getElementById('title').value, document.getElementById('description').value, 
+                    document.getElementById('url').value)" data-dismiss="modal">Create Image</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="ModalCenterContent" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalCenterTitle">Content</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                        <p> Content Information: </p>
+                        <input type="text" id="title" placeholder="Title" required>
+                        <input type="text" id="description" placeholder="Description" required>  
+                        <input type="text" id="content" placeholder="Content" required>
+                        <input type="text" id="urls" placeholder="URL(s)" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="createContent(document.getElementById('title').value, document.getElementById('description').value, 
+                    document.getElementById('content').value, document.getElementById('urls').value)" data-dismiss="modal">Create Content</button>
                 </div>
             </div>
         </div>

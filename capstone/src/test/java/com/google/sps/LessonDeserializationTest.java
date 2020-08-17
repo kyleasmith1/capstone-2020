@@ -21,7 +21,6 @@ import com.google.appengine.api.datastore.Entity;
 @RunWith(JUnit4.class)
 public final class LessonTest {
 
-    // Maximum eventual consistency.
     private final LocalServiceTestHelper helper =
       new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig()
           .setDefaultHighRepJobPolicyUnappliedJobPercentage(100));
@@ -149,7 +148,7 @@ public final class LessonTest {
         }
     }
 
-    @Test
+        @Test
     public void serializeJsonGeneralTest() {
         Entity entity = new Entity("Lesson");
         entity.setProperty(Lesson.TYPE_PROPERTY_KEY, Lesson.TYPE_FORM);

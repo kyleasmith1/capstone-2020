@@ -1,9 +1,6 @@
 package com.google.sps.servlets;
 
 import java.io.IOException;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.sps.data.Lesson;
 import com.google.sps.service.DatabaseService;
 import com.google.sps.data.RequestParser;

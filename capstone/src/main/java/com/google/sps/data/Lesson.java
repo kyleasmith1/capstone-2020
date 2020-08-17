@@ -15,13 +15,13 @@ public abstract class Lesson {
     public static final String DATE_PROPERTY_KEY = "date";
     public static final String TAGS_PROPERTY_KEY = "tags";
 
-    public static final String TYPE_SURVEY = "survey";
+    public static final String TYPE_FORM = "form";
     public static final String TYPE_VIDEO = "video";
     public static final String TYPE_IMAGE = "image";
     public static final String TYPE_CONTENT = "content";
     public static final String TYPE_TAG = "tag";  
  
-    public Entity entity;
+    protected Entity entity;
 
     public Lesson(Entity entity) {
         this.entity = entity;

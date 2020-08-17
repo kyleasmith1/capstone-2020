@@ -7,7 +7,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 
 import com.google.sps.data.User;
-import com.google.sps.data.Survey;
+import com.google.sps.data.Form;
 import com.google.sps.data.Room;
 
 public class DatabaseService {
@@ -19,8 +19,8 @@ public class DatabaseService {
         return new Room(DatastoreServiceFactory.getDatastoreService().get(key));  
     }
 
-    public static Survey getSurvey(Key key) throws EntityNotFoundException {
-        return new Survey(DatastoreServiceFactory.getDatastoreService().get(key));
+    public static Form getForm(Key key) throws EntityNotFoundException {
+        return new Form(DatastoreServiceFactory.getDatastoreService().get(key));
     }
 
     public static void save(Entity entity) {

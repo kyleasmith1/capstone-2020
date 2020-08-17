@@ -33,8 +33,8 @@ function getClassrooms() {
 
 // TODO: Replace dummy values with real values in future PR
 function createClassroomDivElement(classroom) {
-    let domparser = new DOMParser();
-    let doc = domparser.parseFromString(`
+    const domparser = new DOMParser();
+    const doc = domparser.parseFromString(`
             <div class="card margin margin-left">
                 <img class="card-img-top" src="/assets/soundwave.svg" alt="Room Card">
                 <div class="card-body text-center">

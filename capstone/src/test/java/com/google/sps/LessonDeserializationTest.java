@@ -19,8 +19,9 @@ import java.io.IOException;
 import com.google.appengine.api.datastore.Entity;
 
 @RunWith(JUnit4.class)
-public final class LessonTest {
+public final class LessonDeserializationTest {
 
+    //Helper to set local datastore service
     private final LocalServiceTestHelper helper =
       new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig()
           .setDefaultHighRepJobPolicyUnappliedJobPercentage(100));
@@ -44,22 +45,22 @@ public final class LessonTest {
     public void deserializeJsonGeneralTest() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty(Lesson.TYPE_PROPERTY_KEY, Lesson.TYPE_FORM);
-        jsonObject.addProperty(Lesson.TITLE_PROPERTY_KEY, LessonTest.TEST_TITLE);
-        jsonObject.addProperty(Lesson.DESCRIPTION_PROPERTY_KEY, LessonTest.TEST_DESCRIPTION);
-        jsonObject.addProperty(Form.EDIT_URL_PROPERTY_KEY, LessonTest.TEST_URL);
-        jsonObject.addProperty(Form.URL_PROPERTY_KEY, LessonTest.TEST_EDIT_URL);
+        jsonObject.addProperty(Lesson.TITLE_PROPERTY_KEY, LessonDeserializationTest.TEST_TITLE);
+        jsonObject.addProperty(Lesson.DESCRIPTION_PROPERTY_KEY, LessonDeserializationTest.TEST_DESCRIPTION);
+        jsonObject.addProperty(Form.EDIT_URL_PROPERTY_KEY, LessonDeserializationTest.TEST_URL);
+        jsonObject.addProperty(Form.URL_PROPERTY_KEY, LessonDeserializationTest.TEST_EDIT_URL);
 
         try{ 
             Lesson lesson = Lesson.deserializeJson(jsonObject.toString());
 
             Assert.assertEquals(lesson.getType(), Lesson.TYPE_FORM);
-            Assert.assertEquals(lesson.getTitle(), LessonTest.TEST_TITLE);
-            Assert.assertEquals(lesson.getDescription(), LessonTest.TEST_DESCRIPTION);
+            Assert.assertEquals(lesson.getTitle(), LessonDeserializationTest.TEST_TITLE);
+            Assert.assertEquals(lesson.getDescription(), LessonDeserializationTest.TEST_DESCRIPTION);
             Assert.assertEquals(lesson.getIsDraft(), false);
             Assert.assertTrue(lesson instanceof Form);
             Form form = (Form) lesson; 
-            Assert.assertEquals(form.getEditUrl(), LessonTest.TEST_URL);
-            Assert.assertEquals(form.getUrl(), LessonTest.TEST_EDIT_URL);
+            Assert.assertEquals(form.getEditUrl(), LessonDeserializationTest.TEST_URL);
+            Assert.assertEquals(form.getUrl(), LessonDeserializationTest.TEST_EDIT_URL);
             
         } catch (IOException e) {
             Assert.fail("IOException Thrown");
@@ -70,9 +71,9 @@ public final class LessonTest {
     public void deserializeJsonMissingFieldTest() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty(Lesson.TYPE_PROPERTY_KEY, Lesson.TYPE_FORM);
-        jsonObject.addProperty(Lesson.DESCRIPTION_PROPERTY_KEY, LessonTest.TEST_DESCRIPTION);
-        jsonObject.addProperty(Form.EDIT_URL_PROPERTY_KEY, LessonTest.TEST_URL);
-        jsonObject.addProperty(Form.URL_PROPERTY_KEY, LessonTest.TEST_EDIT_URL);
+        jsonObject.addProperty(Lesson.DESCRIPTION_PROPERTY_KEY, LessonDeserializationTest.TEST_DESCRIPTION);
+        jsonObject.addProperty(Form.EDIT_URL_PROPERTY_KEY, LessonDeserializationTest.TEST_URL);
+        jsonObject.addProperty(Form.URL_PROPERTY_KEY, LessonDeserializationTest.TEST_EDIT_URL);
 
         try{ 
             Lesson lesson = Lesson.deserializeJson(jsonObject.toString());
@@ -87,10 +88,10 @@ public final class LessonTest {
     @Test
     public void deserializeJsonMissingTypeTest() {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty(Lesson.TITLE_PROPERTY_KEY, LessonTest.TEST_TITLE);
-        jsonObject.addProperty(Lesson.DESCRIPTION_PROPERTY_KEY, LessonTest.TEST_DESCRIPTION);
-        jsonObject.addProperty(Form.EDIT_URL_PROPERTY_KEY, LessonTest.TEST_URL);
-        jsonObject.addProperty(Form.URL_PROPERTY_KEY, LessonTest.TEST_EDIT_URL);
+        jsonObject.addProperty(Lesson.TITLE_PROPERTY_KEY, LessonDeserializationTest.TEST_TITLE);
+        jsonObject.addProperty(Lesson.DESCRIPTION_PROPERTY_KEY, LessonDeserializationTest.TEST_DESCRIPTION);
+        jsonObject.addProperty(Form.EDIT_URL_PROPERTY_KEY, LessonDeserializationTest.TEST_URL);
+        jsonObject.addProperty(Form.URL_PROPERTY_KEY, LessonDeserializationTest.TEST_EDIT_URL);
 
         try{ 
             Lesson lesson = Lesson.deserializeJson(jsonObject.toString());
@@ -106,10 +107,10 @@ public final class LessonTest {
     public void deserializeJsonWrongTypeTest() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty(Lesson.TYPE_PROPERTY_KEY, "MalformedForm");
-        jsonObject.addProperty(Lesson.TITLE_PROPERTY_KEY, LessonTest.TEST_TITLE);
-        jsonObject.addProperty(Lesson.DESCRIPTION_PROPERTY_KEY, LessonTest.TEST_DESCRIPTION);
-        jsonObject.addProperty(Form.EDIT_URL_PROPERTY_KEY, LessonTest.TEST_URL);
-        jsonObject.addProperty(Form.URL_PROPERTY_KEY, LessonTest.TEST_EDIT_URL);
+        jsonObject.addProperty(Lesson.TITLE_PROPERTY_KEY, LessonDeserializationTest.TEST_TITLE);
+        jsonObject.addProperty(Lesson.DESCRIPTION_PROPERTY_KEY, LessonDeserializationTest.TEST_DESCRIPTION);
+        jsonObject.addProperty(Form.EDIT_URL_PROPERTY_KEY, LessonDeserializationTest.TEST_URL);
+        jsonObject.addProperty(Form.URL_PROPERTY_KEY, LessonDeserializationTest.TEST_EDIT_URL);
 
         try{ 
             Lesson lesson = Lesson.deserializeJson(jsonObject.toString());
@@ -125,48 +126,48 @@ public final class LessonTest {
     public void deserializeJsonExtraFieldTest() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty(Lesson.TYPE_PROPERTY_KEY, Lesson.TYPE_FORM);
-        jsonObject.addProperty(Lesson.TITLE_PROPERTY_KEY, LessonTest.TEST_TITLE);
-        jsonObject.addProperty(Lesson.DESCRIPTION_PROPERTY_KEY, LessonTest.TEST_DESCRIPTION);
-        jsonObject.addProperty(Form.EDIT_URL_PROPERTY_KEY, LessonTest.TEST_URL);
-        jsonObject.addProperty(Form.URL_PROPERTY_KEY, LessonTest.TEST_EDIT_URL);
+        jsonObject.addProperty(Lesson.TITLE_PROPERTY_KEY, LessonDeserializationTest.TEST_TITLE);
+        jsonObject.addProperty(Lesson.DESCRIPTION_PROPERTY_KEY, LessonDeserializationTest.TEST_DESCRIPTION);
+        jsonObject.addProperty(Form.EDIT_URL_PROPERTY_KEY, LessonDeserializationTest.TEST_URL);
+        jsonObject.addProperty(Form.URL_PROPERTY_KEY, LessonDeserializationTest.TEST_EDIT_URL);
         jsonObject.addProperty("Random Field", "Random Value");
 
         try{ 
             Lesson lesson = Lesson.deserializeJson(jsonObject.toString());
 
             Assert.assertEquals(lesson.getType(), Lesson.TYPE_FORM);
-            Assert.assertEquals(lesson.getTitle(), LessonTest.TEST_TITLE);
-            Assert.assertEquals(lesson.getDescription(), LessonTest.TEST_DESCRIPTION);
+            Assert.assertEquals(lesson.getTitle(), LessonDeserializationTest.TEST_TITLE);
+            Assert.assertEquals(lesson.getDescription(), LessonDeserializationTest.TEST_DESCRIPTION);
             Assert.assertEquals(lesson.getIsDraft(), false);
             Assert.assertTrue(lesson instanceof Form);
             Form form = (Form) lesson; 
-            Assert.assertEquals(form.getEditUrl(), LessonTest.TEST_URL);
-            Assert.assertEquals(form.getUrl(), LessonTest.TEST_EDIT_URL);
+            Assert.assertEquals(form.getEditUrl(), LessonDeserializationTest.TEST_URL);
+            Assert.assertEquals(form.getUrl(), LessonDeserializationTest.TEST_EDIT_URL);
             
         } catch (IOException e) {
             Assert.fail("IOException Thrown");
         }
     }
 
-        @Test
+    @Test
     public void serializeJsonGeneralTest() {
         Entity entity = new Entity("Lesson");
         entity.setProperty(Lesson.TYPE_PROPERTY_KEY, Lesson.TYPE_FORM);
-        entity.setProperty(Lesson.TITLE_PROPERTY_KEY, LessonTest.TEST_TITLE);
-        entity.setProperty(Lesson.DESCRIPTION_PROPERTY_KEY, LessonTest.TEST_DESCRIPTION);
-        entity.setProperty(Form.EDIT_URL_PROPERTY_KEY, LessonTest.TEST_URL);
-        entity.setProperty(Form.URL_PROPERTY_KEY, LessonTest.TEST_EDIT_URL);
+        entity.setProperty(Lesson.TITLE_PROPERTY_KEY, LessonDeserializationTest.TEST_TITLE);
+        entity.setProperty(Lesson.DESCRIPTION_PROPERTY_KEY, LessonDeserializationTest.TEST_DESCRIPTION);
+        entity.setProperty(Form.EDIT_URL_PROPERTY_KEY, LessonDeserializationTest.TEST_URL);
+        entity.setProperty(Form.URL_PROPERTY_KEY, LessonDeserializationTest.TEST_EDIT_URL);
 
         try{ 
             Lesson lesson = Lesson.serializeJson(entity);
 
             Assert.assertEquals(lesson.getType(), Lesson.TYPE_FORM);
-            Assert.assertEquals(lesson.getTitle(), LessonTest.TEST_TITLE);
-            Assert.assertEquals(lesson.getDescription(), LessonTest.TEST_DESCRIPTION);
+            Assert.assertEquals(lesson.getTitle(), LessonDeserializationTest.TEST_TITLE);
+            Assert.assertEquals(lesson.getDescription(), LessonDeserializationTest.TEST_DESCRIPTION);
             Assert.assertTrue(lesson instanceof Form);
             Form form = (Form) lesson; 
-            Assert.assertEquals(form.getEditUrl(), LessonTest.TEST_URL);
-            Assert.assertEquals(form.getUrl(), LessonTest.TEST_EDIT_URL);
+            Assert.assertEquals(form.getEditUrl(), LessonDeserializationTest.TEST_URL);
+            Assert.assertEquals(form.getUrl(), LessonDeserializationTest.TEST_EDIT_URL);
             
         } catch (IOException e) {
             Assert.fail("IOException Thrown");
@@ -177,10 +178,10 @@ public final class LessonTest {
     @Test
     public void serializeJsonMissingTypeTest() {
         Entity entity = new Entity("Lesson");
-        entity.setProperty(Lesson.TITLE_PROPERTY_KEY, LessonTest.TEST_TITLE);
-        entity.setProperty(Lesson.DESCRIPTION_PROPERTY_KEY, LessonTest.TEST_DESCRIPTION);
-        entity.setProperty(Form.EDIT_URL_PROPERTY_KEY, LessonTest.TEST_URL);
-        entity.setProperty(Form.URL_PROPERTY_KEY, LessonTest.TEST_EDIT_URL);
+        entity.setProperty(Lesson.TITLE_PROPERTY_KEY, LessonDeserializationTest.TEST_TITLE);
+        entity.setProperty(Lesson.DESCRIPTION_PROPERTY_KEY, LessonDeserializationTest.TEST_DESCRIPTION);
+        entity.setProperty(Form.EDIT_URL_PROPERTY_KEY, LessonDeserializationTest.TEST_URL);
+        entity.setProperty(Form.URL_PROPERTY_KEY, LessonDeserializationTest.TEST_EDIT_URL);
 
         try{ 
             Lesson lesson = Lesson.serializeJson(entity);
@@ -199,10 +200,10 @@ public final class LessonTest {
     public void serializeJsonWrongTypeTest() {
         Entity entity = new Entity("Lesson");
         entity.setProperty(Lesson.TYPE_PROPERTY_KEY, "MalformedForm");
-        entity.setProperty(Lesson.TITLE_PROPERTY_KEY, LessonTest.TEST_TITLE);
-        entity.setProperty(Lesson.DESCRIPTION_PROPERTY_KEY, LessonTest.TEST_DESCRIPTION);
-        entity.setProperty(Form.EDIT_URL_PROPERTY_KEY, LessonTest.TEST_URL);
-        entity.setProperty(Form.URL_PROPERTY_KEY, LessonTest.TEST_EDIT_URL);
+        entity.setProperty(Lesson.TITLE_PROPERTY_KEY, LessonDeserializationTest.TEST_TITLE);
+        entity.setProperty(Lesson.DESCRIPTION_PROPERTY_KEY, LessonDeserializationTest.TEST_DESCRIPTION);
+        entity.setProperty(Form.EDIT_URL_PROPERTY_KEY, LessonDeserializationTest.TEST_URL);
+        entity.setProperty(Form.URL_PROPERTY_KEY, LessonDeserializationTest.TEST_EDIT_URL);
 
         try{ 
             Lesson lesson = Lesson.serializeJson(entity);

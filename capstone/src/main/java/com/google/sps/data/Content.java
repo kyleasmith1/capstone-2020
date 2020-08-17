@@ -39,7 +39,7 @@ public class Content extends Lesson {
     }
 
     @SuppressWarnings("unchecked")
-    public void removeTag(String url) {
+    public void removeURL(String url) {
         ArrayList<String> urls = (ArrayList<String>) super.entity.getProperty(Content.URLS_PROPERTY_KEY);
         urls.remove(url);
     }

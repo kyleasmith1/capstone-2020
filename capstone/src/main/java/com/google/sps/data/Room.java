@@ -4,7 +4,6 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Entity;
 import java.util.ArrayList;
 import java.util.List;
-import com.google.sps.service.DatabaseService;
 
 public class Room {
     public static final String ROOM_ENTITY_NAME = "Room";
@@ -12,7 +11,8 @@ public class Room {
     public static final String DESCRIPTION_PROPERTY_KEY = "description";
     public static final String HOST_PROPERTY_KEY = "host";
     public static final String FOLLOWERS_PROPERTY_KEY = "followers";
-    
+    public static final String TAG_LIST_PROPERTY_KEY = "tagList";
+    public static final String LESSONS_PROPERTY_KEY = "lessons";
 
     private Entity entity;
 
@@ -25,11 +25,29 @@ public class Room {
         this.entity.setProperty(Room.TITLE_PROPERTY_KEY, title);
         this.entity.setProperty(Room.DESCRIPTION_PROPERTY_KEY, description);
         this.entity.setProperty(Room.HOST_PROPERTY_KEY, host.getUserKey());
-        this.entity.setProperty(Room.FOLLOWERS_PROPERTY_KEY, null);
     }
 
-    public Entity getRoomEntity() {
-        return this.entity;
+    @SuppressWarnings("unchecked")
+    public void addTag(String tag) {
+        if (this.entity.getProperty(Lesson.TAGS_PROPERTY_KEY) == null) {
+            this.entity.setProperty(Lesson.TAGS_PROPERTY_KEY, new ArrayList<>());
+        }
+        List<String> tags = (ArrayList<String>) this.entity.getProperty(Lesson.TAGS_PROPERTY_KEY);
+        tags.add(tag);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public void removeTag(String tag) {
+        ArrayList<String> tags = (ArrayList<String>) this.entity.getProperty(Lesson.TAGS_PROPERTY_KEY);
+        tags.remove(tag);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<String> getAllTags() { 
+        if (this.entity.getProperty(Lesson.TAGS_PROPERTY_KEY) == null) {
+            return new ArrayList<String>();
+        }
+        return (ArrayList<String>) this.entity.getProperty(Lesson.TAGS_PROPERTY_KEY);
     }
 
     public Key getHost() {
@@ -48,29 +66,71 @@ public class Room {
         this.entity.setProperty(Room.TITLE_PROPERTY_KEY, title);
     }
 
+    public String getDescription() {
+        return (String) this.entity.getProperty(Room.DESCRIPTION_PROPERTY_KEY);
+    }
+
+    public void setDescription(String description) {
+        this.entity.setProperty(Room.DESCRIPTION_PROPERTY_KEY, description);
+    }
+
     @SuppressWarnings("unchecked")
-    public List<Key> getAllFollowers() {
+    public List<Key> getAllFollowers() { // For Andrew: Your data model showed these as actual User objects. Was that on purpose?
+        if (this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY) == null) {
+            return new ArrayList<Key>();
+        }
         return (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
     }
-    
+
     @SuppressWarnings("unchecked")
     public void addFollower(User follower) {
-        List<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
-        if(followers == null){
-            followers = new ArrayList<>();
+        if (this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY) == null) {
+            this.entity.setProperty(Room.FOLLOWERS_PROPERTY_KEY, new ArrayList<Key>());
         }
+        ArrayList<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
         followers.add(follower.getUserKey());
     }
 
     @SuppressWarnings("unchecked")
     public void removeFollower(User follower) {
-        List<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
+        ArrayList<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
         followers.remove(follower.getUserKey());
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Key> getAllLessons() { // For Andrew: Your data model showed these as actual Lesson objects. Was that on purpose?
+        if (this.entity.getProperty(Room.LESSONS_PROPERTY_KEY) == null) {
+            return new ArrayList<Key>();
+        }
+        return (ArrayList<Key>) this.entity.getProperty(Room.LESSONS_PROPERTY_KEY); 
+    }
+    
+    @SuppressWarnings("unchecked")
+    public void addLesson(Lesson lesson) {
+        if (this.entity.getProperty(Room.LESSONS_PROPERTY_KEY) == null) {
+            this.entity.setProperty(Room.LESSONS_PROPERTY_KEY, new ArrayList<Key>());
+        }
+        ArrayList<Key> lessons = (ArrayList<Key>) this.entity.getProperty(Room.LESSONS_PROPERTY_KEY);
+        lessons.add(lesson.getLessonKey());
+    }
+
+    @SuppressWarnings("unchecked")
+    public void removeLesson(Lesson lesson) {
+        ArrayList<Key> lessons = (ArrayList<Key>) this.entity.getProperty(Room.LESSONS_PROPERTY_KEY);
+        lessons.remove(lesson.getLessonKey());
     }
 
     @SuppressWarnings("unchecked")
     public boolean isFollowerInClass(User follower) {
         List<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
         return (!(followers.lastIndexOf(follower.getUserKey()) == -1));
+    }
+
+    public Entity getRoomEntity() {
+        return this.entity;
+    }
+
+    public Key getRoomKey() {
+        return this.entity.getKey();
     }
 }

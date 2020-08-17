@@ -2,8 +2,9 @@ package com.google.sps.data;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Entity;
-import com.google.sps.service.DatabaseService;
 import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
 import com.google.sps.data.Form;
 import java.io.IOException;
 import com.google.gson.JsonParser;
@@ -11,19 +12,20 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public abstract class Lesson {
-
     public static final String LESSON_ENTITY_NAME = "Lesson";
     public static final String TYPE_PROPERTY_KEY = "type";
     public static final String ISDRAFT_PROPERTY_KEY = "isDraft";
     public static final String TITLE_PROPERTY_KEY = "title";
     public static final String DESCRIPTION_PROPERTY_KEY = "description";
     public static final String DATE_PROPERTY_KEY = "date";
+    public static final String TAGS_PROPERTY_KEY = "tags";
 
     public static final String TYPE_FORM = "form";
     public static final String TYPE_VIDEO = "video";
     public static final String TYPE_IMAGE = "image";
-    public static final String TYPE_CONTENT = "content";          
-    
+    public static final String TYPE_CONTENT = "content";
+    public static final String TYPE_TAG = "tag";  
+ 
     protected Entity entity;
 
     public Lesson(Entity entity) {
@@ -39,8 +41,27 @@ public abstract class Lesson {
         this.entity.setProperty(Lesson.DATE_PROPERTY_KEY, new Date());
     }
 
-    public Entity getLessonEntity() {
-        return this.entity;
+    @SuppressWarnings("unchecked")
+    public void addTag(String tag) {
+        if (this.entity.getProperty(Lesson.TAGS_PROPERTY_KEY) == null) {
+            this.entity.setProperty(Lesson.TAGS_PROPERTY_KEY, new ArrayList<>());
+        }
+        List<String> tags = (ArrayList<String>) this.entity.getProperty(Lesson.TAGS_PROPERTY_KEY);
+        tags.add(tag);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public void removeTag(String tag) {
+        ArrayList<String> tags = (ArrayList<String>) this.entity.getProperty(Lesson.TAGS_PROPERTY_KEY);
+        tags.remove(tag);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<String> getAllTags() { 
+        if (this.entity.getProperty(Lesson.TAGS_PROPERTY_KEY) == null) {
+            return new ArrayList<String>();
+        }
+        return (ArrayList<String>) this.entity.getProperty(Lesson.TAGS_PROPERTY_KEY);
     }
 
     public String getType() {
@@ -99,5 +120,13 @@ public abstract class Lesson {
             default:
                 throw new IOException(); 
         }
+    }
+    
+    public Entity getLessonEntity() {
+        return this.entity;
+    }
+
+    public Key getLessonKey() {
+        return this.entity.getKey();
     }
 }

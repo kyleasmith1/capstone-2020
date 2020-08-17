@@ -2,7 +2,6 @@ package com.google.sps.data;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Entity;
-import com.google.sps.service.DatabaseService;
 
 public class User {
     public static final String USER_ENTITY_NAME = "User";

@@ -20,7 +20,6 @@ import com.google.sps.data.Image;
 import com.google.sps.data.Content;
 import com.google.sps.data.Lesson;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.io.IOException;
 import java.lang.IllegalArgumentException;
@@ -148,11 +147,11 @@ public final class LessonTest {
         jsonObject.addProperty(Lesson.DESCRIPTION_PROPERTY_KEY, LessonTest.TEST_DESCRIPTION);
         jsonObject.addProperty(Form.EDIT_URL_PROPERTY_KEY, LessonTest.TEST_EDIT_URL);
         jsonObject.addProperty(Form.URL_PROPERTY_KEY, LessonTest.TEST_URL);
-        
+
         Lesson lesson = Lesson.deserializeJson(jsonObject.toString());
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void deserializeJsonMissingTypeTest() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty(Lesson.TITLE_PROPERTY_KEY, LessonTest.TEST_TITLE);
@@ -160,17 +159,10 @@ public final class LessonTest {
         jsonObject.addProperty(Form.EDIT_URL_PROPERTY_KEY, LessonTest.TEST_EDIT_URL);
         jsonObject.addProperty(Form.URL_PROPERTY_KEY, LessonTest.TEST_URL);
 
-        try{ 
-            Lesson lesson = Lesson.deserializeJson(jsonObject.toString());
-            Assert.fail();
-        } catch (NullPointerException e) {
-            return;
-        } catch (Exception e) {
-            Assert.fail();
-        } 
+        Lesson lesson = Lesson.deserializeJson(jsonObject.toString());
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void deserializeJsonWrongTypeTest() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty(Lesson.TYPE_PROPERTY_KEY, "MalformedForm");
@@ -179,14 +171,7 @@ public final class LessonTest {
         jsonObject.addProperty(Form.EDIT_URL_PROPERTY_KEY, LessonTest.TEST_EDIT_URL);
         jsonObject.addProperty(Form.URL_PROPERTY_KEY, LessonTest.TEST_URL);
 
-        try{ 
-            Lesson lesson = Lesson.deserializeJson(jsonObject.toString());
-            Assert.fail();
-        } catch (IllegalArgumentException e) {
-            return;
-        } catch (Exception e) {
-            Assert.fail();
-        } 
+        Lesson lesson = Lesson.deserializeJson(jsonObject.toString());
     }
 
     @Test
@@ -199,21 +184,16 @@ public final class LessonTest {
         jsonObject.addProperty(Form.URL_PROPERTY_KEY, LessonTest.TEST_URL);
         jsonObject.addProperty("Random Field", "Random Value");
 
-        try{ 
-            Lesson lesson = Lesson.deserializeJson(jsonObject.toString());
+        Lesson lesson = Lesson.deserializeJson(jsonObject.toString());
 
-            Assert.assertEquals(lesson.getType(), Lesson.TYPE_FORM);
-            Assert.assertEquals(lesson.getTitle(), LessonTest.TEST_TITLE);
-            Assert.assertEquals(lesson.getDescription(), LessonTest.TEST_DESCRIPTION);
-            Assert.assertEquals(lesson.getIsDraft(), false);
-            Assert.assertTrue(lesson instanceof Form);
-            Form form = (Form) lesson; 
-            Assert.assertEquals(form.getEditUrl(), LessonTest.TEST_EDIT_URL);
-            Assert.assertEquals(form.getUrl(), LessonTest.TEST_URL);
-            
-        } catch (IllegalArgumentException e) {
-            Assert.fail("IllegalArgumentException Thrown");
-        }
+        Assert.assertEquals(lesson.getType(), Lesson.TYPE_FORM);
+        Assert.assertEquals(lesson.getTitle(), LessonTest.TEST_TITLE);
+        Assert.assertEquals(lesson.getDescription(), LessonTest.TEST_DESCRIPTION);
+        Assert.assertEquals(lesson.getIsDraft(), false);
+        Assert.assertTrue(lesson instanceof Form);
+        Form form = (Form) lesson; 
+        Assert.assertEquals(form.getEditUrl(), LessonTest.TEST_EDIT_URL);
+        Assert.assertEquals(form.getUrl(), LessonTest.TEST_URL);
     }
 
 }

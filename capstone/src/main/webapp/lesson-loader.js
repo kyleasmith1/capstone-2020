@@ -1,5 +1,4 @@
 document.getElementById("signout").prepend(dynamicButton);
-window.addEventListener('authorized', getLessons);
 
 const FORM = "form";
 const VIDEO = "video";
@@ -28,7 +27,7 @@ function createForm(title, description) {
         }
     }).then((resp) => {
         if (resp.ok){
-            console.log("Form created!");
+            getLessons();
         } else {
             alert("Error has occured");
         }
@@ -39,7 +38,7 @@ function createVideo(title, description, url) {
     var videoData = JSON.stringify({"type": VIDEO, "title": "title", "description": "description", "url": "url"});
     fetch("/lesson?room_id=" + getRoomId(), {method: "POST", headers: new Headers({ID_TOKEN}), body: videoData}).then((resp) => {
         if (resp.ok){
-            console.log("Video created!");
+            getLessons();
         } else {
             alert("Error has occured");
         }
@@ -50,7 +49,7 @@ function createImage(title, description, url) {
     var imageData = JSON.stringify({"type": IMAGE, "title": "title", "description": "description", "url": "url"});
     fetch("/lesson?room_id=" + getRoomId(), {method: "POST", headers: new Headers({ID_TOKEN}), body: imageData}).then((resp) => {
         if (resp.ok){
-            console.log("Image created!");
+            getLessons();
         } else {
             alert("Error has occured");
         }
@@ -61,7 +60,7 @@ function createContent(title, description, content, urls) {
     var contentData = JSON.stringify({"type": CONTENT, "title": "title", "description": "description", "content": "content", "urls": urls.split(", ")});
     fetch("/lesson?room_id=" + getRoomId(), {method: "POST", headers: new Headers({ID_TOKEN}), body: contentData}).then((resp) => {
         if (resp.ok){
-            console.log("Content created!");
+            getLessons();
         } else {
             alert("Error has occured");
         }

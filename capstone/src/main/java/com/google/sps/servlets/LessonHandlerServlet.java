@@ -2,6 +2,7 @@ package com.google.sps.servlets;
 
 import java.io.IOException;
 import com.google.sps.data.Lesson;
+import com.google.sps.data.Room;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
@@ -32,7 +33,7 @@ public class LessonHandlerServlet extends HttpServlet {
         Room room = null;
 
         for(Entity entity : roomResults.asIterable()) {
-            if (new Room(entity).getRoomKey().getId() == Long.parseLong(request.getParameter("c"))) {
+            if (new Room(entity).getRoomKey().getId() == Long.parseLong(request.getParameter("room_id"))) {
                 room = new Room(entity);
                 room.addLesson(lesson);
             }

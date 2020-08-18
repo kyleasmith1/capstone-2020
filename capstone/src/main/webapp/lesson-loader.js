@@ -24,7 +24,7 @@ function createForm(title, description) {
             console.log("Script error message: " + result.error);
         } else { 
             var formData = JSON.stringify({"type": FORM, "title": "title", "description": "description", "editUrl": resp.result.response.result.editUrl, "url": resp.result.response.result.url});            
-            return fetch("/lesson", {method: "POST", headers: new Headers({ID_TOKEN}), body: formData});  
+            return fetch("/lesson?room_id=" + getRoomId(), {method: "POST", headers: new Headers({ID_TOKEN}), body: formData});  
         }
     }).then((resp) => {
         if (resp.ok){
@@ -37,7 +37,7 @@ function createForm(title, description) {
 
 function createVideo(title, description, url) {
     var videoData = JSON.stringify({"type": VIDEO, "title": "title", "description": "description", "url": "url"});
-    fetch("/lesson", {method: "POST", headers: new Headers({ID_TOKEN}), body: videoData}).then((resp) => {
+    fetch("/lesson?room_id=" + getRoomId(), {method: "POST", headers: new Headers({ID_TOKEN}), body: videoData}).then((resp) => {
         if (resp.ok){
             console.log("Video created!");
         } else {
@@ -48,7 +48,7 @@ function createVideo(title, description, url) {
 
 function createImage(title, description, url) {
     var imageData = JSON.stringify({"type": IMAGE, "title": "title", "description": "description", "url": "url"});
-    fetch("/lesson", {method: "POST", headers: new Headers({ID_TOKEN}), body: imageData}).then((resp) => {
+    fetch("/lesson?room_id=" + getRoomId(), {method: "POST", headers: new Headers({ID_TOKEN}), body: imageData}).then((resp) => {
         if (resp.ok){
             console.log("Image created!");
         } else {
@@ -59,7 +59,7 @@ function createImage(title, description, url) {
 
 function createContent(title, description, content, urls) {
     var contentData = JSON.stringify({"type": CONTENT, "title": "title", "description": "description", "content": "content", "urls": urls.split(", ")});
-    fetch("/lesson", {method: "POST", headers: new Headers({ID_TOKEN}), body: contentData}).then((resp) => {
+    fetch("/lesson?room_id=" + getRoomId(), {method: "POST", headers: new Headers({ID_TOKEN}), body: contentData}).then((resp) => {
         if (resp.ok){
             console.log("Content created!");
         } else {

@@ -79,10 +79,7 @@ function getLessons() {
 }
 
 function getRoomId() {
-    var site = window.location.href;
-    const loc = site.indexOf("=") + 1;
-    var roomId = site.substring(loc);
-    return roomId;
+    return new URL(window.location.href).searchParams.get("room_id");
 }
 
 // Will update in UI PR

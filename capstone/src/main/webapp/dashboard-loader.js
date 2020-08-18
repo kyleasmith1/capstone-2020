@@ -2,9 +2,6 @@ document.getElementById("signout").prepend(dynamicButton);
 window.addEventListener('authorized', getRooms);
 
 function createRoom(title, description) {
-    console.log("Title:" + title);
-    console.log("Description:" + description);
-
     var roomData = JSON.stringify({"title": title, "description": description});
     fetch("/dashboard", {method: "POST", headers: new Headers({ID_TOKEN}), body: roomData}).then((resp) => {
         if (resp.ok){

@@ -18,7 +18,7 @@ function createForm(title, description) {
     }
     }).then(function(resp) {
         if (resp.result?.error?.status != null) {
-            console.log('Error calling API: ' + result);
+            console.error('Error calling API: ' + result);
         } else if (resp.result?.error != null) {
             console.log("Script error message: " + result.error);
         } else { 

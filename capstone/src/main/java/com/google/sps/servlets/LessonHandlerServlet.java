@@ -23,11 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 public class LessonHandlerServlet extends HttpServlet {
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    }
-
-    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Lesson lesson = Lesson.deserializeJson(RequestParser.parseStringFromRequest(request));
         DatabaseService.save(lesson.getLessonEntity());

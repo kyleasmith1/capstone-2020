@@ -75,7 +75,7 @@ public class Room {
     }
 
     @SuppressWarnings("unchecked")
-    public List<Key> getAllFollowers() { // For Andrew: Your data model showed these as actual User objects. Was that on purpose?
+    public List<Key> getAllFollowers() { 
         if (this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY) == null) {
             return new ArrayList<Key>();
         }
@@ -98,7 +98,7 @@ public class Room {
     }
 
     @SuppressWarnings("unchecked")
-    public List<Key> getAllLessons() { // For Andrew: Your data model showed these as actual Lesson objects. Was that on purpose?
+    public List<Key> getAllLessons() { 
         if (this.entity.getProperty(Room.LESSONS_PROPERTY_KEY) == null) {
             return new ArrayList<Key>();
         }

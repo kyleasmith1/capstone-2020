@@ -1,4 +1,5 @@
 document.getElementById("signout").prepend(dynamicButton);
+window.addEventListener('authorized', getLessons);
 
 const FORM = "form";
 const VIDEO = "video";
@@ -68,7 +69,7 @@ function createContent(title, description, content, urls) {
 }
 
 function getLessons() {
-    fetch("/lesson", {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((lessonsList) => {
+    fetch("/room?room_id=" + getRoomId(), {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((lessonsList) => {
         const lessonElement = document.getElementById("lesson-container");
         lessonElement.innerHTML = "";
         for (lesson of lessonsList) {
@@ -77,35 +78,11 @@ function getLessons() {
     });
 }
 
-function getForms() {
-    fetch("/classroom-handler?c=" + getClassroomId()).then(response => response.json()).then((formsList) => {        
-        const formElement = document.getElementById("form-container");
-        formElement.innerHTML = "";
-        for (form of formsList) {
-            formElement.appendChild(createTeacherFormElement(form.entity.propertyMap.editUrl));
-            formElement.appendChild(createStudentFormElement(form.entity.propertyMap.url)); 
-        };
-    });
-}
-
-function getClassroomId() {
+function getRoomId() {
     var site = window.location.href;
     const loc = site.indexOf("=") + 1;
-    var classId = site.substring(loc);
-    return classId;
-}
-
-function createTeacherFormElement(editUrl) { 
-    const aElement = document.createElement("a");
-    aElement.innerText = "Form Edit Page";
-    aElement.href = editUrl;
-    return aElement;
-}
-
-function createStudentFormElement(url) {
-    const iframeElement = document.createElement("iframe");
-    iframeElement.src = url;
-    return iframeElement;
+    var roomId = site.substring(loc);
+    return roomId;
 }
 
 function createLessonDivElement(lesson) {

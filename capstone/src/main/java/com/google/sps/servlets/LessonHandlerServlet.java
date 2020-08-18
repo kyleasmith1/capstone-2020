@@ -26,6 +26,19 @@ public class LessonHandlerServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Lesson lesson = Lesson.deserializeJson(RequestParser.parseStringFromRequest(request));
         DatabaseService.save(lesson.getLessonEntity());
+
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        PreparedQuery roomResults = datastore.prepare(new Query(Room.ROOM_ENTITY_NAME));
+        Room room = null;
+
+        for(Entity entity : roomResults.asIterable()) {
+            if (new Room(entity).getRoomKey().getId() == Long.parseLong(request.getParameter("c"))) {
+                room = new Room(entity);
+                room.addLesson(lesson);
+            }
+        }
+        
+        DatabaseService.save(room.getRoomEntity()); 
         response.setStatus(HttpServletResponse.SC_OK);
     }
 }

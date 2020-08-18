@@ -195,5 +195,4 @@ public final class LessonTest {
         Assert.assertEquals(form.getEditUrl(), LessonTest.TEST_EDIT_URL);
         Assert.assertEquals(form.getUrl(), LessonTest.TEST_URL);
     }
-
 }

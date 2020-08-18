@@ -80,7 +80,6 @@ public final class DatabaseServiceTest {
         } catch (EntityNotFoundException e) {
             Assert.fail("EntityNotFoundException Thrown");
         }
-
     }
 
     @Test(expected = NullPointerException.class)
@@ -119,5 +118,4 @@ public final class DatabaseServiceTest {
             Assert.fail("EntityNotFoundException Thrown");
         }
     }
-
 }

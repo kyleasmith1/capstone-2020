@@ -14,7 +14,6 @@ import com.google.sps.data.Room;
 import com.google.sps.data.Lesson;
 import java.lang.IllegalArgumentException;
 
-
 public class DatabaseService {
     public static User getUser(Key key) throws EntityNotFoundException { 
         return new User(DatastoreServiceFactory.getDatastoreService().get(key));

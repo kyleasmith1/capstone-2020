@@ -5,7 +5,6 @@ import com.google.appengine.api.datastore.Entity;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
-import java.io.IOException;
 import java.lang.reflect.Type;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.Gson;

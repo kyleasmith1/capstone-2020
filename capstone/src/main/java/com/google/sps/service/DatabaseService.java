@@ -24,7 +24,7 @@ public class DatabaseService {
         return new Room(DatastoreServiceFactory.getDatastoreService().get(key));  
     }
 
-    public static Lesson getLesson(Key key) throws IllegalArgumentException, EntityNotFoundException {
+    public static Lesson getLesson(Key key) throws EntityNotFoundException {
         Entity entity = DatastoreServiceFactory.getDatastoreService().get(key);
         switch((String) entity.getProperty(Lesson.TYPE_PROPERTY_KEY)) {
             case Lesson.TYPE_FORM:

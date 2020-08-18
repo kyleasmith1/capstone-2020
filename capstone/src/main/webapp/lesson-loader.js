@@ -1,4 +1,5 @@
 document.getElementById("signout").prepend(dynamicButton);
+window.addEventListener('authorized', getLessons);
 
 const FORM = "form";
 const VIDEO = "video";
@@ -84,6 +85,7 @@ function getRoomId() {
     return roomId;
 }
 
+// Will update in UI PR
 function createLessonDivElement(lesson) {
     let domparser = new DOMParser();
     let doc = domparser.parseFromString(`

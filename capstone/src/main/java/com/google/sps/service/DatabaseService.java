@@ -24,8 +24,9 @@ public class DatabaseService {
         return new Room(DatastoreServiceFactory.getDatastoreService().get(key));  
     }
 
-    public static Lesson getLesson(Key key, String type) throws IOException, EntityNotFoundException {
-        switch(type) {
+    public static Lesson getLesson(Key key) throws EntityNotFoundException {
+        Entity entity = DatastoreServiceFactory.getDatastoreService().get(key);
+        switch((String) entity.getProperty(Lesson.TYPE_PROPERTY_KEY)) {
             case Lesson.TYPE_FORM:
                 return new Form(DatastoreServiceFactory.getDatastoreService().get(key));
             case Lesson.TYPE_VIDEO:
@@ -35,7 +36,7 @@ public class DatabaseService {
             case Lesson.TYPE_CONTENT:
                 return new Content(DatastoreServiceFactory.getDatastoreService().get(key));
             default:
-                throw new IOException(); 
+                throw new IllegalArgumentException(); 
         }
     }
 

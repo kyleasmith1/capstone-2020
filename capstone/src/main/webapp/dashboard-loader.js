@@ -36,7 +36,8 @@ function createRoomDivElement(room) {
                     <div class="card-text small-text">Followers: Infinite</div>
                     <div class="card-text small-text">Tag(s): </div>
                     <div class="small-spacing-bottom"></div>
-                    <button type="button" class="btn btn-default" onclick="window.location.href='lesson.html'">View</button>
+                    <button type="button" class="btn btn-default" 
+                    onclick="window.location.href='lesson.html?room_id='+${room.entity.key.id}">View</button>
                 </div>
             </div>
             `, "text/html");

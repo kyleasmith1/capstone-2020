@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import com.google.gson.Gson;
-import com.google.sps.data.Form;
 import com.google.sps.data.Lesson;
 import com.google.sps.data.Room;
 import com.google.sps.data.RequestParser;
@@ -46,24 +45,10 @@ public class RoomHandlerServlet extends HttpServlet {
 
     public List<Lesson> getLessons(Room room) {
         List<Lesson> lessons = new ArrayList<>();
-        List<String> types = Arrays.asList(
-            Lesson.TYPE_FORM,
-            Lesson.TYPE_VIDEO,
-            Lesson.TYPE_IMAGE,
-            Lesson.TYPE_CONTENT
-        );
-
+    
         try {
             for(Key key : room.getAllLessons()) {
-                System.out.println(key);
-                for(String type : types) {
-                    try {
-                        lessons.add(DatabaseService.getLesson(key, type));
-                    }
-                    catch (IOException e) {
-                        System.out.println("Not the right type.");
-                    }
-                }
+                lessons.add(DatabaseService.getLesson(key));
             }
         }
         catch (EntityNotFoundException e) {

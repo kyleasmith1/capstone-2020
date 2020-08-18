@@ -66,3 +66,31 @@ function createContent(title, description, content, urls) {
         }
     });
 }
+
+function getLessons() {
+    fetch("/lesson", {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((lessonsList) => {
+        const lessonElement = document.getElementById("lesson-container");
+        lessonElement.innerHTML = "";
+        for (lesson of lessonsList) {
+            lessonElement.appendChild(createLessonDivElement(lesson));
+        };
+    });
+}
+
+function createLessonDivElement(lesson) {
+    let domparser = new DOMParser();
+    let doc = domparser.parseFromString(`
+            <div class="card border-danger margin margin-left">
+                <img class="card-img-top" src="/assets/soundwave.svg" alt="Lesson Card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">${lesson.entity.propertyMap.title}</h5>
+                    <a class="card-text small-text" href="#">Kyle Smith</a>
+                    <div class="card-text small-text">Followers: Infinite</div>
+                    <div class="card-text small-text">Tag(s): </div>
+                    <div class="small-spacing-bottom"></div>
+                    <button type="button" class="btn btn-default" onclick="window.location.href='#'">Open</button>
+                </div>
+            </div>
+            `, "text/html");
+    return doc.body;
+}

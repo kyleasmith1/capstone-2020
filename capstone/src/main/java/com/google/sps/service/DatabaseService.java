@@ -6,7 +6,6 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
-
 import com.google.sps.data.User;
 import com.google.sps.data.Form;
 import com.google.sps.data.Content;
@@ -14,6 +13,7 @@ import com.google.sps.data.Video;
 import com.google.sps.data.Image;
 import com.google.sps.data.Room;
 import com.google.sps.data.Lesson;
+import java.lang.IllegalArgumentException;
 
 public class DatabaseService {
     public static User getUser(Key key) throws EntityNotFoundException { 

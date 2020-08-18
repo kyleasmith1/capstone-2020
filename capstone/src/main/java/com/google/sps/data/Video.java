@@ -17,7 +17,7 @@ public class Video extends Lesson {
         super.entity.setProperty(Video.URL_PROPERTY_KEY, url);
     }
 
-    public String getURL() {
+    public String getUrl() {
         return (String) super.entity.getProperty(Video.URL_PROPERTY_KEY);
     }
 }

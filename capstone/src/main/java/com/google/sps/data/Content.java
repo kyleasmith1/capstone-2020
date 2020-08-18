@@ -25,12 +25,12 @@ public class Content extends Lesson {
         return (String) super.entity.getProperty(Content.CONTENT_PROPERTY_KEY);
     }
 
-    public List<String> getAllURLs() {
+    public List<String> getAllUrls() {
         return (ArrayList<String>) super.entity.getProperty(Content.URLS_PROPERTY_KEY);
     }
 
     @SuppressWarnings("unchecked")
-    public void addURL(String url) {
+    public void addUrl(String url) {
         if (super.entity.getProperty(Content.URLS_PROPERTY_KEY) == null) {
             super.entity.setProperty(Content.URLS_PROPERTY_KEY, new ArrayList<>());
         }
@@ -39,7 +39,7 @@ public class Content extends Lesson {
     }
 
     @SuppressWarnings("unchecked")
-    public void removeURL(String url) {
+    public void removeUrl(String url) {
         ArrayList<String> urls = (ArrayList<String>) super.entity.getProperty(Content.URLS_PROPERTY_KEY);
         urls.remove(url);
     }

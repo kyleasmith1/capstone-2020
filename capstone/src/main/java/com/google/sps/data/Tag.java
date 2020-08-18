@@ -89,7 +89,7 @@ public final class Tag {
     );
 
     public static List<String> all() {
-        List<String> tags = new ArrayList(Tag.category);
+        List<String> tags = new ArrayList<>(Tag.category);
         tags.addAll(Tag.difficulty);
         tags.addAll(Tag.time);
         return tags;

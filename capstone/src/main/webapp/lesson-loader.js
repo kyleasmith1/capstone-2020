@@ -69,7 +69,7 @@ function createContent(title, description, content, urls) {
 }
 
 function getLessons() {
-    fetch("/room?room_id=" + getRoomId(), {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((lessonsList) => {
+    fetch("/lesson?room_id=" + getRoomId(), {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((lessonsList) => {
         const lessonElement = document.getElementById("lesson-container");
         lessonElement.innerHTML = "";
         for (lesson of lessonsList) {

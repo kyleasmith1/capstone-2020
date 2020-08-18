@@ -5,8 +5,11 @@ import com.google.appengine.api.datastore.Entity;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
-import com.google.sps.data.Form;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.Gson;
+import java.lang.IllegalArgumentException;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -100,25 +103,30 @@ public abstract class Lesson {
         return (Date) this.entity.getProperty(Lesson.DATE_PROPERTY_KEY);
     }
 
-    public static Lesson deserializeJson(String json) throws IOException {
+    public static Lesson deserializeJson(String json) throws IllegalArgumentException {
         JsonObject jobject = JsonParser.parseString(json).getAsJsonObject();
-
+        
         switch(jobject.get(Lesson.TYPE_PROPERTY_KEY).getAsString()) {
             case Lesson.TYPE_FORM:
                 return new Form(jobject.get(Lesson.TITLE_PROPERTY_KEY).getAsString(), 
                     jobject.get(Lesson.DESCRIPTION_PROPERTY_KEY).getAsString(), jobject.get(Form.EDIT_URL_PROPERTY_KEY).getAsString(),
                     jobject.get(Form.URL_PROPERTY_KEY).getAsString());
-            default:
-                throw new IOException(); 
-        }
-    }
+            case Lesson.TYPE_VIDEO:
+                return new Video(jobject.get(Lesson.TITLE_PROPERTY_KEY).getAsString(), 
+                    jobject.get(Lesson.DESCRIPTION_PROPERTY_KEY).getAsString(), jobject.get(Video.URL_PROPERTY_KEY).getAsString());
+            case Lesson.TYPE_IMAGE:
+                return new Image(jobject.get(Lesson.TITLE_PROPERTY_KEY).getAsString(), 
+                    jobject.get(Lesson.DESCRIPTION_PROPERTY_KEY).getAsString(), jobject.get(Image.URL_PROPERTY_KEY).getAsString());
+            case Lesson.TYPE_CONTENT:
+                JsonElement listJson = jobject.get(Content.URLS_PROPERTY_KEY);
+                Type listType = new TypeToken<List<String>>() {}.getType();
+                List<String> urlList = new Gson().fromJson(listJson, listType);
 
-    public static Lesson serializeJson(Entity entity) throws IOException {
-        switch((String) entity.getProperty(Lesson.TYPE_PROPERTY_KEY)) {
-            case Lesson.TYPE_FORM:
-                return new Form(entity);
+                return new Content(jobject.get(Lesson.TITLE_PROPERTY_KEY).getAsString(), 
+                    jobject.get(Lesson.DESCRIPTION_PROPERTY_KEY).getAsString(), jobject.get(Content.CONTENT_PROPERTY_KEY).getAsString(),
+                    urlList);
             default:
-                throw new IOException(); 
+                throw new IllegalArgumentException(); 
         }
     }
     

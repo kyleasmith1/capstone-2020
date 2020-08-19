@@ -3,6 +3,7 @@ package com.google.sps.servlets;
 import java.io.IOException;
 import com.google.sps.data.Lesson;
 import com.google.sps.data.Room;
+import com.google.sps.data.User;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
@@ -32,6 +33,10 @@ public class LessonHandlerServlet extends HttpServlet {
         PreparedQuery roomResults = datastore.prepare(new Query(Room.ROOM_ENTITY_NAME));
         Room room = null;
 
+        Filter userFilter = new FilterPredicate(Room.getId, FilterOperator.EQUAL, userId);
+        Query query = new Query(User.USER_ENTITY_NAME).setFilter(userFilter);
+        PreparedQuery results = datastore.prepare(query);
+
         for(Entity entity : roomResults.asIterable()) {
             if (new Room(entity).getRoomKey().getId() == Long.parseLong(request.getParameter("room_id"))) {
                 room = new Room(entity);
@@ -59,6 +64,28 @@ public class LessonHandlerServlet extends HttpServlet {
         }
         
         DatabaseService.save(room.getRoomEntity()); 
+        response.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    @Override
+    public void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        User user = (User) request.getAttribute(User.USER_ENTITY_NAME);
+        PreparedQuery roomResults = datastore.prepare(new Query(Room.ROOM_ENTITY_NAME));
+        Room room = null;
+
+        for(Entity entity : roomResults.asIterable()) {
+            if (new Room(entity).getRoomKey().getId() == Long.parseLong(request.getParameter("room_id"))) {
+                room = new Room(entity);
+                if (request.getParameter("action") == "join") {
+                    room.addFollower(user);
+                } else if (request.getParameter("action") == "unjoin") {
+                    room.removeFollower(user);
+                }
+            }
+        }
+
+        DatabaseService.save(room.getRoomEntity());
         response.setStatus(HttpServletResponse.SC_OK);
     }
 

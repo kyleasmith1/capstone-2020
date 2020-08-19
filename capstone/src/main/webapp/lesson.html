@@ -12,8 +12,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   </head>
   <body>
-      
-    <!-- UI updates in a future PR, this was created so that I could get a basic structure-->
 
     <nav class="navbar navbar-default">
         <ul class="nav navbar-nav navbar-left">
@@ -21,6 +19,7 @@
         </ul>
         <div class="text-inline">
             <ul class="navbar-nav navbar-expand-lg">
+                <li class="nav-item margin-right"><button type="button" class="btn btn-default" onclick="joinRoom()">Join</button></li>
                 <li class="nav-item margin-right">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -33,7 +32,7 @@
                             <button type="button" class="dropdown-item btn-default" data-toggle="modal" data-target="#ModalCenterVideo">Video</button>
                         </div>
                     </div>
-                </li>  
+                </li> 
                 <li class="nav-item"><div id="signout"></div></li>
             </ul>
         </div>

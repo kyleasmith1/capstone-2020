@@ -78,18 +78,33 @@ function getLessons() {
     });
 }
 
+function joinRoom() {
+    console.log("Room joined!");
+    return fetch("/lesson?room_id=" + getRoomId() + "&action=join", 
+    {method: "PUT", headers: new Headers({ID_TOKEN})}); 
+}
+
+function unjoinRoom() {
+    console.log("User has left the room!");
+    return fetch("/lesson?room_id=" + getRoomId() + "&action=unjoin",
+    {method: "PUT", headers: new Headers({ID_TOKEN})});
+}
+
 function getRoomId() {
     return new URL(window.location.href).searchParams.get("room_id");
 }
 
-// Will update in UI PR
+function getJoinStatus() {
+    return new URL(window.location.href).searchParams.get("action");
+}
+
 function createLessonDivElement(lesson) {
     let domparser = new DOMParser();
     let doc = domparser.parseFromString(`
             <div class="card border-danger margin margin-left">
                 <img class="card-img-top" src="/assets/soundwave.svg" alt="Lesson Card">
                 <div class="card-body text-center">
-                    <h5 class="card-title">${lesson.entity.propertyMap.title}</h5>
+                    <h5 class="card-title" id="lesson-title"></h5>
                     <a class="card-text small-text" href="#">Kyle Smith</a>
                     <div class="card-text small-text">Followers: Infinite</div>
                     <div class="card-text small-text">Tag(s): </div>
@@ -98,5 +113,7 @@ function createLessonDivElement(lesson) {
                 </div>
             </div>
             `, "text/html");
+            
+    doc.getElementById("lesson-title").innerText = lesson.entity.propertyMap.title
     return doc.body;
 }

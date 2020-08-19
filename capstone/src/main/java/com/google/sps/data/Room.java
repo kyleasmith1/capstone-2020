@@ -91,7 +91,7 @@ public class Room {
     }
 
     @SuppressWarnings("unchecked")
-    public boolean isFollowerInClass(User follower) {
+    public boolean isFollowerInRoom(User follower) {
         List<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
         return (!(followers.lastIndexOf(follower.getUserKey()) == -1));
     }

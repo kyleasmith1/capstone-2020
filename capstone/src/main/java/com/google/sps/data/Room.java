@@ -48,6 +48,9 @@ public class Room {
 
     @SuppressWarnings("unchecked")
     public List<Key> getAllFollowers() {
+        if (this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY) == null) {
+            return new ArrayList<Key>();
+        }
         return (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
     }
     

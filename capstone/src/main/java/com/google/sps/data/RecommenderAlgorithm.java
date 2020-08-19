@@ -16,7 +16,7 @@ public class RecommenderAlgorithm {
         Query query = new Query(Room.ROOM_ENTITY_NAME).setFilter(roomFilter);
         PreparedQuery results = datastore.prepare(query);
         ArrayList<Room> rooms = new ArrayList<>();
-        for(Entity entity : results.asIterable()){
+        for(Entity entity : results.asIterable()) {
             rooms.add(new Room(entity));
         }
 

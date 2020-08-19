@@ -67,12 +67,18 @@ public class Room {
             followers = new ArrayList<>();
         }
         followers.add(follower.getUserKey());
+        this.entity.setProperty(Room.FOLLOWERS_PROPERTY_KEY, followers);
     }
 
     @SuppressWarnings("unchecked")
     public void removeFollower(User follower) {
         List<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
-        followers.remove(follower.getUserKey());
+        if(followers == null){
+            return;
+        } else {
+            followers.remove(follower.getUserKey());
+            this.entity.setProperty(Room.FOLLOWERS_PROPERTY_KEY, followers);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -82,12 +88,18 @@ public class Room {
             forms = new ArrayList<>();
         }
         forms.add(form.getFormKey());
+        this.entity.setProperty(Room.FORMS_PROPERTY_KEY, forms);
     }
 
     @SuppressWarnings("unchecked")
     public void removeForm(Form form) {
         List<Key> forms = (ArrayList<Key>) this.entity.getProperty(Room.FORMS_PROPERTY_KEY);
-        forms.remove(form.getFormKey());
+        if(forms == null){
+            return;
+        } else {
+            forms.remove(form.getFormKey());
+            this.entity.setProperty(Room.FORMS_PROPERTY_KEY, forms);
+        }
     }
 
     @SuppressWarnings("unchecked")

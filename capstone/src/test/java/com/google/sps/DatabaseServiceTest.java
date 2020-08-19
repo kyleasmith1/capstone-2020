@@ -76,7 +76,7 @@ public final class DatabaseServiceTest {
         Assert.assertEquals(form.getUrl(), DatabaseServiceTest.TEST_URL);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void serializeJsonMissingTypeTest() throws EntityNotFoundException {
         Entity entity = new Entity(Lesson.LESSON_ENTITY_NAME);
         entity.setProperty(Lesson.TITLE_PROPERTY_KEY, DatabaseServiceTest.TEST_TITLE);

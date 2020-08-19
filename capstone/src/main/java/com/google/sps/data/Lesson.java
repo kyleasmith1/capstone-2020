@@ -104,8 +104,17 @@ public abstract class Lesson {
 
     public static Lesson deserializeJson(String json) throws IllegalArgumentException {
         JsonObject jobject = JsonParser.parseString(json).getAsJsonObject();
-        
-        switch(jobject.get(Lesson.TYPE_PROPERTY_KEY).getAsString()) {
+        String type = null;
+        try {
+            type = jobject.get(Lesson.TYPE_PROPERTY_KEY).getAsString();
+            if(type == null){
+                throw new IllegalArgumentException();
+            }
+        } catch (NullPointerException e){
+            throw new IllegalArgumentException(); 
+        }
+
+        switch(type) {
             case Lesson.TYPE_FORM:
                 return new Form(jobject.get(Lesson.TITLE_PROPERTY_KEY).getAsString(), 
                     jobject.get(Lesson.DESCRIPTION_PROPERTY_KEY).getAsString(), jobject.get(Form.EDIT_URL_PROPERTY_KEY).getAsString(),

@@ -12,8 +12,6 @@ public class Room {
     public static final String DESCRIPTION_PROPERTY_KEY = "description";
     public static final String HOST_PROPERTY_KEY = "host";
     public static final String FOLLOWERS_PROPERTY_KEY = "followers";
-    public static final String FORMS_PROPERTY_KEY = "forms";
-    
 
     private Entity entity;
 
@@ -26,8 +24,6 @@ public class Room {
         this.entity.setProperty(Room.TITLE_PROPERTY_KEY, title);
         this.entity.setProperty(Room.DESCRIPTION_PROPERTY_KEY, description);
         this.entity.setProperty(Room.HOST_PROPERTY_KEY, host.getUserKey());
-        this.entity.setProperty(Room.FOLLOWERS_PROPERTY_KEY, null);
-        this.entity.setProperty(Room.FORMS_PROPERTY_KEY, null);
     }
 
     public Entity getRoomEntity() {
@@ -54,52 +50,23 @@ public class Room {
     public List<Key> getAllFollowers() {
         return (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
     }
-
-    @SuppressWarnings("unchecked")
-    public List<Key> getAllForms() { 
-        return (ArrayList<Key>) this.entity.getProperty(Room.FORMS_PROPERTY_KEY); 
-    }
     
     @SuppressWarnings("unchecked")
     public void addFollower(User follower) {
-        List<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
-        if(followers == null){
-            followers = new ArrayList<>();
+        if (this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY) == null) {
+            this.entity.setProperty(Room.FOLLOWERS_PROPERTY_KEY, new ArrayList<Key>());
         }
+        ArrayList<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
         followers.add(follower.getUserKey());
-        this.entity.setProperty(Room.FOLLOWERS_PROPERTY_KEY, followers);
     }
 
     @SuppressWarnings("unchecked")
     public void removeFollower(User follower) {
-        List<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
-        if(followers == null){
-            return;
-        } else {
-            followers.remove(follower.getUserKey());
-            this.entity.setProperty(Room.FOLLOWERS_PROPERTY_KEY, followers);
+        if (this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY) == null) {
+            this.entity.setProperty(Room.FOLLOWERS_PROPERTY_KEY, new ArrayList<Key>());
         }
-    }
-
-    @SuppressWarnings("unchecked")
-    public void addForm(Form form) {
-        List<Key> forms = (ArrayList<Key>) this.entity.getProperty(Room.FORMS_PROPERTY_KEY);
-        if(forms == null){
-            forms = new ArrayList<>();
-        }
-        forms.add(form.getFormKey());
-        this.entity.setProperty(Room.FORMS_PROPERTY_KEY, forms);
-    }
-
-    @SuppressWarnings("unchecked")
-    public void removeForm(Form form) {
-        List<Key> forms = (ArrayList<Key>) this.entity.getProperty(Room.FORMS_PROPERTY_KEY);
-        if(forms == null){
-            return;
-        } else {
-            forms.remove(form.getFormKey());
-            this.entity.setProperty(Room.FORMS_PROPERTY_KEY, forms);
-        }
+        ArrayList<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
+        followers.remove(follower.getUserKey());
     }
 
     @SuppressWarnings("unchecked")

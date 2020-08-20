@@ -40,18 +40,19 @@
                 </div>
                 <div class="modal-body">
                         <p> Room Title: </p>
-                        <input type="text" id="subject" placeholder="Title" required> 
+                        <input type="text" id="title" placeholder="Title" required>
+                        <input type="text" id="description" placeholder="Description" required>  
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="createClassroom(document.getElementById('subject').value)" data-dismiss="modal">Create Room</button>
+                    <button type="button" class="btn btn-primary" onclick="createRoom(document.getElementById('title').value, document.getElementById('description').value)" data-dismiss="modal">Create Room</button>
                 </div>
             </div>
         </div>
     </div>
     
     <div class="container-fluid">
-        <div id="classroom-container" class="row row-cols-1 row-cols-sm-4"></div>
+        <div id="room-container" class="row row-cols-1 row-cols-sm-4"></div>
     </div>
     
     <script src="config.js"></script>

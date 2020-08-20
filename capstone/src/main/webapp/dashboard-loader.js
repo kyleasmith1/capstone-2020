@@ -1,44 +1,35 @@
 document.getElementById("signout").prepend(dynamicButton);
-window.addEventListener('authorized', getClassrooms);
+window.addEventListener('authorized', getRooms);
 
-function createClassroom(subject) {
-    var auth2 = gapi.auth2.getAuthInstance();
-    var name = "";
-    var email = "";
-
-    if (auth2.isSignedIn.get()) {
-        name = auth2.currentUser.get().getBasicProfile().getName();
-        email = auth2.currentUser.get().getBasicProfile().getEmail();
-    }
-
-    var classroomData = JSON.stringify({ "nickname": name, "userId": email, "subject": subject });
-    fetch("/dashboard", {method: "POST", headers: new Headers({ID_TOKEN}), body: classroomData}).then((resp) => {
+function createRoom(title, description) {
+    var roomData = JSON.stringify({"title": title, "description": description});
+    fetch("/dashboard", {method: "POST", headers: new Headers({ID_TOKEN}), body: roomData}).then((resp) => {
         if (resp.ok){
-            getClassrooms();
+            getRooms();
         } else {
             console.log("Error has occured");
         }
     });
 }
 
-function getClassrooms() {
-    fetch("/dashboard", {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((classroomsList) => {
-        const classroomElement = document.getElementById("classroom-container");
-        classroomElement.innerHTML = "";
-        for (classroom of classroomsList) {
-            classroomElement.appendChild(createClassroomDivElement(classroom));
+function getRooms() {
+    fetch("/dashboard", {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((roomsList) => {
+        const roomElement = document.getElementById("room-container");
+        roomElement.innerHTML = "";
+        for (room of roomsList) {
+            roomElement.appendChild(createRoomDivElement(room));
         };
     });
 }
 
 // TODO: Replace dummy values with real values in future PR
-function createClassroomDivElement(classroom) {
-    const domparser = new DOMParser();
-    const doc = domparser.parseFromString(`
+function createRoomDivElement(room) {
+    let domparser = new DOMParser();
+    let doc = domparser.parseFromString(`
             <div class="card margin margin-left">
                 <img class="card-img-top" src="/assets/soundwave.svg" alt="Room Card">
                 <div class="card-body text-center">
-                    <h5 class="card-title">${classroom.entity.propertyMap.subject}</h5>
+                    <h5 class="card-title">${room.entity.propertyMap.title}</h5>
                     <a class="card-text small-text" href="#">Kyle Smith</a>
                     <div class="card-text small-text">Followers: Infinite</div>
                     <div class="card-text small-text">Tag(s): </div>

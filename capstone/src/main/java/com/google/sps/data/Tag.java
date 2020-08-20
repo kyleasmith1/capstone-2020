@@ -44,7 +44,7 @@ public final class Tag {
     public static final String TAG_TEN_MINUTES = "10:00";
     public static final String TAG_TWENTY_MINUTES = "20:00+";
 
-    public static final List<String> category = Arrays.asList(
+    public static final List<String> CATEGORY_TAGS = Arrays.asList(
         Tag.TAG_EDUCATION,
         Tag.TAG_COOKING,
         Tag.TAG_FITNESS,
@@ -67,13 +67,13 @@ public final class Tag {
         Tag.TAG_NEWS
     );
 
-    public static final List<String> difficulty = Arrays.asList(
+    public static final List<String> DIFFICULTY_TAGS = Arrays.asList(
         Tag.TAG_EASY_DIFFICULTY,
         Tag.TAG_MEDIUM_DIFFICULTY,
         Tag.TAG_HARD_DIFFICULTY
     );
 
-    public static final List<String> time = Arrays.asList(
+    public static final List<String> TIME_TAGS = Arrays.asList(
         Tag.TAG_ONE_MINUTE,
         Tag.TAG_TWO_MINUTES,
         Tag.TAG_THREE_MINUTES,
@@ -84,9 +84,9 @@ public final class Tag {
     );
 
     public static List<String> all() {
-        List<String> tags = new ArrayList<>(Tag.category);
-        tags.addAll(Tag.difficulty);
-        tags.addAll(Tag.time);
+        List<String> tags = new ArrayList<>(Tag.CATEGORY_TAGS);
+        tags.addAll(Tag.DIFFICULTY_TAGS);
+        tags.addAll(Tag.TIME_TAGS);
         return tags;
     }
 

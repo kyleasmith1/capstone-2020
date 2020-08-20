@@ -54,8 +54,6 @@ public class JoinServlet extends HttpServlet {
         }
 
         DatabaseService.save(room.getRoomEntity());
-
-        System.out.println(room.getRoomEntity());
         response.setStatus(HttpServletResponse.SC_OK);
     }
 }

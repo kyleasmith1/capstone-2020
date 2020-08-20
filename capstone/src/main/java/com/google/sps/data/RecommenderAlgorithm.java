@@ -53,7 +53,8 @@ public class RecommenderAlgorithm {
             otherUserVectorMap.put(new User(userEntity), otherUserTagMap);
         }
 
-
+        //normalize
+        //Iterate through with category
 
         return null;
 

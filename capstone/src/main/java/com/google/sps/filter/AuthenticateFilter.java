@@ -33,7 +33,7 @@ public class AuthenticateFilter implements javax.servlet.Filter {
     private static final String AUTH_HEADER_NAME = "id_token";
 
     public void init(FilterConfig filterConfig) throws ServletException{
-
+        
     }
  
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

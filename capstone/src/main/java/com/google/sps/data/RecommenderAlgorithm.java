@@ -13,6 +13,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Entity;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.List;
 
 public class RecommenderAlgorithm {
 
@@ -23,7 +24,7 @@ public class RecommenderAlgorithm {
         Query userRoomQuery = new Query(Room.ROOM_ENTITY_NAME).setFilter(userRoomFilter);
         PreparedQuery userRoomResults = datastore.prepare(userRoomQuery);
 
-        ArrayList<String> userTags = null;
+        List<String> userTags = null;
         HashMap<String, Integer> userTagMap = Tag.constructUserVectorMap();
         for(Entity entity : userRoomResults.asIterable()) {
             userTags = new Room(entity).getAllTags();
@@ -33,7 +34,7 @@ public class RecommenderAlgorithm {
         }
         
         Key otherUserKey = null;
-        ArrayList<String> otherUserTags = null;
+        List<String> otherUserTags = null;
         HashMap<User, HashMap<String,Integer>> otherUserVectorMap = new HashMap<User, HashMap<String,Integer>>();
         HashMap<String, Integer> otherUserTagMap = null;
         Query otherUserQuery = new Query(User.USER_ENTITY_NAME);

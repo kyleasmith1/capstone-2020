@@ -47,7 +47,7 @@ public final class Tag {
     private static final String TAG_TEN_MINUTES = "10:00";
     private static final String TAG_TWENTY_MINUTES = "20:00+";
 
-    public static final ArrayList<String> category = Arrays.asList(
+    public static final List<String> category = Arrays.asList(
         Tag.TAG_EDUCATION,
         Tag.TAG_COOKING,
         Tag.TAG_FITNESS,
@@ -73,13 +73,13 @@ public final class Tag {
         Tag.TAG_NEWS
     );
 
-    public static final ArrayList<String> difficulty = Arrays.asList(
+    public static final List<String> difficulty = Arrays.asList(
         Tag.TAG_EASY_DIFFICULTY,
         Tag.TAG_MEDIUM_DIFFICULTY,
         Tag.TAG_HARD_DIFFICULTY
     );
 
-    public static final ArrayList<String> time = Arrays.asList(
+    public static final List<String> time = Arrays.asList(
         Tag.TAG_ONE_MINUTE,
         Tag.TAG_TWO_MINUTES,
         Tag.TAG_THREE_MINUTES,

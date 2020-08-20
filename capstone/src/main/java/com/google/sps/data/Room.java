@@ -43,7 +43,7 @@ public class Room {
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<String> getAllTags() { 
+    public List<String> getAllTags() { 
         if (this.entity.getProperty(Lesson.TAGS_PROPERTY_KEY) == null) {
             return new ArrayList<String>();
         }

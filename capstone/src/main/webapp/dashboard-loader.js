@@ -28,15 +28,20 @@ function createRoomDivElement(room) {
             <div class="card margin margin-left">
                 <img class="card-img-top" src="/assets/soundwave.svg" alt="Room Card">
                 <div class="card-body text-center">
-                    <h5 class="card-title">${room.entity.propertyMap.title}</h5>
+                    <h5 class="card-title" id="room-title"></h5>
                     <a class="card-text small-text" href="#">Kyle Smith</a>
                     <div class="card-text small-text">Followers: Infinite</div>
                     <div class="card-text small-text">Tag(s): </div>
                     <div class="small-spacing-bottom"></div>
-                    <button type="button" class="btn btn-default" 
-                    onclick="window.location.href='lesson.html?room_id='+${room.entity.key.id}">View</button>
+                    <div class="btn btn-default" id="room-link"></button>
                 </div>
             </div>
             `, "text/html");
+    
+    doc.getElementById("room-title").innerText = room.entity.propertyMap.title;
+    doc.getElementById("room-link").addEventListener("click", function() {
+        window.location.href = "lesson.html?room_id=" + room.entity.key.id;
+    });
+    doc.getElementById("room-link").innerText = "View";
     return doc.body;
 }

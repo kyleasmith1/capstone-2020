@@ -12,7 +12,6 @@ public class Room {
     public static final String DESCRIPTION_PROPERTY_KEY = "description";
     public static final String HOST_PROPERTY_KEY = "host";
     public static final String FOLLOWERS_PROPERTY_KEY = "followers";
-    
 
     private Entity entity;
 
@@ -25,7 +24,6 @@ public class Room {
         this.entity.setProperty(Room.TITLE_PROPERTY_KEY, title);
         this.entity.setProperty(Room.DESCRIPTION_PROPERTY_KEY, description);
         this.entity.setProperty(Room.HOST_PROPERTY_KEY, host.getUserKey());
-        this.entity.setProperty(Room.FOLLOWERS_PROPERTY_KEY, null);
     }
 
     public Entity getRoomEntity() {
@@ -50,27 +48,33 @@ public class Room {
 
     @SuppressWarnings("unchecked")
     public List<Key> getAllFollowers() {
+        if (this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY) == null) {
+            return new ArrayList<Key>();
+        }
         return (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
     }
     
     @SuppressWarnings("unchecked")
     public void addFollower(User follower) {
-        List<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
-        if(followers == null){
-            followers = new ArrayList<>();
+        if (this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY) == null) {
+            this.entity.setProperty(Room.FOLLOWERS_PROPERTY_KEY, new ArrayList<Key>());
         }
+        ArrayList<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
         followers.add(follower.getUserKey());
     }
 
     @SuppressWarnings("unchecked")
     public void removeFollower(User follower) {
-        List<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
+        if (this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY) == null) {
+            this.entity.setProperty(Room.FOLLOWERS_PROPERTY_KEY, new ArrayList<Key>());
+        }
+        ArrayList<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
         followers.remove(follower.getUserKey());
     }
 
     @SuppressWarnings("unchecked")
-    public boolean isFollowerInClass(User follower) {
-        List<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
+    public boolean isFollowerInRoom(User follower) {
+        ArrayList<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
         return (!(followers.lastIndexOf(follower.getUserKey()) == -1));
     }
 }

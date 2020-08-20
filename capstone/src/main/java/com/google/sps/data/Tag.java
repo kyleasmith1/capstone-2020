@@ -106,6 +106,26 @@ public final class Tag {
         vector.put(Tag.TAG_COOKING, 0);
         vector.put(Tag.TAG_FITNESS, 0);
         vector.put(Tag.TAG_LITERATURE, 0);
+        vector.put(Tag.TAG_MUSIC, 0);
+        vector.put(Tag.TAG_TECHNOLOGY, 0);
+        vector.put(Tag.TAG_RANDOM, 0);
+        vector.put(Tag.TAG_MISCELLANEOUS, 0);
+        vector.put(Tag.TAG_RELIGIOUS, 0);
+        vector.put(Tag.TAG_ANCIENT, 0);
+        vector.put(Tag.TAG_SPACE, 0);
+        vector.put(Tag.TAG_ROMANTIC, 0);
+        vector.put(Tag.TAG_COMEDY, 0);
+        vector.put(Tag.TAG_ART, 0);
+        vector.put(Tag.TAG_BAKING, 0);
+        vector.put(Tag.TAG_DANCING, 0);
+        vector.put(Tag.TAG_CHALLENGE, 0);
+        vector.put(Tag.TAG_BODY_BUILDING, 0);
+        vector.put(Tag.TAG_DIETING, 0);
+        vector.put(Tag.TAG_DESSERTS, 0);
+        vector.put(Tag.TAG_ADVENTURE, 0);
+        vector.put(Tag.TAG_MEDITATION, 0);
+        vector.put(Tag.TAG_NEWS, 0);
+        
         return vector;
     }
 }

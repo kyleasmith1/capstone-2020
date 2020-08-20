@@ -14,50 +14,44 @@ import com.google.appengine.api.datastore.Entity;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.Iterable;
 
 public class RecommenderAlgorithm {
 
     public static ArrayList<Room> recommendRooms(User user) {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        Key userKey = user.getUserKey();
-        Filter userRoomFilter = new FilterPredicate(Room.FOLLOWERS_PROPERTY_KEY, FilterOperator.EQUAL, userKey);
+        HashMap<String, Integer> userTagMap = Tag.constructUserVectorMap();
+        RecommenderAlgorithm.populateUserTagMap(user, userTagMap);
+        
+        Query otherUserQuery = new Query(User.USER_ENTITY_NAME);
+        PreparedQuery otherUserResults = datastore.prepare(otherUserQuery);
+
+        User otherUser = null;
+        HashMap<String, Integer> otherUserTagMap = null;
+        HashMap<User, HashMap<String,Integer>> otherUserVectorMap = new HashMap<User, HashMap<String,Integer>>();
+        for(Entity otherUserEntity : otherUserResults.asIterable()) {
+            otherUser = new User(otherUserEntity);
+            otherUserTagMap = Tag.constructUserVectorMap();
+            RecommenderAlgorithm.populateUserTagMap(otherUser, otherUserTagMap);
+            otherUserVectorMap.put(otherUser, otherUserTagMap);
+        }
+
+        return null;
+    }
+
+    public static void populateUserTagMap(User user, HashMap<String, Integer> userTagMap) {
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        Filter userRoomFilter = new FilterPredicate(Room.FOLLOWERS_PROPERTY_KEY, FilterOperator.EQUAL, user.getUserKey());
         Query userRoomQuery = new Query(Room.ROOM_ENTITY_NAME).setFilter(userRoomFilter);
         PreparedQuery userRoomResults = datastore.prepare(userRoomQuery);
 
         List<String> userTags = null;
-        HashMap<String, Integer> userTagMap = Tag.constructUserVectorMap();
-        for(Entity entity : userRoomResults.asIterable()) {
-            userTags = new Room(entity).getAllTags();
+        for(Entity roomEntity : userRoomResults.asIterable()){
+            userTags = new Room(roomEntity).getAllTags();
             for(String tag : userTags) {
                 userTagMap.put(tag, userTagMap.get(tag) + 1);
             }
         }
-        
-        Key otherUserKey = null;
-        List<String> otherUserTags = null;
-        HashMap<User, HashMap<String,Integer>> otherUserVectorMap = new HashMap<User, HashMap<String,Integer>>();
-        HashMap<String, Integer> otherUserTagMap = null;
-        Query otherUserQuery = new Query(User.USER_ENTITY_NAME);
-        PreparedQuery otherUserResults = datastore.prepare(otherUserQuery);
-        for(Entity userEntity : otherUserResults.asIterable()) {
-            otherUserKey = userEntity.getKey();
-            otherUserTagMap = Tag.constructUserVectorMap();
-            Filter otherUserRoomFilter = new FilterPredicate(Room.FOLLOWERS_PROPERTY_KEY, FilterOperator.EQUAL, otherUserKey);
-            Query otherUserRoomQuery = new Query(Room.ROOM_ENTITY_NAME).setFilter(otherUserRoomFilter);
-            PreparedQuery otherUserRoomResults = datastore.prepare(otherUserRoomQuery);
-            for(Entity roomEntity : otherUserRoomResults.asIterable()){
-                otherUserTags = new Room(roomEntity).getAllTags();
-                for(String tag : otherUserTags) {
-                    otherUserTagMap.put(tag, userTagMap.get(tag) + 1);
-                }
-            }
-            otherUserVectorMap.put(new User(userEntity), otherUserTagMap);
-        }
-
-        //normalize
-        //Iterate through with category
-
-        return null;
-
     }
+
 }

@@ -16,6 +16,8 @@ import com.google.gson.JsonObject;
 import com.google.sps.data.Room;
 import com.google.sps.data.Lesson;
 import com.google.sps.data.User;
+import com.google.sps.data.Tag;
+import com.google.sps.data.RecommenderAlgorithm;
 import java.lang.IllegalArgumentException;
 import java.io.IOException;
 import com.google.appengine.api.datastore.DatastoreService;
@@ -30,13 +32,13 @@ import com.google.appengine.api.datastore.Key;
 import com.google.sps.service.DatabaseService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
 
 @RunWith(JUnit4.class)
 public final class RecommenderAlgorithmTest {
     
     private final LocalServiceTestHelper helper =
-      new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig()
-          .setDefaultHighRepJobPolicyUnappliedJobPercentage(100));
+      new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
     @Before
     public void setUp() {
@@ -49,48 +51,81 @@ public final class RecommenderAlgorithmTest {
     }
 
     @Test
-    public void arrayListTest() { 
-        User user = new User("123", "Andrew");
-        User follower = new User("321", "Kyle");
-        User Matt = new User("456", "Matt");
-        DatabaseService.save(user.getUserEntity());
-        DatabaseService.save(follower.getUserEntity());
-        DatabaseService.save(Matt.getUserEntity());
+    public void populateUserTagMapGeneralTest() { 
+        User smith = new User("1234", "Smith");
+        User john = new User("2341", "John");
+        User bill = new User("3412", "Bill");
+        User sam = new User("4123", "Sam");
+        DatabaseService.save(smith.getUserEntity());
+        DatabaseService.save(john.getUserEntity());
+        DatabaseService.save(bill.getUserEntity());
+        DatabaseService.save(sam.getUserEntity());
 
-        Room room = new Room(user, "Ukulele", "Free Lessons");
-        DatabaseService.save(room.getRoomEntity());
-        room.addFollower(follower);
-        room.addFollower(Matt);
-        
-        List<Key> followers = room.getAllFollowers();
-        // System.out.println(followers);
-    }
+        Room poetryRoom = new Room(smith, "How to Teach Poetry", "Learn how to teach Poetry");
+        poetryRoom.addTag(Tag.TAG_EDUCATION);
+        poetryRoom.addTag(Tag.TAG_LITERATURE);
+        poetryRoom.addFollower(john);
+        poetryRoom.addFollower(sam);
+        DatabaseService.save(poetryRoom.getRoomEntity());
 
-    @Test
-    public void filterTest(){
-        User user = new User("123", "Andrew");
-        User follower = new User("321", "Kyle");
-        User Matt = new User("456", "Matt");
-        DatabaseService.save(user.getUserEntity());
-        DatabaseService.save(follower.getUserEntity());
-        DatabaseService.save(Matt.getUserEntity());
+        Room runRoom = new Room(john, "Run Efficiently", "Improve your running experience");
+        runRoom.addTag(Tag.TAG_FITNESS);
+        runRoom.addFollower(smith);
+        runRoom.addFollower(bill);
+        DatabaseService.save(runRoom.getRoomEntity());
 
-        Room room = new Room(user, "Ukulele", "Free Lessons");
-        DatabaseService.save(room.getRoomEntity());
-        room.addFollower(follower);
-        room.addFollower(Matt);
-        
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        List<Key> followers = room.getAllFollowers();
-        System.out.println(followers);
-        Key userKey = Matt.getUserKey();
-        System.out.println(userKey);
-        // Filter userRoomFilter = new FilterPredicate(Room.FOLLOWERS_PROPERTY_KEY, FilterOperator.EQUAL, userKey);
-        Query userRoomQuery = new Query(Room.ROOM_ENTITY_NAME);
-        PreparedQuery userRoomResults = datastore.prepare(userRoomQuery);
+        Room cookRoom = new Room(bill, "Iron Chef Master Course", "Cook Better");
+        cookRoom.addTag(Tag.TAG_COOKING);
+        cookRoom.addFollower(john);
+        cookRoom.addFollower(bill);
+        DatabaseService.save(cookRoom.getRoomEntity());
 
-        for(Entity entity : userRoomResults.asIterable()) {
-            System.out.println("HERE " + entity);
-        }
+        Room cookRoomTwo = new Room(bill, "Iron Chef Master Course II", "Cook Better Part 2");
+        cookRoomTwo.addTag(Tag.TAG_COOKING);
+        cookRoomTwo.addFollower(john);
+        cookRoomTwo.addFollower(bill);
+        DatabaseService.save(cookRoomTwo.getRoomEntity());
+
+        // Smith
+        //     1 Fitness
+        // John
+        //     1 Literature
+        //     1 Education
+        //     2 Cooking
+        // Bill
+        //     1 Fitness
+        //     2 Cooking
+        // Sam
+        //     1 Literature
+        //     1 Education
+
+        HashMap<String, Integer> userTagMap = Tag.constructUserVectorMap();
+        RecommenderAlgorithm.populateUserTagMap(smith, userTagMap);
+        Assert.assertEquals((int) userTagMap.get(Tag.TAG_EDUCATION), 0);
+        Assert.assertEquals((int) userTagMap.get(Tag.TAG_LITERATURE), 0);
+        Assert.assertEquals((int) userTagMap.get(Tag.TAG_FITNESS), 1);
+        Assert.assertEquals((int) userTagMap.get(Tag.TAG_COOKING), 0);
+
+        userTagMap = Tag.constructUserVectorMap();
+        RecommenderAlgorithm.populateUserTagMap(john, userTagMap);
+        Assert.assertEquals((int) userTagMap.get(Tag.TAG_EDUCATION), 1);
+        Assert.assertEquals((int) userTagMap.get(Tag.TAG_LITERATURE), 1);
+        Assert.assertEquals((int) userTagMap.get(Tag.TAG_FITNESS), 0);
+        Assert.assertEquals((int) userTagMap.get(Tag.TAG_COOKING), 2);
+
+        userTagMap = Tag.constructUserVectorMap();
+        RecommenderAlgorithm.populateUserTagMap(bill, userTagMap);
+        Assert.assertEquals((int) userTagMap.get(Tag.TAG_EDUCATION), 0);
+        Assert.assertEquals((int) userTagMap.get(Tag.TAG_LITERATURE), 0);
+        Assert.assertEquals((int) userTagMap.get(Tag.TAG_FITNESS), 1);
+        Assert.assertEquals((int) userTagMap.get(Tag.TAG_COOKING), 2);
+
+        userTagMap = Tag.constructUserVectorMap();
+        RecommenderAlgorithm.populateUserTagMap(sam, userTagMap);
+        Assert.assertEquals((int) userTagMap.get(Tag.TAG_EDUCATION), 1);
+        Assert.assertEquals((int) userTagMap.get(Tag.TAG_LITERATURE), 1);
+        Assert.assertEquals((int) userTagMap.get(Tag.TAG_FITNESS), 0);
+        Assert.assertEquals((int) userTagMap.get(Tag.TAG_COOKING), 0);
+
     }
 }

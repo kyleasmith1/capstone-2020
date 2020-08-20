@@ -11,10 +11,10 @@ public final class Tag {
         
     }
     
-    private static final String TAG_EDUCATION = "Education";
-    private static final String TAG_COOKING = "Cooking";
-    private static final String TAG_FITNESS = "Fitness"; 
-    private static final String TAG_LITERATURE = "Literature"; 
+    public static final String TAG_EDUCATION = "Education";
+    public static final String TAG_COOKING = "Cooking";
+    public static final String TAG_FITNESS = "Fitness"; 
+    public static final String TAG_LITERATURE = "Literature"; 
     private static final String TAG_MUSIC = "Music";
     private static final String TAG_TECHNOLOGY = "Technology";
     private static final String TAG_RANDOM = "Random";

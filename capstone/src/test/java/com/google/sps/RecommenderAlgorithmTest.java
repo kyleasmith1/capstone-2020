@@ -10,16 +10,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.sps.data.Room;
-import com.google.sps.data.Lesson;
 import com.google.sps.data.User;
 import com.google.sps.data.Tag;
 import com.google.sps.data.RecommenderAlgorithm;
-import java.lang.IllegalArgumentException;
-import java.io.IOException;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
@@ -92,7 +86,6 @@ public final class RecommenderAlgorithmTest {
             }
             Assert.assertEquals((int) userTagMap.get(tag), 0);
         }
-
     }
 
     @Test
@@ -153,5 +146,4 @@ public final class RecommenderAlgorithmTest {
             Assert.assertEquals((int) userTagMap.get(tag), 0);
         }
     }
-
 }

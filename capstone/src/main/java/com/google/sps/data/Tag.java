@@ -3,6 +3,7 @@ package com.google.sps.data;
 import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public final class Tag {
 
@@ -46,7 +47,7 @@ public final class Tag {
     private static final String TAG_TEN_MINUTES = "10:00";
     private static final String TAG_TWENTY_MINUTES = "20:00+";
 
-    public static final List<String> category = Arrays.asList(
+    public static final ArrayList<String> category = Arrays.asList(
         Tag.TAG_EDUCATION,
         Tag.TAG_COOKING,
         Tag.TAG_FITNESS,
@@ -72,13 +73,13 @@ public final class Tag {
         Tag.TAG_NEWS
     );
 
-    public static final List<String> difficulty = Arrays.asList(
+    public static final ArrayList<String> difficulty = Arrays.asList(
         Tag.TAG_EASY_DIFFICULTY,
         Tag.TAG_MEDIUM_DIFFICULTY,
         Tag.TAG_HARD_DIFFICULTY
     );
 
-    public static final List<String> time = Arrays.asList(
+    public static final ArrayList<String> time = Arrays.asList(
         Tag.TAG_ONE_MINUTE,
         Tag.TAG_TWO_MINUTES,
         Tag.TAG_THREE_MINUTES,
@@ -97,5 +98,14 @@ public final class Tag {
 
     public static String get(String tag) {
         return tag;
+    }
+
+    public static final HashMap<String, Integer> constructUserVectorMap() {
+        HashMap<String, Integer> vector = new HashMap<>();
+        vector.put(Tag.TAG_EDUCATION, 0);
+        vector.put(Tag.TAG_COOKING, 0);
+        vector.put(Tag.TAG_FITNESS, 0);
+        vector.put(Tag.TAG_LITERATURE, 0);
+        return vector;
     }
 }

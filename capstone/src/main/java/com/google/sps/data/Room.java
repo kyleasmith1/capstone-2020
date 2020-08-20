@@ -93,6 +93,9 @@ public class Room {
 
     @SuppressWarnings("unchecked")
     public void removeFollower(User follower) {
+        if (this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY) == null) {
+            return; 
+        }
         ArrayList<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
         followers.remove(follower.getUserKey());
     }
@@ -116,6 +119,9 @@ public class Room {
 
     @SuppressWarnings("unchecked")
     public void removeLesson(Lesson lesson) {
+        if (this.entity.getProperty(Room.LESSONS_PROPERTY_KEY) == null) {
+            return;
+        }
         ArrayList<Key> lessons = (ArrayList<Key>) this.entity.getProperty(Room.LESSONS_PROPERTY_KEY);
         lessons.remove(lesson.getLessonKey());
     }

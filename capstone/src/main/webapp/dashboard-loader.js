@@ -40,7 +40,7 @@ function createRoomDivElement(room) {
     
     doc.getElementById("room-title").innerText = room.entity.propertyMap.title;
     doc.getElementById("room-link").addEventListener("click", function() {
-        window.location.href = "lesson.html?room_id=" + room.entity.key.id
+        window.location.href = "lesson.html?room_id=" + room.entity.key.id;
     });
     doc.getElementById("room-link").innerText = "View";
     return doc.body;

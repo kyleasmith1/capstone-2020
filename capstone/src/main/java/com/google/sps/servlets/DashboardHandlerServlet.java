@@ -1,4 +1,5 @@
 package com.google.sps.servlets;
+
 import java.io.IOException;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -47,13 +48,12 @@ public class DashboardHandlerServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
         JsonObject jobject = JsonParser.parseString(RequestParser.parseStringFromRequest(request)).getAsJsonObject();
 
         Room room = new Room((User) request.getAttribute(User.USER_ENTITY_NAME), 
             jobject.get(Room.TITLE_PROPERTY_KEY).getAsString(), jobject.get(Room.DESCRIPTION_PROPERTY_KEY).getAsString());
+            
         DatabaseService.save(room.getRoomEntity());
-
         response.setStatus(HttpServletResponse.SC_OK);
     }
 }

@@ -6,6 +6,8 @@ const VIDEO = "video";
 const CONTENT = "content";
 const IMAGE = "image";
 
+const queryString = "/lesson?room_id=" + getRoomId() + "&action=" + getJoinStatus();
+
 // Will take out any hard coded values in a future PR
 function createForm(title, description) {
     var scriptId = config.SCRIPT_ID;
@@ -23,8 +25,8 @@ function createForm(title, description) {
         } else if (resp.result?.error != null) {
             console.log("Script error message: " + result.error);
         } else { 
-            var formData = JSON.stringify({"type": FORM, "title": "title", "description": "description", "editUrl": resp.result.response.result.editUrl, "url": resp.result.response.result.url});            
-            return fetch("/lesson?room_id=" + getRoomId(), {method: "POST", headers: new Headers({ID_TOKEN}), body: formData});  
+            var formData = JSON.stringify({"type": FORM, "title": "title", "description": "description", "editUrl": resp.result.response.result.editUrl, "url": resp.result.response.result.url});          
+            return fetch(queryString, {method: "POST", headers: new Headers({ID_TOKEN}), body: formData});  
         }
     }).then((resp) => {
         if (resp.ok){
@@ -37,7 +39,7 @@ function createForm(title, description) {
 
 function createVideo(title, description, url) {
     var videoData = JSON.stringify({"type": VIDEO, "title": "title", "description": "description", "url": "url"});
-    fetch("/lesson?room_id=" + getRoomId(), {method: "POST", headers: new Headers({ID_TOKEN}), body: videoData}).then((resp) => {
+    fetch(queryString, {method: "POST", headers: new Headers({ID_TOKEN}), body: videoData}).then((resp) => {
         if (resp.ok){
             getLessons();
         } else {
@@ -48,7 +50,7 @@ function createVideo(title, description, url) {
 
 function createImage(title, description, url) {
     var imageData = JSON.stringify({"type": IMAGE, "title": "title", "description": "description", "url": "url"});
-    fetch("/lesson?room_id=" + getRoomId(), {method: "POST", headers: new Headers({ID_TOKEN}), body: imageData}).then((resp) => {
+    fetch(queryString, {method: "POST", headers: new Headers({ID_TOKEN}), body: imageData}).then((resp) => {
         if (resp.ok){
             getLessons();
         } else {
@@ -59,7 +61,7 @@ function createImage(title, description, url) {
 
 function createContent(title, description, content, urls) {
     var contentData = JSON.stringify({"type": CONTENT, "title": "title", "description": "description", "content": "content", "urls": urls.split(", ")});
-    fetch("/lesson?room_id=" + getRoomId(), {method: "POST", headers: new Headers({ID_TOKEN}), body: contentData}).then((resp) => {
+    fetch(queryString, {method: "POST", headers: new Headers({ID_TOKEN}), body: contentData}).then((resp) => {
         if (resp.ok){
             getLessons();
         } else {
@@ -69,7 +71,7 @@ function createContent(title, description, content, urls) {
 }
 
 function getLessons() {
-    fetch("/lesson?room_id=" + getRoomId(), {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((lessonsList) => {
+    fetch(queryString, {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((lessonsList) => {
         const lessonElement = document.getElementById("lesson-container");
         lessonElement.innerHTML = "";
         for (lesson of lessonsList) {
@@ -80,14 +82,13 @@ function getLessons() {
 
 function joinRoom() {
     console.log("Room joined!");
-    return fetch("/lesson?room_id=" + getRoomId() + "&action=join", 
-    {method: "PUT", headers: new Headers({ID_TOKEN})}); 
+    return fetch("/join?room_id=" + getRoomId() + "&action=join", {method: "POST", headers: new Headers({ID_TOKEN})}); 
 }
 
 function unjoinRoom() {
     console.log("User has left the room!");
-    return fetch("/lesson?room_id=" + getRoomId() + "&action=unjoin",
-    {method: "PUT", headers: new Headers({ID_TOKEN})});
+    return fetch("/join?room_id=" + getRoomId() + "&action=unjoin",
+    {method: "POST", headers: new Headers({ID_TOKEN})});
 }
 
 function getRoomId() {
@@ -95,7 +96,11 @@ function getRoomId() {
 }
 
 function getJoinStatus() {
-    return new URL(window.location.href).searchParams.get("action");
+    var action = new URL(window.location.href).searchParams.get("action")
+    if (action == null) {
+        return "unjoin";
+    }
+    return action;
 }
 
 function createLessonDivElement(lesson) {

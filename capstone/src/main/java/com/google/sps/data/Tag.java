@@ -17,20 +17,17 @@ public final class Tag {
     public static final String TAG_LITERATURE = "Literature"; 
     public static final String TAG_MUSIC = "Music";
     public static final String TAG_TECHNOLOGY = "Technology";
-    public static final String TAG_RANDOM = "Random";
+    public static final String TAG_GAMING = "Gaming";
     public static final String TAG_MISCELLANEOUS = "Miscellaneous";
     public static final String TAG_RELIGIOUS = "Religious";
-    public static final String TAG_ANCIENT = "Ancient";
+    public static final String TAG_HISTORIC = "Historic";
     public static final String TAG_SPACE = "Space";
-    public static final String TAG_ROMANTIC = "Romantic";
-    public static final String TAG_COMEDY = "Comedy";
+    public static final String TAG_CAREER = "Career";
+    public static final String TAG_ARCHITECTURE = "Architecture";
     public static final String TAG_ART = "Art";
-    public static final String TAG_BAKING = "Baking";
     public static final String TAG_DANCING = "Dancing";
     public static final String TAG_CHALLENGE = "Challenge";
-    public static final String TAG_BODY_BUILDING = "Body Building";
     public static final String TAG_DIETING = "Dieting";
-    public static final String TAG_DESSERTS = "Desserts";
     public static final String TAG_ADVENTURE = "Adventure";
     public static final String TAG_MEDITATION = "Meditation";
     public static final String TAG_NEWS = "News";
@@ -54,20 +51,17 @@ public final class Tag {
         Tag.TAG_LITERATURE,
         Tag.TAG_MUSIC,
         Tag.TAG_TECHNOLOGY,
-        Tag.TAG_RANDOM,
+        Tag.TAG_GAMING,
         Tag.TAG_MISCELLANEOUS,
         Tag.TAG_RELIGIOUS,
-        Tag.TAG_ANCIENT,
+        Tag.TAG_HISTORIC,
         Tag.TAG_SPACE,
-        Tag.TAG_ROMANTIC,
-        Tag.TAG_COMEDY,
+        Tag.TAG_CAREER,
+        Tag.TAG_ARCHITECTURE,
         Tag.TAG_ART,
-        Tag.TAG_BAKING,
         Tag.TAG_DANCING,
         Tag.TAG_CHALLENGE,
-        Tag.TAG_BODY_BUILDING,
         Tag.TAG_DIETING,
-        Tag.TAG_DESSERTS,
         Tag.TAG_ADVENTURE,
         Tag.TAG_MEDITATION,
         Tag.TAG_NEWS
@@ -108,20 +102,17 @@ public final class Tag {
         vector.put(Tag.TAG_LITERATURE, 0);
         vector.put(Tag.TAG_MUSIC, 0);
         vector.put(Tag.TAG_TECHNOLOGY, 0);
-        vector.put(Tag.TAG_RANDOM, 0);
+        vector.put(Tag.TAG_GAMING, 0);
         vector.put(Tag.TAG_MISCELLANEOUS, 0);
         vector.put(Tag.TAG_RELIGIOUS, 0);
-        vector.put(Tag.TAG_ANCIENT, 0);
+        vector.put(Tag.TAG_HISTORIC, 0);
         vector.put(Tag.TAG_SPACE, 0);
-        vector.put(Tag.TAG_ROMANTIC, 0);
-        vector.put(Tag.TAG_COMEDY, 0);
+        vector.put(Tag.TAG_CAREER, 0);
+        vector.put(Tag.TAG_ARCHITECTURE, 0);
         vector.put(Tag.TAG_ART, 0);
-        vector.put(Tag.TAG_BAKING, 0);
         vector.put(Tag.TAG_DANCING, 0);
         vector.put(Tag.TAG_CHALLENGE, 0);
-        vector.put(Tag.TAG_BODY_BUILDING, 0);
         vector.put(Tag.TAG_DIETING, 0);
-        vector.put(Tag.TAG_DESSERTS, 0);
         vector.put(Tag.TAG_ADVENTURE, 0);
         vector.put(Tag.TAG_MEDITATION, 0);
         vector.put(Tag.TAG_NEWS, 0);

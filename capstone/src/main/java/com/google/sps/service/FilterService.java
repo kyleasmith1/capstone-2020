@@ -25,7 +25,7 @@ public class FilterService {
         return result.asSingleEntity();
     }
 
-    public static PreparedQuery getAll(String entity, String property, Key key) {
+    public static PreparedQuery getQuery(String entity, String property, Key key) {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Filter filter = new FilterPredicate(property, FilterOperator.EQUAL, key);
         Query query = new Query(entity).setFilter(filter);

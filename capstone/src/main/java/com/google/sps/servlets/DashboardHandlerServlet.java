@@ -29,7 +29,7 @@ public class DashboardHandlerServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Key userKey = ((User) request.getAttribute(User.USER_ENTITY_NAME)).getUserKey();
-        PreparedQuery results = FilterService.getAll(Room.ROOM_ENTITY_NAME, Room.HOST_PROPERTY_KEY, userKey);
+        PreparedQuery results = FilterService.getQuery(Room.ROOM_ENTITY_NAME, Room.HOST_PROPERTY_KEY, userKey);
     
         ArrayList<Room> rooms = new ArrayList<>();
         for(Entity entity : results.asIterable()){

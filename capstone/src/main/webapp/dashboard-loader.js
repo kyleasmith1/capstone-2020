@@ -31,7 +31,6 @@ function getRooms() {
         const roomElement = document.getElementById("room-container");
         roomElement.innerHTML = "";
         for (room of roomsList) {
-            console.log(room);
             roomElement.appendChild(createRoomDivElement(room));
         };
     });

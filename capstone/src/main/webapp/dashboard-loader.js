@@ -2,7 +2,26 @@ document.getElementById("signout").prepend(dynamicButton);
 window.addEventListener('authorized', getRooms);
 
 function createRoom(title, description) {
-    var roomData = JSON.stringify({"title": title, "description": description});
+    var checkboxes = document.getElementsByClassName("form-check-input");
+    var tagsData = [];
+    for(checkbox of checkboxes){
+        if(checkbox.checked === true){
+            console.log("Added");
+            tagsData.push(checkbox.value);
+        }
+    }
+    if(tagsData.length < 1 || tagsData.length > 3){
+        console.log("Diff number of tags");
+        return;
+    }
+
+    $(document).ready(function(){
+        $("#modalBtn").click(function(){
+            $("#exampleModalCenter").modal("hide");
+        });
+    });
+
+    var roomData = JSON.stringify({"title": title, "description": description, "tags": tagsData});
     fetch("/dashboard", {method: "POST", headers: new Headers({ID_TOKEN}), body: roomData}).then((resp) => {
         if (resp.ok){
             getRooms();

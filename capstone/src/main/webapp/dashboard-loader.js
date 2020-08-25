@@ -94,17 +94,21 @@ function closeModal(){
         }
     }
 
-    if(document.getElementById("errorModal") != null){
-        document.getElementById("errorModal").remove();
+    if(document.getElementById("errorModalMessage") != null){
+        document.getElementById("errorModalMessage").remove();
     }
 
-    $("#exampleModalCenter").modal("hide");
+    $("#roomModal").modal("hide");
 }
 
 function errorModal(formTag){
+    if(document.getElementById("errorModalMessage") != null){
+        return;
+    }
+
     let domparser = new DOMParser();
     let doc = domparser.parseFromString(`
-        <p class="text-danger" id="errorModal">Please select 1-3 tags</p>
+        <p class="text-danger" id="errorModalMessage">Please select 1-3 tags</p>
     `, "text/html");
     formTag.prepend(doc.documentElement);
 }

@@ -1,5 +1,6 @@
 package com.google.sps.data;
 
+import com.google.appengine.api.datastore.EmbeddedEntity;
 import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -94,29 +95,28 @@ public final class Tag {
         return tag;
     }
 
-    public static final HashMap<String, Integer> constructUserVectorMap() {
-        HashMap<String, Integer> vector = new HashMap<>();
-        vector.put(Tag.TAG_EDUCATION, 0);
-        vector.put(Tag.TAG_COOKING, 0);
-        vector.put(Tag.TAG_FITNESS, 0);
-        vector.put(Tag.TAG_LITERATURE, 0);
-        vector.put(Tag.TAG_MUSIC, 0);
-        vector.put(Tag.TAG_TECHNOLOGY, 0);
-        vector.put(Tag.TAG_GAMING, 0);
-        vector.put(Tag.TAG_MISCELLANEOUS, 0);
-        vector.put(Tag.TAG_RELIGIOUS, 0);
-        vector.put(Tag.TAG_HISTORIC, 0);
-        vector.put(Tag.TAG_SPACE, 0);
-        vector.put(Tag.TAG_CAREER, 0);
-        vector.put(Tag.TAG_ARCHITECTURE, 0);
-        vector.put(Tag.TAG_ART, 0);
-        vector.put(Tag.TAG_DANCING, 0);
-        vector.put(Tag.TAG_CHALLENGE, 0);
-        vector.put(Tag.TAG_DIETING, 0);
-        vector.put(Tag.TAG_ADVENTURE, 0);
-        vector.put(Tag.TAG_MEDITATION, 0);
-        vector.put(Tag.TAG_NEWS, 0);
-        
-        return vector;
+    public static final EmbeddedEntity constructUserEmbeddedEntity() {
+        EmbeddedEntity tags = new EmbeddedEntity();
+        tags.setProperty(Tag.TAG_EDUCATION, 0.0);
+        tags.setProperty(Tag.TAG_COOKING, 0.0);
+        tags.setProperty(Tag.TAG_FITNESS, 0.0);
+        tags.setProperty(Tag.TAG_LITERATURE, 0.0);
+        tags.setProperty(Tag.TAG_MUSIC, 0.0);
+        tags.setProperty(Tag.TAG_TECHNOLOGY, 0.0);
+        tags.setProperty(Tag.TAG_GAMING, 0.0);
+        tags.setProperty(Tag.TAG_MISCELLANEOUS, 0.0);
+        tags.setProperty(Tag.TAG_RELIGIOUS, 0.0);
+        tags.setProperty(Tag.TAG_HISTORIC, 0.0);
+        tags.setProperty(Tag.TAG_SPACE, 0.0);
+        tags.setProperty(Tag.TAG_CAREER, 0.0);
+        tags.setProperty(Tag.TAG_ARCHITECTURE, 0.0);
+        tags.setProperty(Tag.TAG_ART, 0.0);
+        tags.setProperty(Tag.TAG_DANCING, 0.0);
+        tags.setProperty(Tag.TAG_CHALLENGE, 0.0);
+        tags.setProperty(Tag.TAG_DIETING, 0.0);
+        tags.setProperty(Tag.TAG_ADVENTURE, 0.0);
+        tags.setProperty(Tag.TAG_MEDITATION, 0.0);
+        tags.setProperty(Tag.TAG_NEWS, 0.0);
+        return tags;
     }
 }

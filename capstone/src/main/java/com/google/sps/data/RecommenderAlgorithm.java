@@ -34,7 +34,7 @@ public class RecommenderAlgorithm {
             otherUserVectorMap.put(otherUser, otherUserTagMap);
         }
  
-        // Algorithm is work in progress. Have yet to normalize and calculate relationship.
+        //TODO: Algorithm is work in progress. Have yet to normalize and calculate relationship.
         return null;
     }
  

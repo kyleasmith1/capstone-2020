@@ -140,7 +140,7 @@ public final class LessonTest {
         Assert.assertArrayEquals(content.getAllUrls().toArray(), testList.toArray());
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void deserializeJsonMissingFieldTest() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty(Lesson.TYPE_PROPERTY_KEY, Lesson.TYPE_FORM);
@@ -151,7 +151,7 @@ public final class LessonTest {
         Lesson lesson = Lesson.deserializeJson(jsonObject.toString());
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void deserializeJsonMissingTypeTest() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty(Lesson.TITLE_PROPERTY_KEY, LessonTest.TEST_TITLE);

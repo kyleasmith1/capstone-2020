@@ -19,11 +19,11 @@ public class Form extends Lesson {
         super.entity.setProperty(Form.URL_PROPERTY_KEY, url);
     }
 
-    public String getEditURL() {
+    public String getEditUrl() {
         return (String) super.entity.getProperty(Form.EDIT_URL_PROPERTY_KEY);
     }
 
-    public String getURL() {
+    public String getUrl() {
         return (String) super.entity.getProperty(Form.URL_PROPERTY_KEY);
     }
 }

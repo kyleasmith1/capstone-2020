@@ -17,7 +17,7 @@ public class Image extends Lesson {
         super.entity.setProperty(Image.URL_PROPERTY_KEY, url);
     }
 
-    public String getURL() {
+    public String getUrl() {
         return (String) super.entity.getProperty(Image.URL_PROPERTY_KEY);
     }
 }

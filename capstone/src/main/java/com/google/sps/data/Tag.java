@@ -92,7 +92,7 @@ public enum Tag {
     );
 
     public static List<String> all() {
-        List<String> tags = new ArrayList(Tag.CATEGORY_TAGS);
+        List<String> tags = new ArrayList<>(Tag.CATEGORY_TAGS);
         tags.addAll(Tag.DIFFICULTY_TAGS);
         tags.addAll(Tag.TIME_TAGS);
         return tags;

@@ -518,9 +518,9 @@ public final class RecommenderAlgorithmTest {
 
         List<Key> recommended = RecommenderAlgorithm.recommendRooms(TEST_USER_SMITH, 10);
         List<Key> rooms = new ArrayList<>();
-        rooms.add(TEST_ROOM_COOK.getRoomKey());
         rooms.add(TEST_ROOM_SCIENCE.getRoomKey());
         rooms.add(TEST_ROOM_POETRY.getRoomKey());
+        rooms.add(TEST_ROOM_COOK.getRoomKey());
         
         Assert.assertEquals(recommended, rooms);
     }
@@ -560,9 +560,9 @@ public final class RecommenderAlgorithmTest {
         List<Key> recommended = RecommenderAlgorithm.recommendRooms(TEST_USER_SMITH, 10);
         List<Key> rooms = new ArrayList<>();
         rooms.add(TEST_ROOM_POETRY.getRoomKey());
-        rooms.add(TEST_ROOM_COOK.getRoomKey());
-        rooms.add(TEST_ROOM_SCIENCE.getRoomKey());
         rooms.add(TEST_ROOM_COOK_TWO.getRoomKey());
+        rooms.add(TEST_ROOM_SCIENCE.getRoomKey());
+        rooms.add(TEST_ROOM_COOK.getRoomKey());
         
         Assert.assertEquals(recommended, rooms);
     }

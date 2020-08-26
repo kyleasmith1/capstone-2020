@@ -82,9 +82,9 @@ public final class RecommenderAlgorithmTest {
         for(String tag : TEST_CATEGORY_TAGS){
             if(tag.equals(Tag.TAG_FITNESS)){
                 Assert.assertEquals((int) userTagMap.get(tag), 1);
-                continue;
+            } else {
+                Assert.assertEquals((int) userTagMap.get(tag), 0);
             }
-            Assert.assertEquals((int) userTagMap.get(tag), 0);
         }
     }
 
@@ -99,9 +99,9 @@ public final class RecommenderAlgorithmTest {
         for(String tag : TEST_CATEGORY_TAGS) {
             if(tag.equals(Tag.TAG_EDUCATION) || tag.equals(Tag.TAG_LITERATURE)) {
                 Assert.assertEquals((int) userTagMap.get(tag), 1);
-                continue;
+            } else {
+                Assert.assertEquals((int) userTagMap.get(tag), 0);
             }
-            Assert.assertEquals((int) userTagMap.get(tag), 0);
         }
     }
 
@@ -121,9 +121,9 @@ public final class RecommenderAlgorithmTest {
             if(tag.equals(Tag.TAG_FITNESS) || tag.equals(Tag.TAG_EDUCATION) 
                 || tag.equals(Tag.TAG_LITERATURE)) {
                 Assert.assertEquals((int) userTagMap.get(tag), 1);
-                continue;
+            } else {
+                Assert.assertEquals((int) userTagMap.get(tag), 0);
             }
-            Assert.assertEquals((int) userTagMap.get(tag), 0);
         }
     }
 
@@ -141,9 +141,9 @@ public final class RecommenderAlgorithmTest {
         for(String tag : TEST_CATEGORY_TAGS) {
             if(tag.equals(Tag.TAG_COOKING)) {
                 Assert.assertEquals((int) userTagMap.get(tag), 2);
-                continue;
+            } else {
+                Assert.assertEquals((int) userTagMap.get(tag), 0);
             }
-            Assert.assertEquals((int) userTagMap.get(tag), 0);
         }
     }
 }

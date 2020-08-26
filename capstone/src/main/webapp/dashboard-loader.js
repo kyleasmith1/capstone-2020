@@ -1,5 +1,5 @@
 document.getElementById("signout").prepend(dynamicButton);
-window.addEventListener('authorized', getRooms());
+window.addEventListener('authorized', getRooms);
 
 function createRoom(title, description) {
     var roomData = JSON.stringify({"title": title, "description": description});

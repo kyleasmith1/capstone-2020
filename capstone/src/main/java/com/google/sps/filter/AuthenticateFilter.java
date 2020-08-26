@@ -47,8 +47,9 @@ public class AuthenticateFilter implements javax.servlet.Filter {
             System.out.println("Cannot verify token: " + e);
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
-        } catch (Exception e){
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        } catch (IllegalArgumentException e){
+            System.out.println("Missing authorization header: " + e);
+            res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
 

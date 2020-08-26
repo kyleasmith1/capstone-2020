@@ -73,7 +73,7 @@ public final class RecommenderAlgorithmTest {
     }
  
     @Test
-    public void populateUserTagMapOneTagOneClassroomTest() { 
+    public void populateUserTagMapOneTagOneRoomTest() { 
         TEST_ROOM_RUN.addTag(Tag.TAG_FITNESS);
         TEST_ROOM_RUN.addFollower(TEST_USER_SMITH);
         DatabaseService.save(TEST_ROOM_RUN.getRoomEntity());
@@ -89,7 +89,7 @@ public final class RecommenderAlgorithmTest {
     }
 
     @Test
-    public void populateUserTagMapMultipleTagOneClassroomTest() { 
+    public void populateUserTagMapMultipleTagOneRoomTest() { 
         TEST_ROOM_POETRY.addTag(Tag.TAG_EDUCATION);
         TEST_ROOM_POETRY.addTag(Tag.TAG_LITERATURE);
         TEST_ROOM_POETRY.addFollower(TEST_USER_SMITH);
@@ -106,7 +106,7 @@ public final class RecommenderAlgorithmTest {
     }
 
     @Test
-    public void populateUserTagMapMultipleTagMultipleClassroomTest() { 
+    public void populateUserTagMapMultipleTagMultipleRoomTest() { 
         TEST_ROOM_POETRY.addTag(Tag.TAG_EDUCATION);
         TEST_ROOM_POETRY.addTag(Tag.TAG_LITERATURE);
         TEST_ROOM_POETRY.addFollower(TEST_USER_SMITH);
@@ -128,7 +128,7 @@ public final class RecommenderAlgorithmTest {
     }
 
     @Test
-    public void populateUserTagMapSameTagMultipleClassroomTest() { 
+    public void populateUserTagMapSameTagMultipleRoomTest() { 
         TEST_ROOM_COOK.addTag(Tag.TAG_COOKING);
         TEST_ROOM_COOK.addFollower(TEST_USER_SMITH);
         DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());

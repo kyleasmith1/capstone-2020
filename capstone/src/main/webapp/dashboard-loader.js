@@ -1,5 +1,5 @@
 document.getElementById("signout").prepend(dynamicButton);
-window.addEventListener('authorized', getRooms);
+window.addEventListener('authorized', getRooms());
 
 function createRoom(title, description) {
     var roomData = JSON.stringify({"title": title, "description": description});
@@ -12,8 +12,15 @@ function createRoom(title, description) {
     });
 }
 
-function getRooms() {
+function getRooms(type='') {
     fetch("/dashboard", {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((roomsList) => {
+        if (type == "recommended") {
+            roomsList = roomsList[2];
+        } else if (type == "followed") {
+            roomsList = roomsList[1];
+        } else {
+            roomsList = roomsList[0];
+        }
         const roomElement = document.getElementById("room-container");
         roomElement.innerHTML = "";
         for (room of roomsList) {
@@ -22,7 +29,7 @@ function getRooms() {
     });
 }
 
-function getSearchResults() {
+function getSearchResults(type='') {
    fetch("/search?search=" + document.getElementById('search').value, {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((roomList) => {
         const roomElement = document.getElementById("room-container");
         roomElement.innerHTML = "";

@@ -8,7 +8,6 @@ const IMAGE = "image";
 
 const queryString = "/lesson?room_id=" + getRoomId() + "&action=" + getJoinStatus();
 
-// Will take out any hard coded values in a future PR
 function createForm(title, description) {
     var scriptId = config.SCRIPT_ID;
 
@@ -21,12 +20,12 @@ function createForm(title, description) {
     }
     }).then(function(resp) {
         if (resp.result?.error?.status != null) {
-            console.log('Error calling API: ' + result);
+            console.error('Error calling API: ' + result);
         } else if (resp.result?.error != null) {
             console.log("Script error message: " + result.error);
         } else { 
-            var formData = JSON.stringify({"type": FORM, "title": "title", "description": "description", "editUrl": resp.result.response.result.editUrl, "url": resp.result.response.result.url});          
-            return fetch(queryString, {method: "POST", headers: new Headers({ID_TOKEN}), body: formData});  
+            var formData = JSON.stringify({"type": FORM, "title": title, "description": description, "editUrl": resp.result.response.result.editUrl, "url": resp.result.response.result.url});            
+            return fetch("/lesson?room_id=" + getRoomId(), {method: "POST", headers: new Headers({ID_TOKEN}), body: formData});  
         }
     }).then((resp) => {
         if (resp.ok){
@@ -38,8 +37,8 @@ function createForm(title, description) {
 }
 
 function createVideo(title, description, url) {
-    var videoData = JSON.stringify({"type": VIDEO, "title": "title", "description": "description", "url": "url"});
-    fetch(queryString, {method: "POST", headers: new Headers({ID_TOKEN}), body: videoData}).then((resp) => {
+    var videoData = JSON.stringify({"type": VIDEO, "title": title, "description": description, "url": url});
+    fetch("/lesson?room_id=" + getRoomId(), {method: "POST", headers: new Headers({ID_TOKEN}), body: videoData}).then((resp) => {
         if (resp.ok){
             getLessons();
         } else {
@@ -49,8 +48,8 @@ function createVideo(title, description, url) {
 }
 
 function createImage(title, description, url) {
-    var imageData = JSON.stringify({"type": IMAGE, "title": "title", "description": "description", "url": "url"});
-    fetch(queryString, {method: "POST", headers: new Headers({ID_TOKEN}), body: imageData}).then((resp) => {
+    var imageData = JSON.stringify({"type": IMAGE, "title": title, "description": description, "url": url});
+    fetch("/lesson?room_id=" + getRoomId(), {method: "POST", headers: new Headers({ID_TOKEN}), body: imageData}).then((resp) => {
         if (resp.ok){
             getLessons();
         } else {
@@ -60,8 +59,8 @@ function createImage(title, description, url) {
 }
 
 function createContent(title, description, content, urls) {
-    var contentData = JSON.stringify({"type": CONTENT, "title": "title", "description": "description", "content": "content", "urls": urls.split(", ")});
-    fetch(queryString, {method: "POST", headers: new Headers({ID_TOKEN}), body: contentData}).then((resp) => {
+    var contentData = JSON.stringify({"type": CONTENT, "title": title, "description": description, "content": content, "urls": urls.split(", ")});
+    fetch("/lesson?room_id=" + getRoomId(), {method: "POST", headers: new Headers({ID_TOKEN}), body: contentData}).then((resp) => {
         if (resp.ok){
             getLessons();
         } else {

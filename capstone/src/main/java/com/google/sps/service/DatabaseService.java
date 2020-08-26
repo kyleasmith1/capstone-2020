@@ -25,7 +25,17 @@ public class DatabaseService {
 
     public static Lesson getLesson(Key key) throws EntityNotFoundException {
         Entity entity = DatastoreServiceFactory.getDatastoreService().get(key);
-        switch((String) entity.getProperty(Lesson.TYPE_PROPERTY_KEY)) {
+        String type = null;
+        try {
+            type = (String) entity.getProperty(Lesson.TYPE_PROPERTY_KEY);
+            if(type == null){
+                throw new IllegalArgumentException();
+            }
+        } catch (NullPointerException e){
+            throw new IllegalArgumentException();
+        }
+
+        switch(type) {
             case Lesson.TYPE_FORM:
                 return new Form(DatastoreServiceFactory.getDatastoreService().get(key));
             case Lesson.TYPE_VIDEO:

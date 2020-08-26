@@ -54,7 +54,7 @@ public final class DatabaseServiceTest {
     }
    
     @Test
-    public void serializeJsonGeneralTest() {
+    public void serializeJsonGeneralTest() throws EntityNotFoundException {
         Entity entity = new Entity(Lesson.LESSON_ENTITY_NAME);
         entity.setProperty(Lesson.TYPE_PROPERTY_KEY, Lesson.TYPE_FORM);
         entity.setProperty(Lesson.TITLE_PROPERTY_KEY, DatabaseServiceTest.TEST_TITLE);
@@ -65,43 +65,33 @@ public final class DatabaseServiceTest {
 
         Query query = new Query(Lesson.LESSON_ENTITY_NAME);
         PreparedQuery results = datastore.prepare(query);
+        Lesson lesson = DatabaseService.getLesson(results.asSingleEntity().getKey());
 
-        try{ 
-            Lesson lesson = DatabaseService.getLesson(results.asSingleEntity().getKey());
-
-            Assert.assertEquals(lesson.getType(), Lesson.TYPE_FORM);
-            Assert.assertEquals(lesson.getTitle(), DatabaseServiceTest.TEST_TITLE);
-            Assert.assertEquals(lesson.getDescription(), DatabaseServiceTest.TEST_DESCRIPTION);
-            Assert.assertTrue(lesson instanceof Form);
-            Form form = (Form) lesson; 
-            Assert.assertEquals(form.getEditUrl(), DatabaseServiceTest.TEST_EDIT_URL);
-            Assert.assertEquals(form.getUrl(), DatabaseServiceTest.TEST_URL);
-
-        } catch (EntityNotFoundException e) {
-            Assert.fail("EntityNotFoundException Thrown");
-        }
+        Assert.assertEquals(lesson.getType(), Lesson.TYPE_FORM);
+        Assert.assertEquals(lesson.getTitle(), DatabaseServiceTest.TEST_TITLE);
+        Assert.assertEquals(lesson.getDescription(), DatabaseServiceTest.TEST_DESCRIPTION);
+        Assert.assertTrue(lesson instanceof Form);
+        Form form = (Form) lesson; 
+        Assert.assertEquals(form.getEditUrl(), DatabaseServiceTest.TEST_EDIT_URL);
+        Assert.assertEquals(form.getUrl(), DatabaseServiceTest.TEST_URL);
     }
 
-    @Test(expected = NullPointerException.class)
-    public void serializeJsonMissingTypeTest() {
+    @Test(expected = IllegalArgumentException.class)
+    public void serializeJsonMissingTypeTest() throws EntityNotFoundException {
         Entity entity = new Entity(Lesson.LESSON_ENTITY_NAME);
         entity.setProperty(Lesson.TITLE_PROPERTY_KEY, DatabaseServiceTest.TEST_TITLE);
         entity.setProperty(Lesson.DESCRIPTION_PROPERTY_KEY, DatabaseServiceTest.TEST_DESCRIPTION);
         entity.setProperty(Form.EDIT_URL_PROPERTY_KEY, DatabaseServiceTest.TEST_EDIT_URL);
         entity.setProperty(Form.URL_PROPERTY_KEY, DatabaseServiceTest.TEST_URL);
         DatabaseService.save(entity);
+        
         Query query = new Query(Lesson.LESSON_ENTITY_NAME);
         PreparedQuery results = datastore.prepare(query);
-
-        try{ 
-            Lesson lesson = DatabaseService.getLesson(results.asSingleEntity().getKey());
-        } catch (EntityNotFoundException e) {
-            Assert.fail("EntityNotFoundException Thrown");
-        }
+        Lesson lesson = DatabaseService.getLesson(results.asSingleEntity().getKey());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void serializeJsonWrongTypeTest() {
+    public void serializeJsonWrongTypeTest() throws EntityNotFoundException {
         Entity entity = new Entity(Lesson.LESSON_ENTITY_NAME);
         entity.setProperty(Lesson.TYPE_PROPERTY_KEY, "MalformedForm");
         entity.setProperty(Lesson.TITLE_PROPERTY_KEY, DatabaseServiceTest.TEST_TITLE);
@@ -109,13 +99,9 @@ public final class DatabaseServiceTest {
         entity.setProperty(Form.EDIT_URL_PROPERTY_KEY, DatabaseServiceTest.TEST_EDIT_URL);
         entity.setProperty(Form.URL_PROPERTY_KEY, DatabaseServiceTest.TEST_URL);
         DatabaseService.save(entity);
+
         Query query = new Query(Lesson.LESSON_ENTITY_NAME);
         PreparedQuery results = datastore.prepare(query);
-
-        try{ 
-            Lesson lesson = DatabaseService.getLesson(results.asSingleEntity().getKey());
-        } catch (EntityNotFoundException e) {
-            Assert.fail("EntityNotFoundException Thrown");
-        }
+        Lesson lesson = DatabaseService.getLesson(results.asSingleEntity().getKey());
     }
 }

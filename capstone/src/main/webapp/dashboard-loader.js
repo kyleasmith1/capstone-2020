@@ -2,9 +2,6 @@ document.getElementById("signout").prepend(dynamicButton);
 window.addEventListener('authorized', getRooms);
 
 function createRoom(title, description) {
-    console.log("Title:" + title);
-    console.log("Description:" + description);
-
     var roomData = JSON.stringify({"title": title, "description": description});
     fetch("/dashboard", {method: "POST", headers: new Headers({ID_TOKEN}), body: roomData}).then((resp) => {
         if (resp.ok){
@@ -37,7 +34,7 @@ function createRoomDivElement(room) {
                     <div class="card-text small-text">Followers: Infinite</div>
                     <div class="card-text small-text">Tag(s): </div>
                     <div class="small-spacing-bottom"></div>
-                    <button type="button" class="btn btn-default" onclick="window.location.href='form.html'">View</button>
+                    <a href="form.html" role="button" class="btn btn-default">View</a>
                 </div>
             </div>
             `, "text/html");

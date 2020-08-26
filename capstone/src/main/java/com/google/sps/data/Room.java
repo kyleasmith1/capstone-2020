@@ -11,7 +11,7 @@ public class Room {
     public static final String DESCRIPTION_PROPERTY_KEY = "description";
     public static final String HOST_PROPERTY_KEY = "host";
     public static final String FOLLOWERS_PROPERTY_KEY = "followers";
-    public static final String TAG_LIST_PROPERTY_KEY = "tagList";
+    public static final String TAGS_PROPERTY_KEY = "tags";
     public static final String LESSONS_PROPERTY_KEY = "lessons";
 
     private Entity entity;
@@ -75,7 +75,7 @@ public class Room {
     }
 
     @SuppressWarnings("unchecked")
-    public List<Key> getAllFollowers() { // For Andrew: Your data model showed these as actual User objects. Was that on purpose?
+    public List<Key> getAllFollowers() {
         if (this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY) == null) {
             return new ArrayList<Key>();
         }
@@ -93,12 +93,15 @@ public class Room {
 
     @SuppressWarnings("unchecked")
     public void removeFollower(User follower) {
+        if (this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY) == null) {
+            this.entity.setProperty(Room.FOLLOWERS_PROPERTY_KEY, new ArrayList<Key>());
+        }
         ArrayList<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
         followers.remove(follower.getUserKey());
     }
 
     @SuppressWarnings("unchecked")
-    public List<Key> getAllLessons() { // For Andrew: Your data model showed these as actual Lesson objects. Was that on purpose?
+    public List<Key> getAllLessons() { 
         if (this.entity.getProperty(Room.LESSONS_PROPERTY_KEY) == null) {
             return new ArrayList<Key>();
         }
@@ -121,8 +124,8 @@ public class Room {
     }
 
     @SuppressWarnings("unchecked")
-    public boolean isFollowerInClass(User follower) {
-        List<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
+    public boolean isFollowerInRoom(User follower) {
+        ArrayList<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
         return (!(followers.lastIndexOf(follower.getUserKey()) == -1));
     }
 

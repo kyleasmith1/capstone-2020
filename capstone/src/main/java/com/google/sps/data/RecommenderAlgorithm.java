@@ -27,14 +27,12 @@ import java.lang.Math;
  
 public class RecommenderAlgorithm {
 
-    // TODO: Will add the proportions in the next PR when I know exact percentages
-
     public static List<Key> recommendRooms(User user, Integer amount) {
         RecommenderAlgorithm recommender = null;
         recommender.normalizeAllEmbeddedEntities();
 
-        Map<Key, Double> distances = recommender.getDistanceMaps(user, user.getEmbeddedTags());
-        Map sorted = sortByValues(distances);
+        TreeMap<Key, Double> distances = recommender.getDistanceMaps(user, user.getEmbeddedTags());
+        TreeMap sorted = sortByValues(distances);
 
         List<Key> rooms = new ArrayList<>();
         for (Map.Entry<Key, Double> entry : distances.entrySet()) {
@@ -48,10 +46,11 @@ public class RecommenderAlgorithm {
         return rooms.subList(0, amount);
     }
 
-    public static List<Key> findSimilarRooms(User user, Key key, List<Key> rooms) {
+    private static List<Key> findSimilarRooms(User user, Key key, List<Key> rooms) {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        Query query = new Query(Room.ROOM_ENTITY_NAME);
-        PreparedQuery results = datastore.prepare(query);
+        Filter userRoomFilter = new FilterPredicate(Room.FOLLOWERS_PROPERTY_KEY, FilterOperator.NOT_EQUAL, key);
+        Query userRoomQuery = new Query(Room.ROOM_ENTITY_NAME).setFilter(userRoomFilter);
+        PreparedQuery results = datastore.prepare(userRoomQuery);
 
         if (results.countEntities() == 0) {
             return new ArrayList<>();
@@ -59,8 +58,7 @@ public class RecommenderAlgorithm {
 
         for (Entity result : results.asIterable()) {
             Room room = new Room(result);
-            if (room.getAllFollowers().contains(key) && !room.getAllFollowers().contains(user.getUserKey()) &&
-                !rooms.contains(room.getRoomKey())) {
+            if (!room.getAllFollowers().contains(user.getUserKey()) && !rooms.contains(room.getRoomKey())) {
                 rooms.add(room.getRoomKey());
             }
         }
@@ -69,8 +67,9 @@ public class RecommenderAlgorithm {
 
     public static void populateEmbeddedEntity(User user) {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        Query query = new Query(Room.ROOM_ENTITY_NAME);
-        PreparedQuery results = datastore.prepare(query);
+        Filter userRoomFilter = new FilterPredicate(Room.FOLLOWERS_PROPERTY_KEY, FilterOperator.EQUAL, user.getUserKey());
+        Query userRoomQuery = new Query(Room.ROOM_ENTITY_NAME).setFilter(userRoomFilter);
+        PreparedQuery results = datastore.prepare(userRoomQuery);
         EmbeddedEntity entity = user.getEmbeddedTags();
 
         if (results.countEntities() == 0) {
@@ -80,24 +79,9 @@ public class RecommenderAlgorithm {
         entity = Tag.constructUserEmbeddedEntity();
         for (Entity result : results.asIterable()) {
             Room room = new Room(result);
-            if (room.getAllFollowers().contains(user.getUserKey())) {
-                for (String tag : room.getAllTags()) {
-                    double frequency = (Double) entity.getProperty(tag);
-                    entity.setProperty(tag, frequency + 1.0);
-                }
-            }
-        }
-        user.setEmbeddedTags(entity);
-    }
-
-    public static void normalizeEmbeddedEntity(User user) {
-        RecommenderAlgorithm.populateEmbeddedEntity(user);
-        EmbeddedEntity entity = user.getEmbeddedTags();
-        double magnitude = RecommenderAlgorithm.magnitude(entity);
-        for (String tag : Tag.CATEGORY_TAGS) {
-            double value = (Double) entity.getProperty(tag);
-            if (magnitude != 0.0) {
-                entity.setProperty(tag, value/magnitude);
+            for (String tag : room.getAllTags()) {
+                double frequency = (Double) entity.getProperty(tag);
+                entity.setProperty(tag, frequency + 1.0);
             }
         }
         user.setEmbeddedTags(entity);
@@ -117,13 +101,26 @@ public class RecommenderAlgorithm {
         }
     }
 
-    public static Map<Key, Double> getDistanceMaps(User user, EmbeddedEntity entity) {
+    public static void normalizeEmbeddedEntity(User user) {
+        RecommenderAlgorithm.populateEmbeddedEntity(user);
+        EmbeddedEntity entity = user.getEmbeddedTags();
+        double magnitude = RecommenderAlgorithm.magnitude(entity);
+        for (String tag : Tag.CATEGORY_TAGS) {
+            double value = (Double) entity.getProperty(tag);
+            if (magnitude != 0.0) {
+                entity.setProperty(tag, value/magnitude);
+            }
+        }
+        user.setEmbeddedTags(entity);
+    }
+
+    private static TreeMap<Key, Double> getDistanceMaps(User user, EmbeddedEntity entity) {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Filter tagFilter = new FilterPredicate(User.USER_ID_PROPERTY_KEY, FilterOperator.NOT_EQUAL, user.getId());
         Query query = new Query(User.USER_ENTITY_NAME).setFilter(tagFilter);
         PreparedQuery results = datastore.prepare(query);
 
-        Map<Key, Double> userDistancePairs = new TreeMap<>();
+        TreeMap<Key, Double> userDistancePairs = new TreeMap<>();
         for (Entity result : results.asIterable()) {
             Double distance = RecommenderAlgorithm.distanceBetween(entity, (EmbeddedEntity) result.getProperty(User.TAGS_PROPERTY_KEY));
             userDistancePairs.put(result.getKey(), distance);
@@ -134,13 +131,13 @@ public class RecommenderAlgorithm {
     public static Double distanceBetween(EmbeddedEntity userTagMap, EmbeddedEntity otherTagMap) {
         double sum = 0;
         for (String tag : Tag.CATEGORY_TAGS) {
-            double value = (Double) userTagMap.getProperty(tag) - (Double) otherTagMap.getProperty(tag);
-            sum += Math.pow(value, 2.0);
+            double delta = (Double) userTagMap.getProperty(tag) - (Double) otherTagMap.getProperty(tag);
+            sum += Math.pow(delta, 2.0);
         }
         return Math.sqrt(sum);
     }
 
-    public static Double magnitude(EmbeddedEntity entity) {
+    private static Double magnitude(EmbeddedEntity entity) {
         double sum = 0;
         for (String tag : Tag.CATEGORY_TAGS) {
             double value = (Double) entity.getProperty(tag);
@@ -149,8 +146,8 @@ public class RecommenderAlgorithm {
         return Math.sqrt(sum);
     }
 
-    public static <K, V extends Comparable<V>> Map<K, V> 
-    sortByValues(final Map<K, V> map) {
+    private static <K, V extends Comparable<V>> TreeMap<K, V> 
+    sortByValues(final TreeMap<K, V> map) {
     Comparator<K> valueComparator = 
              new Comparator<K>() {
         public int compare(K k1, K k2) {
@@ -163,7 +160,7 @@ public class RecommenderAlgorithm {
         }
     };
  
-    Map<K, V> sortedByValues = new TreeMap<K, V>(valueComparator);
+    TreeMap<K, V> sortedByValues = new TreeMap<K, V>(valueComparator);
     sortedByValues.putAll(map);
     return sortedByValues;
     }

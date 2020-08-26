@@ -54,7 +54,7 @@ public class LessonHandlerServlet extends HttpServlet {
             }
         }
         catch (EntityNotFoundException e) {
-            System.err.println("Lesson entities don't exist.");
+            System.err.println("Lesson entities don't exist. Room: " + room.getKey() + " Title: " + room.getTitle());
         }
         return lessons;
     }

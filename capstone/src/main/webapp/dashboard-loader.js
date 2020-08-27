@@ -22,7 +22,6 @@ function getRooms() {
     });
 }
 
-// TODO: Replace dummy values with real values in future PR
 function createRoomDivElement(room) {
     let domparser = new DOMParser();
     let doc = domparser.parseFromString(`
@@ -34,7 +33,7 @@ function createRoomDivElement(room) {
                     <div class="card-text small-text">Followers: Infinite</div>
                     <div class="card-text small-text">Tag(s): </div>
                     <div class="small-spacing-bottom"></div>
-                    <a href="form.html" role="button" class="btn btn-default">View</a>
+                    <button type="button" class="btn btn-default" onclick="window.location.href='lesson.html'">View</button>
                 </div>
             </div>
             `, "text/html");

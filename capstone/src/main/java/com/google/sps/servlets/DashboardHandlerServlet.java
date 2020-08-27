@@ -1,14 +1,11 @@
 package com.google.sps.servlets;
+
 import java.io.IOException;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Query.Filter;
-import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Key;
 import java.util.List;
 import java.util.ArrayList;
@@ -19,6 +16,7 @@ import com.google.gson.JsonObject;
 import com.google.sps.data.User;
 import com.google.sps.data.Room;
 import com.google.sps.service.DatabaseService;
+import com.google.sps.service.FilterService;
 import com.google.sps.data.RequestParser;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,16 +28,8 @@ public class DashboardHandlerServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Key userKey = ((User) request.getAttribute(User.USER_ENTITY_NAME)).getUserKey();
-        Filter roomFilter = new FilterPredicate(Room.HOST_PROPERTY_KEY, FilterOperator.EQUAL, userKey);
-        Query query = new Query(Room.ROOM_ENTITY_NAME).setFilter(roomFilter);
-        PreparedQuery results = datastore.prepare(query);
-    
-        ArrayList<Room> rooms = new ArrayList<>();
-        for(Entity entity : results.asIterable()){
-            rooms.add(new Room(entity));
-        }
+        List<Room> rooms = FilterService.getEntityListByKeyedProperty(Room.class, Room.ROOM_ENTITY_NAME, Room.HOST_PROPERTY_KEY, userKey);
 
         response.setContentType("application/json");
         response.getWriter().println(new Gson().toJson(rooms));
@@ -48,11 +38,10 @@ public class DashboardHandlerServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         JsonObject jobject = JsonParser.parseString(RequestParser.parseStringFromRequest(request)).getAsJsonObject();
-
         Room room = new Room((User) request.getAttribute(User.USER_ENTITY_NAME), 
             jobject.get(Room.TITLE_PROPERTY_KEY).getAsString(), jobject.get(Room.DESCRIPTION_PROPERTY_KEY).getAsString());
-        DatabaseService.save(room.getRoomEntity());
 
+        DatabaseService.save(room.getRoomEntity());
         response.setStatus(HttpServletResponse.SC_OK);
     }
 }

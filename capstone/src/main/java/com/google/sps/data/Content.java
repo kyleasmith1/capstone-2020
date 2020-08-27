@@ -25,6 +25,7 @@ public class Content extends Lesson {
         return (String) super.entity.getProperty(Content.CONTENT_PROPERTY_KEY);
     }
 
+    @SuppressWarnings("unchecked")
     public List<String> getAllUrls() {
         return (ArrayList<String>) super.entity.getProperty(Content.URLS_PROPERTY_KEY);
     }

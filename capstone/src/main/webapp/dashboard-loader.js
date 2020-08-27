@@ -1,6 +1,9 @@
 document.getElementById("signout").prepend(dynamicButton);
 window.addEventListener('authorized', getRooms);
 
+const RECOMMENDED_TYPE_NAME = "recommended";
+const FOLLOWED_TYPE_NAME = "followed";
+
 function createRoom(title, description) {
     var roomData = JSON.stringify({"title": title, "description": description});
     fetch("/dashboard", {method: "POST", headers: new Headers({ID_TOKEN}), body: roomData}).then((resp) => {
@@ -14,9 +17,9 @@ function createRoom(title, description) {
 
 function getRooms(type='') {
     fetch("/dashboard", {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((roomsList) => {
-        if (type == "recommended") {
+        if (type == RECOMMENDED_TYPE_NAME) {
             roomsList = roomsList[2];
-        } else if (type == "followed") {
+        } else if (type == FOLLOWED_TYPE_NAME) {
             roomsList = roomsList[1];
         } else {
             roomsList = roomsList[0];

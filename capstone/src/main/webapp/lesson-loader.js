@@ -1,4 +1,5 @@
 document.getElementById("signout").prepend(dynamicButton);
+window.addEventListener('authorized', getLessons);
 
 const FORM = "form";
 const VIDEO = "video";
@@ -22,12 +23,12 @@ function createForm(title, description) {
         } else if (resp.result?.error != null) {
             console.log("Script error message: " + result.error);
         } else { 
-            var formData = JSON.stringify({"type": FORM, "title": "title", "description": "description", "editUrl": resp.result.response.result.editUrl, "url": resp.result.response.result.url});            
-            return fetch("/lesson", {method: "POST", headers: new Headers({ID_TOKEN}), body: formData});  
+            var formData = JSON.stringify({"type": FORM, "title": title, "description": description, "editUrl": resp.result.response.result.editUrl, "url": resp.result.response.result.url});            
+            return fetch("/lesson?room_id=" + getRoomId(), {method: "POST", headers: new Headers({ID_TOKEN}), body: formData});  
         }
     }).then((resp) => {
         if (resp.ok){
-            console.log("Form created!");
+            getLessons();
         } else {
             alert("Error has occured");
         }
@@ -35,10 +36,10 @@ function createForm(title, description) {
 }
 
 function createVideo(title, description, url) {
-    var videoData = JSON.stringify({"type": VIDEO, "title": "title", "description": "description", "url": "url"});
-    fetch("/lesson", {method: "POST", headers: new Headers({ID_TOKEN}), body: videoData}).then((resp) => {
+    var videoData = JSON.stringify({"type": VIDEO, "title": title, "description": description, "url": url});
+    fetch("/lesson?room_id=" + getRoomId(), {method: "POST", headers: new Headers({ID_TOKEN}), body: videoData}).then((resp) => {
         if (resp.ok){
-            console.log("Video created!");
+            getLessons();
         } else {
             alert("Error has occured");
         }
@@ -46,10 +47,10 @@ function createVideo(title, description, url) {
 }
 
 function createImage(title, description, url) {
-    var imageData = JSON.stringify({"type": IMAGE, "title": "title", "description": "description", "url": "url"});
-    fetch("/lesson", {method: "POST", headers: new Headers({ID_TOKEN}), body: imageData}).then((resp) => {
+    var imageData = JSON.stringify({"type": IMAGE, "title": title, "description": description, "url": url});
+    fetch("/lesson?room_id=" + getRoomId(), {method: "POST", headers: new Headers({ID_TOKEN}), body: imageData}).then((resp) => {
         if (resp.ok){
-            console.log("Image created!");
+            getLessons();
         } else {
             alert("Error has occured");
         }
@@ -57,12 +58,45 @@ function createImage(title, description, url) {
 }
 
 function createContent(title, description, content, urls) {
-    var contentData = JSON.stringify({"type": CONTENT, "title": "title", "description": "description", "content": "content", "urls": urls.split(", ")});
-    fetch("/lesson", {method: "POST", headers: new Headers({ID_TOKEN}), body: contentData}).then((resp) => {
+    var contentData = JSON.stringify({"type": CONTENT, "title": title, "description": description, "content": content, "urls": urls.split(", ")});
+    fetch("/lesson?room_id=" + getRoomId(), {method: "POST", headers: new Headers({ID_TOKEN}), body: contentData}).then((resp) => {
         if (resp.ok){
-            console.log("Content created!");
+            getLessons();
         } else {
             alert("Error has occured");
         }
     });
+}
+
+function getLessons() {
+    fetch("/lesson?room_id=" + getRoomId(), {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((lessonsList) => {
+        const lessonElement = document.getElementById("lesson-container");
+        lessonElement.innerHTML = "";
+        for (lesson of lessonsList) {
+            lessonElement.appendChild(createLessonDivElement(lesson));
+        };
+    });
+}
+
+function getRoomId() {
+    return new URL(window.location.href).searchParams.get("room_id");
+}
+
+// Will update in UI PR
+function createLessonDivElement(lesson) {
+    let domparser = new DOMParser();
+    let doc = domparser.parseFromString(`
+            <div class="card border-danger margin margin-left">
+                <img class="card-img-top" src="/assets/soundwave.svg" alt="Lesson Card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">${lesson.entity.propertyMap.title}</h5>
+                    <a class="card-text small-text" href="#">Kyle Smith</a>
+                    <div class="card-text small-text">Followers: Infinite</div>
+                    <div class="card-text small-text">Tag(s): </div>
+                    <div class="small-spacing-bottom"></div>
+                    <button type="button" class="btn btn-default" onclick="window.location.href='#'">Open</button>
+                </div>
+            </div>
+            `, "text/html");
+    return doc.body;
 }

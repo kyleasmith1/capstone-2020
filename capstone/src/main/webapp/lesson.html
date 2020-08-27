@@ -48,13 +48,13 @@
                 </div>
                 <div class="modal-body">
                         <p> Form Information: </p>
-                        <input type="text" id="title" placeholder="Title" required>
-                        <input type="text" id="description" placeholder="Description" required>  
+                        <input type="text" id="titleForm" placeholder="Title" required>
+                        <input type="text" id="descriptionForm" placeholder="Description" required>  
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="createForm(document.getElementById('title').value, 
-                    document.getElementById('description').value)" data-dismiss="modal">Create Form</button>
+                    <button type="button" class="btn btn-primary" onclick="createForm(document.getElementById('titleForm').value, 
+                    document.getElementById('descriptionForm').value)" data-dismiss="modal">Create Form</button>
                 </div>
             </div>
         </div>
@@ -71,14 +71,14 @@
                 </div>
                 <div class="modal-body">
                         <p> Video Information: </p>
-                        <input type="text" id="title" placeholder="Title" required>
-                        <input type="text" id="description" placeholder="Description" required>  
-                        <input type="text" id="url" placeholder="URL" required>
+                        <input type="text" id="titleVideo" placeholder="Title" required>
+                        <input type="text" id="descriptionVideo" placeholder="Description" required>  
+                        <input type="text" id="urlVideo" placeholder="URL" required>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="createVideo(document.getElementById('title').value, document.getElementById('description').value, 
-                    document.getElementById('url').value)" data-dismiss="modal">Create Video</button>
+                    <button type="button" class="btn btn-primary" onclick="createVideo(document.getElementById('titleVideo').value, document.getElementById('descriptionVideo').value, 
+                    document.getElementById('urlVideo').value)" data-dismiss="modal">Create Video</button>
                 </div>
             </div>
         </div>
@@ -95,14 +95,14 @@
                 </div>
                 <div class="modal-body">
                         <p> Image Information: </p>
-                        <input type="text" id="title" placeholder="Title" required>
-                        <input type="text" id="description" placeholder="Description" required>  
-                        <input type="text" id="url" placeholder="URL" required>
+                        <input type="text" id="titleImage" placeholder="Title" required>
+                        <input type="text" id="descriptionImage" placeholder="Description" required>  
+                        <input type="text" id="urlImage" placeholder="URL" required>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="createImage(document.getElementById('title').value, document.getElementById('description').value, 
-                    document.getElementById('url').value)" data-dismiss="modal">Create Image</button>
+                    <button type="button" class="btn btn-primary" onclick="createImage(document.getElementById('titleImage').value, document.getElementById('descriptionImage').value, 
+                    document.getElementById('urlImage').value)" data-dismiss="modal">Create Image</button>
                 </div>
             </div>
         </div>
@@ -119,14 +119,14 @@
                 </div>
                 <div class="modal-body">
                         <p> Content Information: </p>
-                        <input type="text" id="title" placeholder="Title" required>
-                        <input type="text" id="description" placeholder="Description" required>  
+                        <input type="text" id="titleContent" placeholder="Title" required>
+                        <input type="text" id="descriptionContent" placeholder="Description" required>  
                         <input type="text" id="content" placeholder="Content" required>
                         <input type="text" id="urls" placeholder="URL(s)" required>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="createContent(document.getElementById('title').value, document.getElementById('description').value, 
+                    <button type="button" class="btn btn-primary" onclick="createContent(document.getElementById('titleContent').value, document.getElementById('descriptionContent').value, 
                     document.getElementById('content').value, document.getElementById('urls').value)" data-dismiss="modal">Create Content</button>
                 </div>
             </div>

@@ -94,7 +94,7 @@ public class Room {
     @SuppressWarnings("unchecked")
     public void removeFollower(User follower) {
         if (this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY) == null) {
-            return; 
+            this.entity.setProperty(Room.FOLLOWERS_PROPERTY_KEY, new ArrayList<Key>());
         }
         ArrayList<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
         followers.remove(follower.getUserKey());

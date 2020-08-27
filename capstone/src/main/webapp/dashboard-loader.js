@@ -33,7 +33,7 @@ function createRoomDivElement(room) {
                     <div class="card-text small-text">Followers: Infinite</div>
                     <div class="card-text small-text">Tag(s): </div>
                     <div class="small-spacing-bottom"></div>
-                    <div class="btn btn-default" id="room-link"></button>
+                    <div class="btn btn-default" id="room-link"></div>
                 </div>
             </div>
             `, "text/html");

@@ -5,8 +5,21 @@ const FORM = "form";
 const VIDEO = "video";
 const CONTENT = "content";
 const IMAGE = "image";
+const ROOM_ID = "room_id";
+const ACTION = "action";
+const FOLLOW = "follow";
+const UNFOLLOW = "unfollow";
 
-const queryString = "/lesson?room_id=" + getRoomId() + "&action=" + getJoinStatus();
+const followEndpoint = createEndpoint("/follow", FOLLOW);
+const unfollowEndpoint = createEndpoint("/follow", UNFOLLOW);
+const lessonEndpoint = createEndpoint("/lesson", UNFOLLOW);
+
+function createEndpoint(file_name, follow_status) {
+    const endpoint = new URL(file_name, window.location.href);
+    endpoint.searchParams.set(ROOM_ID, getRoomId());
+    endpoint.searchParams.set(ACTION, follow_status);
+    return endpoint;
+}
 
 function createForm(title, description) {
     var scriptId = config.SCRIPT_ID;
@@ -70,7 +83,7 @@ function createContent(title, description, content, urls) {
 }
 
 function getLessons() {
-    fetch(queryString, {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((lessonsList) => {
+    fetch(lessonEndpoint, {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((lessonsList) => {
         const lessonElement = document.getElementById("lesson-container");
         lessonElement.innerHTML = "";
         for (lesson of lessonsList) {
@@ -79,27 +92,16 @@ function getLessons() {
     });
 }
 
-function joinRoom() {
-    console.log("Room joined!");
-    return fetch("/join?room_id=" + getRoomId() + "&action=join", {method: "POST", headers: new Headers({ID_TOKEN})}); 
-}
-
-function unjoinRoom() {
-    console.log("User has left the room!");
-    return fetch("/join?room_id=" + getRoomId() + "&action=unjoin",
-    {method: "POST", headers: new Headers({ID_TOKEN})});
-}
-
 function getRoomId() {
     return new URL(window.location.href).searchParams.get("room_id");
 }
 
-function getJoinStatus() {
-    var action = new URL(window.location.href).searchParams.get("action")
-    if (action == null) {
-        return "unjoin";
-    }
-    return action;
+function followRoom() {
+    return fetch(followEndpoint, {method: "POST", headers: new Headers({ID_TOKEN})}); 
+}
+
+function unfollowRoom() {
+    return fetch(unfollowEndpoint, {method: "POST", headers: new Headers({ID_TOKEN})});
 }
 
 function createLessonDivElement(lesson) {

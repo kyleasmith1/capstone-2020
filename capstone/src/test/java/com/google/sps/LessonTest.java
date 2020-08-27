@@ -31,7 +31,7 @@ public final class LessonTest {
 
     //Helper to set local datastore service
     private final LocalServiceTestHelper helper =
-      new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig())
+      new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig()
         .setDefaultHighRepJobPolicyUnappliedJobPercentage(100));
 
     private static final String TEST_TITLE = "Piano Lessons";

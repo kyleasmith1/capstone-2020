@@ -43,7 +43,6 @@ public enum Tag {
     TEN_MINUTES("10:00"),
     TWENTY_MINUTES("20:00");
 
-
     private final String tag;
 
     private Tag(String tag) {

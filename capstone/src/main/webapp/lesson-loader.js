@@ -38,7 +38,7 @@ function createForm(title, description) {
             console.log("Script error message: " + result.error);
         } else { 
             var formData = JSON.stringify({"type": FORM, "title": "title", "description": "description", "editUrl": resp.result.response.result.editUrl, "url": resp.result.response.result.url});          
-            return fetch(lessonEndpoint, {method: "POST", headers: new Headers({ID_TOKEN}), body: formData});   
+            return fetch(lessonEndpoint, {method: "POST", headers: new Headers({ID_TOKEN}), body: formData});  
         }
     }).then((resp) => {
         if (resp.ok){

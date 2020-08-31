@@ -71,5 +71,9 @@ public final class RecommenderAlgorithmTest {
     public void tearDown() {
         helper.tearDown();
     }
- 
+
+    @Test
+    public void alwaysPass(){
+
+    }
 }

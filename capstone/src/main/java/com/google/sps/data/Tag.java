@@ -3,7 +3,6 @@ package com.google.sps.data;
 import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public enum Tag {
 
@@ -100,15 +99,5 @@ public enum Tag {
 
     public String getTag() {
         return this.tag;
-    }
-
-    public static final HashMap<String, Integer> constructUserVectorMap() {
-        HashMap<String, Integer> vector = new HashMap<>();
-
-        for(Tag tag : CATEGORY_TAGS) {
-            vector.put(tag.getTag(), 0);
-        }
-        
-        return vector;
     }
 }

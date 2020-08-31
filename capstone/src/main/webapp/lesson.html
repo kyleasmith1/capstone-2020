@@ -97,15 +97,16 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                        <p> Image Information: </p>
+                        <p>Image Information: </p>
                         <input type="text" id="image-title" placeholder="Title" required>
-                        <input type="text" id="image-description" placeholder="Description" required>  
-                        <input type="text" id="image-url" placeholder="URL" required>
+                        <p><input type="text" id="image-description" placeholder="Description" required></p> 
+                        <p>Upload An Image: </p>
+                        <input type="file" id="image-input" required>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" onclick="createImage(document.getElementById('image-title').value, document.getElementById('image-description').value, 
-                    document.getElementById('image-url').value)" data-dismiss="modal">Create Image</button>
+                    document.getElementById('image-input').value)" data-dismiss="modal">Create Image</button>
                 </div>
             </div>
         </div>

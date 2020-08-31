@@ -48,7 +48,14 @@ function createVideo(title, description, url) {
     });
 }
 
+function getBlobUrl(url) {
+    fetch("/blobstore", {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((uploadUrl) => {
+        return uploadUrl;
+    });
+}
+
 function createImage(title, description, url) {
+    url = getBlobUrl(url);
     var imageData = JSON.stringify({"type": IMAGE, "title": title, "description": description, "url": url});
     fetch(queryString, {method: "POST", headers: new Headers({ID_TOKEN}), body: imageData}).then((resp) => {
         if (resp.ok){
@@ -118,7 +125,7 @@ function getModal(lesson) {
     if (type == FORM) {
         modalElement.appendChild(createFormDivElement(lesson));
     } else if (type == IMAGE) {
-        console.log("TODO: Add in future PR");
+        modalElement.appendChild(createImageDivElement(lesson));
     } else if (type == VIDEO) {
         modalElement.appendChild(createVideoDivElement(lesson));
     } else if (type == CONTENT) {
@@ -183,5 +190,14 @@ function createFormDivElement(lesson) {
     doc.getElementById("modal-form-description").innerHTML = capitalizeFLetter(lesson.entity.propertyMap.description);
     doc.getElementById("modal-form-url").href = lesson.entity.propertyMap.url;
     doc.getElementById("modal-form-url").innerHTML = "Click Here";
+    return doc.body;
+}
+
+function createImageDivElement(lesson) {
+    let domparser = new DOMParser();
+    let doc = domparser.parseFromString(`
+        <iframe id="image-container" type="text/html" frameborder="0"></iframe>
+    `, "text/html");
+    doc.getElementById("image-container").src = lesson.entity.propertyMap.url;
     return doc.body;
 }

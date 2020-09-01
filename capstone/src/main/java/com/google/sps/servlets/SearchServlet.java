@@ -17,6 +17,7 @@ import java.util.Arrays;
 import com.google.gson.Gson;
 import com.google.sps.data.User;
 import com.google.sps.data.Room;
+import com.google.sps.filter.AuthenticateFilter;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,16 +29,12 @@ public class SearchServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        Key userKey = ((User) request.getAttribute(User.USER_ENTITY_NAME)).getUserKey();
-        String searchRequest = getParameter(request, "search", "");
+        Key userKey = ((User) request.getAttribute(AuthenticateFilter.AUTHENTICATED_USER_ATTRIBUTE_KEY)).getUserKey();
+        String searchRequest = request.getParameter("search");
         Filter searchFilter = null;
 
-        if (searchRequest != "") {
-            searchFilter = new CompositeFilter(CompositeFilterOperator.AND, Arrays.asList(
-                new FilterPredicate(Room.HOST_PROPERTY_KEY, FilterOperator.EQUAL, userKey),
-                new FilterPredicate(Room.TITLE_PROPERTY_KEY, FilterOperator.EQUAL, searchRequest)));
-        } else {
-            searchFilter = new FilterPredicate(Room.HOST_PROPERTY_KEY, FilterOperator.EQUAL, userKey);
+        if (!("".equals(searchRequest)) && searchRequest != null) {
+            searchFilter = new FilterPredicate(Room.TITLE_PROPERTY_KEY, FilterOperator.EQUAL, searchRequest);
         }
 
         Query query = new Query(Room.ROOM_ENTITY_NAME).setFilter(searchFilter);
@@ -50,15 +47,5 @@ public class SearchServlet extends HttpServlet {
 
         response.setContentType("application/json");
         response.getWriter().println(new Gson().toJson(rooms));
-    }
-
-     private String getParameter(HttpServletRequest request, String variable, String defaultValue) {
-        assert defaultValue != null;
-
-        String value = request.getParameter(variable);
-        if (value == null || "".equals(value)) {
-        return defaultValue;
-        }
-        return value;
     }
 }

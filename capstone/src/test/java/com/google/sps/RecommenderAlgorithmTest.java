@@ -16,9 +16,11 @@ import com.google.sps.data.Tag;
 import com.google.sps.data.RecommenderAlgorithm;
 import com.google.sps.service.DatabaseService;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EmbeddedEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
+import java.lang.Math;
 
 @RunWith(JUnit4.class)
 public final class RecommenderAlgorithmTest {
@@ -26,29 +28,9 @@ public final class RecommenderAlgorithmTest {
     private final LocalServiceTestHelper helper =
         new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
-    private static final List<Tag> TEST_CATEGORY_TAGS = Tag.CATEGORY_TAGS;
-
-    private static User TEST_USER_SMITH;
-    private static User TEST_USER_JOHN;
-    private static User TEST_USER_BILL;
-    private static User TEST_USER_SAM;
-    private static Room TEST_ROOM_POETRY;
-    private static Room TEST_ROOM_RUN;
-    private static Room TEST_ROOM_COOK; 
-    private static Room TEST_ROOM_COOK_TWO;
-
     @Before
     public void setUp() {
         helper.setUp();
-        TEST_USER_SMITH = new User("1234", "Smith");
-        TEST_USER_JOHN = new User("2341", "John");
-        TEST_USER_BILL = new User("3412", "Bill");
-        TEST_USER_SAM = new User("4123", "Sam");
-
-        TEST_ROOM_POETRY = new Room(TEST_USER_SMITH, "How to Teach Poetry", "Learn how to teach Poetry");
-        TEST_ROOM_RUN = new Room(TEST_USER_JOHN, "Run Efficiently", "Improve your running experience");
-        TEST_ROOM_COOK = new Room(TEST_USER_BILL, "Iron Chef Master Course", "Cook Better");
-        TEST_ROOM_COOK_TWO = new Room(TEST_USER_BILL, "Iron Chef Master Course II", "Cook Better Part 2");
     }
 
     @After
@@ -57,7 +39,31 @@ public final class RecommenderAlgorithmTest {
     }
 
     @Test
-    public void alwaysPass(){
+    public void embeddedEntityToHashMapTest(){
+        EmbeddedEntity embeddedVectorMap = new EmbeddedEntity();
+        embeddedVectorMap.setProperty(Tag.EDUCATION.getTag(), (2.0/3.0));
+        embeddedVectorMap.setProperty(Tag.COOKING.getTag(), (2.0/3.0));
+        embeddedVectorMap.setProperty(Tag.FITNESS.getTag(), (1.0/3.0));
+
+        HashMap<String, Double> vectorHashMap = RecommenderAlgorithm.embeddedEntityToHashMap(embeddedVectorMap);
+        Assert.assertEquals(vectorHashMap.get(Tag.EDUCATION.getTag()), (2.0/3.0), .1);
+        Assert.assertEquals(vectorHashMap.get(Tag.COOKING.getTag()), (2.0/3.0), .1);
+        Assert.assertEquals(vectorHashMap.get(Tag.FITNESS.getTag()), (1.0/3.0), .1);
+
+    }
+
+    @Test
+    public void hashMapToEmbeddedEntityTest(){
+        HashMap<String, Double> vectorHashMap = new HashMap<>();
+        vectorHashMap.put(Tag.EDUCATION.getTag(), (2.0/3.0));
+        vectorHashMap.put(Tag.COOKING.getTag(), (2.0/3.0));
+        vectorHashMap.put(Tag.FITNESS.getTag(), (1.0/3.0));
+
+        EmbeddedEntity embeddedVectorMap = RecommenderAlgorithm.hashMapToEmbeddedEntity(vectorHashMap);
+
+        Assert.assertEquals((double) embeddedVectorMap.getProperty(Tag.EDUCATION.getTag()), (2.0/3.0), .1);
+        Assert.assertEquals((double) embeddedVectorMap.getProperty(Tag.COOKING.getTag()), (2.0/3.0), .1);
+        Assert.assertEquals((double) embeddedVectorMap.getProperty(Tag.FITNESS.getTag()), (1.0/3.0), .1);
 
     }
 }

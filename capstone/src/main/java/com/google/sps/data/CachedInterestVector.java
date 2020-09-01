@@ -28,7 +28,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.lang.Math;
  
-public class RecommenderAlgorithm {
+public class CachedInterestVector {
 
     public static HashMap<String, Double> embeddedEntityToHashMap(EmbeddedEntity embeddedVectorMap) {
         HashMap<String, Double> vectorHashMap = new HashMap<>();

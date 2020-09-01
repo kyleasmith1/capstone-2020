@@ -5,8 +5,6 @@ import com.google.sps.data.Lesson;
 import com.google.sps.data.Room;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.EntityNotFoundException;
@@ -16,8 +14,8 @@ import com.google.gson.Gson;
 import com.google.sps.data.Lesson;
 import com.google.sps.data.Room;
 import com.google.sps.data.RequestParser;
+import com.google.sps.service.FilterService;
 import com.google.sps.service.DatabaseService;
-import com.google.sps.data.RequestParser;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,16 +26,8 @@ public class LessonHandlerServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        PreparedQuery roomResults = datastore.prepare(new Query(Room.ROOM_ENTITY_NAME));
-        Room room = null;
-
-        for(Entity entity : roomResults.asIterable()) {
-            if (new Room(entity).getRoomKey().getId() == Long.parseLong(request.getParameter("room_id"))) {
-                room = new Room(entity);
-            }
-        }
-        
+        Long roomId = Long.parseLong(request.getParameter("room_id"));
+        Room room = new Room(FilterService.getEntity(Room.ROOM_ENTITY_NAME, roomId));
         response.setContentType("application/json");
         response.getWriter().println(new Gson().toJson(getLessons(room)));
     }
@@ -46,18 +36,11 @@ public class LessonHandlerServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Lesson lesson = Lesson.deserializeJson(RequestParser.parseStringFromRequest(request));
         DatabaseService.save(lesson.getLessonEntity());
-    
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        PreparedQuery roomResults = datastore.prepare(new Query(Room.ROOM_ENTITY_NAME));
-        Room room = null;
 
-        for(Entity entity : roomResults.asIterable()) {
-            if (new Room(entity).getRoomKey().getId() == Long.parseLong(request.getParameter("room_id"))) {
-                room = new Room(entity);
-                room.addLesson(lesson);
-            }
-        }
-        
+        Long roomId = Long.parseLong(request.getParameter("room_id"));
+        Room room = new Room(FilterService.getEntity(Room.ROOM_ENTITY_NAME, roomId));
+        room.addLesson(lesson);
+
         DatabaseService.save(room.getRoomEntity()); 
         response.setStatus(HttpServletResponse.SC_OK);
     }
@@ -71,7 +54,7 @@ public class LessonHandlerServlet extends HttpServlet {
             }
         }
         catch (EntityNotFoundException e) {
-            System.err.println("Lesson entities don't exist.");
+            System.err.println("Lesson entities don't exist. Room: " + room.getRoomKey() + " Title: " + room.getTitle());
         }
         return lessons;
     }

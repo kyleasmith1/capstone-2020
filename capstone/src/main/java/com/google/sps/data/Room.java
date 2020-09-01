@@ -29,18 +29,18 @@ public class Room {
     }
 
     @SuppressWarnings("unchecked")
-    public void addTag(String tag) {
+    public void addTag(Tag tag) {
         if (this.entity.getProperty(Room.TAGS_PROPERTY_KEY) == null) {
-            this.entity.setProperty(Room.TAGS_PROPERTY_KEY, new ArrayList<>());
+            return;
         }
         List<String> tags = (ArrayList<String>) this.entity.getProperty(Room.TAGS_PROPERTY_KEY);
-        tags.add(tag);
+        tags.add(tag.getTag());
     }
     
     @SuppressWarnings("unchecked")
-    public void removeTag(String tag) {
+    public void removeTag(Tag tag) {
         ArrayList<String> tags = (ArrayList<String>) this.entity.getProperty(Room.TAGS_PROPERTY_KEY);
-        tags.remove(tag);
+        tags.remove(tag.getTag());
     }
 
     @SuppressWarnings("unchecked")
@@ -76,7 +76,7 @@ public class Room {
     }
 
     @SuppressWarnings("unchecked")
-    public List<Key> getAllFollowers() { 
+    public List<Key> getAllFollowers() {
         if (this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY) == null) {
             return new ArrayList<Key>();
         }
@@ -95,7 +95,7 @@ public class Room {
     @SuppressWarnings("unchecked")
     public void removeFollower(User follower) {
         if (this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY) == null) {
-            return; 
+            this.entity.setProperty(Room.FOLLOWERS_PROPERTY_KEY, new ArrayList<Key>());
         }
         ArrayList<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
         followers.remove(follower.getUserKey());
@@ -128,8 +128,8 @@ public class Room {
     }
 
     @SuppressWarnings("unchecked")
-    public boolean isFollowerInClass(User follower) {
-        List<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
+    public boolean isFollowerInRoom(User follower) {
+        ArrayList<Key> followers = (ArrayList<Key>) this.entity.getProperty(Room.FOLLOWERS_PROPERTY_KEY);
         return (!(followers.lastIndexOf(follower.getUserKey()) == -1));
     }
 

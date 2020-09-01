@@ -100,4 +100,13 @@ public enum Tag {
     public String getTag() {
         return this.tag;
     }
+
+    public static Tag getTagFromString(String tagString) {
+        for(Tag tag : Tag.all()){
+            if(tag.getTag().equals(tagString)){
+                return tag;
+            }
+        }
+        return null;
+    }
 }

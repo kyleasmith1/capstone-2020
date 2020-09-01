@@ -43,11 +43,16 @@ public class Room {
     }
 
     @SuppressWarnings("unchecked")
-    public List<String> getAllTags() { 
+    public List<Tag> getAllTags() { 
         if (this.entity.getProperty(Room.TAGS_PROPERTY_KEY) == null) {
-            return new ArrayList<String>();
+            return new ArrayList<Tag>();
         }
-        return (ArrayList<String>) this.entity.getProperty(Room.TAGS_PROPERTY_KEY);
+        ArrayList<String> tagStrings = (ArrayList<String>) this.entity.getProperty(Room.TAGS_PROPERTY_KEY);
+        ArrayList<Tag> tags = new ArrayList<Tag>();
+        for(String tagString : tagStrings) {
+            tags.add(Tag.getTagFromString(tagString));
+        }
+        return tags;
     }
 
     public Key getHost() {

@@ -46,36 +46,39 @@ public class CachedInterestVector {
         return embeddedVectorMap;
     }
 
-    public void denormalizeVectorHashMap(HashMap<String, Double> vectorHashMap, Double magnitude) {
+    public static void denormalizeVectorHashMap(HashMap<String, Double> vectorHashMap, Double magnitude) {
+        if (vectorHashMap.isEmpty()){
+            return;
+        }
         for(String tag : vectorHashMap.keySet()) {
             vectorHashMap.put(tag, (double) Math.round(((vectorHashMap.get(tag))*magnitude)));
         }
     }
  
-    public void addTagToDenormalizedVectorHashMap(HashMap<String, Double> vectorHashMap, Set<Tag> tags) {
-        for(Tag tag : tags) {
-            if (vectorHashMap.get(tag.getTag()) == null) {
-                vectorHashMap.put(tag.getTag(), 1.0d);
+    public static void addTagToDenormalizedVectorHashMap(HashMap<String, Double> vectorHashMap, List<String> tags) {
+        for(String tag : tags) {
+            if (vectorHashMap.get(tag) == null) {
+                vectorHashMap.put(tag, 1.0d);
             } else {
-                vectorHashMap.put(tag.getTag(), vectorHashMap.get(tag.getTag()) + 1);
+                vectorHashMap.put(tag, vectorHashMap.get(tag) + 1);
             }
         }
     }
 
-    public void removeTagFromDenormalizedVectorHashMap(HashMap<String, Double> vectorHashMap, Set<Tag> tags) throws IOException {
-        for(Tag tag : tags) {
-            if (vectorHashMap.get(tag.getTag()) == null) {
-                throw new IOException();
+    public static void removeTagFromDenormalizedVectorHashMap(HashMap<String, Double> vectorHashMap, List<String> tags) {
+        for(String tag : tags) {
+            if (vectorHashMap.get(tag) == null) {
+                continue;
             } else {
-                vectorHashMap.put(tag.getTag(), vectorHashMap.get(tag.getTag()) - 1);
-                if(vectorHashMap.get(tag.getTag()) == 0.0){
-                    vectorHashMap.remove(tag.getTag());
+                vectorHashMap.put(tag, vectorHashMap.get(tag) - 1);
+                if(vectorHashMap.get(tag) == 0.0){
+                    vectorHashMap.remove(tag);
                 }
             }
         }
     }
  
-    public Double magnitude(HashMap<String, Double> vectorHashMap) {
+    public static Double magnitude(HashMap<String, Double> vectorHashMap) {
         double sum = 0;
         for (String tag : vectorHashMap.keySet()) {
             double value = vectorHashMap.get(tag);
@@ -84,9 +87,42 @@ public class CachedInterestVector {
         return Math.sqrt(sum);
     }
  
-    public void renormalizeVectorHashMap(HashMap<String, Double> vectorHashMap, Double magnitude) {
+    public static void renormalizeVectorHashMap(HashMap<String, Double> vectorHashMap, Double magnitude) {
         for(String tag : vectorHashMap.keySet()) {
             vectorHashMap.put(tag, ((vectorHashMap.get(tag))/magnitude));
         }
     }
+
+    public static void addRoomUpdateCachedInterestVector(User user, Room room) {
+        room.addFollower(user);
+
+        HashMap<String, Double> vectorHashMap = embeddedEntityToHashMap(user.getEmbeddedTags());
+        denormalizeVectorHashMap(vectorHashMap, user.getMagnitude());
+        addTagToDenormalizedVectorHashMap(vectorHashMap, room.getAllTags());
+        
+        Double newMagnitude = magnitude(vectorHashMap);
+        renormalizeVectorHashMap(vectorHashMap, newMagnitude);
+
+        user.setMagnitude(newMagnitude);
+        user.setEmbeddedTags(hashMapToEmbeddedEntity(vectorHashMap));
+    }
+
+    public static void removeRoomUpdateCachedInterestVector(User user, Room room) {
+        room.removeFollower(user);
+
+        HashMap<String, Double> vectorHashMap = embeddedEntityToHashMap(user.getEmbeddedTags());
+        denormalizeVectorHashMap(vectorHashMap, user.getMagnitude());
+        removeTagFromDenormalizedVectorHashMap(vectorHashMap, room.getAllTags());
+        
+        Double newMagnitude = magnitude(vectorHashMap);
+        renormalizeVectorHashMap(vectorHashMap, newMagnitude);
+
+        user.setMagnitude(newMagnitude);
+        user.setEmbeddedTags(hashMapToEmbeddedEntity(vectorHashMap));
+    }
 }
+
+
+
+
+

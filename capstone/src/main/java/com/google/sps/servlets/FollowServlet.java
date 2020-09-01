@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import com.google.sps.data.Lesson;
 import com.google.sps.data.Room;
 import com.google.sps.data.RequestParser;
+import com.google.sps.data.CachedInterestVector;
 import com.google.sps.service.FilterService;
 import com.google.sps.service.DatabaseService;
 import com.google.sps.data.RequestParser;
@@ -55,13 +56,14 @@ public class FollowServlet extends HttpServlet {
         Room room = new Room(FilterService.getEntity(Room.ROOM_ENTITY_NAME, roomId));
 
         if (request.getParameter(FollowServlet.ACTION_QUERY_PARAMETER).equals(Action.FOLLOW.asLowerCase()) && !(room.getAllFollowers().contains(user.getUserKey()))) {
-            room.addFollower(user);
+            CachedInterestVector.addRoomUpdateCachedInterestVector(user, room);
         } 
         
         if (request.getParameter(FollowServlet.ACTION_QUERY_PARAMETER).equals(Action.UNFOLLOW.asLowerCase())) {
-            room.removeFollower(user);
+            CachedInterestVector.removeRoomUpdateCachedInterestVector(user, room);
         }
 
+        DatabaseService.save(user.getUserEntity());
         DatabaseService.save(room.getRoomEntity());
         response.setStatus(HttpServletResponse.SC_OK);
     }

@@ -136,7 +136,7 @@ function getModal(lesson) {
 function createLessonCardDivElement(lesson) {
     let domparser = new DOMParser();
     let doc = domparser.parseFromString(`
-        <div class="card border-danger margin margin-left">
+        <div class="card border border-primary margin margin-left">
             <img class="card-img-top" src="/assets/soundwave.svg" alt="Lesson Card">
             <div class="card-body text-center">
                 <h5 class="card-title" id="lesson-title"></h5>

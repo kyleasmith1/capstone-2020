@@ -97,11 +97,13 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <form id="image-form" enctype="multipart/form-data" method="POST">
                         <p>Image Information: </p>
                         <input type="text" id="image-title" placeholder="Title" required>
                         <p><input type="text" id="image-description" placeholder="Description" required></p> 
                         <p>Upload An Image: </p>
                         <input type="file" id="image-input" required>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

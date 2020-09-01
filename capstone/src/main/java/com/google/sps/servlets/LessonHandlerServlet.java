@@ -85,6 +85,7 @@ public class LessonHandlerServlet extends HttpServlet {
         return lessons;
     }
 
+    // Checks to see if the lesson still exists in datastore
     public Boolean checkLessonStatus(Key key) {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Query query = new Query(Lesson.LESSON_ENTITY_NAME).addFilter(Entity.KEY_RESERVED_PROPERTY, FilterOperator.EQUAL, key);

@@ -67,7 +67,6 @@ function createRoomDivElement(room) {
                 </div>
             </div>
             `, "text/html");
-    
     doc.getElementById("room-title").innerText = capitalizeFLetter(room.entity.propertyMap.title);
     doc.getElementById("room-description").innerText = getDescription(room);
     doc.getElementById("room-followers").innerText = followerCount(room);

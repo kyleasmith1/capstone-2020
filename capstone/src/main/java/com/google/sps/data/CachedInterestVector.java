@@ -46,13 +46,13 @@ public class CachedInterestVector {
         return embeddedVectorMap;
     }
 
-    public void denormalizeVectorHashMap(HashMap<String, Double> vectorHashMap, Double magnitude) {
+    public static void denormalizeVectorHashMap(HashMap<String, Double> vectorHashMap, Double magnitude) {
         for(String tag : vectorHashMap.keySet()) {
             vectorHashMap.put(tag, (double) Math.round(((vectorHashMap.get(tag))*magnitude)));
         }
     }
  
-    public void addTagToDenormalizedVectorHashMap(HashMap<String, Double> vectorHashMap, Set<Tag> tags) {
+    public static void addTagToDenormalizedVectorHashMap(HashMap<String, Double> vectorHashMap, ArrayList<Tag> tags) {
         for(Tag tag : tags) {
             if (vectorHashMap.get(tag.getTag()) == null) {
                 vectorHashMap.put(tag.getTag(), 1.0d);
@@ -62,7 +62,7 @@ public class CachedInterestVector {
         }
     }
 
-    public void removeTagFromDenormalizedVectorHashMap(HashMap<String, Double> vectorHashMap, Set<Tag> tags) throws IOException {
+    public static void removeTagFromDenormalizedVectorHashMap(HashMap<String, Double> vectorHashMap, ArrayList<Tag> tags) throws IOException {
         for(Tag tag : tags) {
             if (vectorHashMap.get(tag.getTag()) == null) {
                 throw new IOException();
@@ -75,7 +75,7 @@ public class CachedInterestVector {
         }
     }
  
-    public Double magnitude(HashMap<String, Double> vectorHashMap) {
+    public static Double magnitude(HashMap<String, Double> vectorHashMap) {
         double sum = 0;
         for (String tag : vectorHashMap.keySet()) {
             double value = vectorHashMap.get(tag);
@@ -84,9 +84,10 @@ public class CachedInterestVector {
         return Math.sqrt(sum);
     }
  
-    public void renormalizeVectorHashMap(HashMap<String, Double> vectorHashMap, Double magnitude) {
+    public static void renormalizeVectorHashMap(HashMap<String, Double> vectorHashMap, Double magnitude) {
         for(String tag : vectorHashMap.keySet()) {
             vectorHashMap.put(tag, ((vectorHashMap.get(tag))/magnitude));
         }
     }
 }
+

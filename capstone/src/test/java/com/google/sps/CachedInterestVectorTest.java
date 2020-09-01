@@ -28,6 +28,8 @@ public final class CachedInterestVectorTest {
     private final LocalServiceTestHelper helper =
         new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
+    private static final double epsilon = .00001;
+
     @Before
     public void setUp() {
         helper.setUp();
@@ -46,10 +48,9 @@ public final class CachedInterestVectorTest {
         embeddedVectorMap.setProperty(Tag.FITNESS.getTag(), (1.0/3.0));
 
         HashMap<String, Double> vectorHashMap = CachedInterestVector.embeddedEntityToHashMap(embeddedVectorMap);
-        Assert.assertEquals(vectorHashMap.get(Tag.EDUCATION.getTag()), (2.0/3.0), .1);
-        Assert.assertEquals(vectorHashMap.get(Tag.COOKING.getTag()), (2.0/3.0), .1);
-        Assert.assertEquals(vectorHashMap.get(Tag.FITNESS.getTag()), (1.0/3.0), .1);
-
+        Assert.assertEquals(vectorHashMap.get(Tag.EDUCATION.getTag()), (2.0/3.0), epsilon);
+        Assert.assertEquals(vectorHashMap.get(Tag.COOKING.getTag()), (2.0/3.0), epsilon);
+        Assert.assertEquals(vectorHashMap.get(Tag.FITNESS.getTag()), (1.0/3.0), epsilon);
     }
 
     @Test
@@ -61,9 +62,23 @@ public final class CachedInterestVectorTest {
 
         EmbeddedEntity embeddedVectorMap = CachedInterestVector.hashMapToEmbeddedEntity(vectorHashMap);
 
-        Assert.assertEquals((double) embeddedVectorMap.getProperty(Tag.EDUCATION.getTag()), (2.0/3.0), .1);
-        Assert.assertEquals((double) embeddedVectorMap.getProperty(Tag.COOKING.getTag()), (2.0/3.0), .1);
-        Assert.assertEquals((double) embeddedVectorMap.getProperty(Tag.FITNESS.getTag()), (1.0/3.0), .1);
+        Assert.assertEquals((double) embeddedVectorMap.getProperty(Tag.EDUCATION.getTag()), (2.0/3.0), epsilon);
+        Assert.assertEquals((double) embeddedVectorMap.getProperty(Tag.COOKING.getTag()), (2.0/3.0), epsilon);
+        Assert.assertEquals((double) embeddedVectorMap.getProperty(Tag.FITNESS.getTag()), (1.0/3.0), epsilon);
+    }
 
+    @Test
+    public void denormalizeVectorHashMapTest() {
+        Double magnitude = 3.0;
+        HashMap<String, Double> vectorHashMap = new HashMap<>();
+        vectorHashMap.put(Tag.EDUCATION.getTag(), (2.0/3.0));
+        vectorHashMap.put(Tag.COOKING.getTag(), (2.0/3.0));
+        vectorHashMap.put(Tag.FITNESS.getTag(), (1.0/3.0));
+
+        CachedInterestVector.denormalizeVectorHashMap(vectorHashMap, magnitude);
+
+        Assert.assertEquals(vectorHashMap.get(Tag.EDUCATION.getTag()), (2.0), epsilon);
+        Assert.assertEquals(vectorHashMap.get(Tag.COOKING.getTag()), (2.0), epsilon);
+        Assert.assertEquals(vectorHashMap.get(Tag.FITNESS.getTag()), (1.0), epsilon);
     }
 }

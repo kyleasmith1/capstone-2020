@@ -156,7 +156,7 @@ public final class CachedInterestVectorTest {
 
         CachedInterestVector.addRoomUpdateCachedInterestVector(user, room);
 
-        EmbeddedEntity embeddedVectorMap = user.getEmbeddedTags();
+        EmbeddedEntity embeddedVectorMap = user.getCachedInterestVector();
         Double expectedMagnitude = Math.sqrt(3.0);
         Assert.assertEquals(user.getMagnitude(), expectedMagnitude, epsilon);
         Assert.assertEquals((Double) embeddedVectorMap.getProperty(Tag.EDUCATION.getTag()), (1.0/expectedMagnitude), epsilon);
@@ -176,12 +176,12 @@ public final class CachedInterestVectorTest {
         embeddedVectorMap.setProperty(Tag.EDUCATION.getTag(), (3.0/magnitude));
         embeddedVectorMap.setProperty(Tag.MUSIC.getTag(), (2.0/magnitude));
         embeddedVectorMap.setProperty(Tag.ART.getTag(), (1.0/magnitude));
-        user.setEmbeddedTags(embeddedVectorMap);
+        user.setCachedInterestVector(embeddedVectorMap);
         user.setMagnitude(magnitude);
 
         CachedInterestVector.removeRoomUpdateCachedInterestVector(user, room);
 
-        EmbeddedEntity updatedEmbeddedVectorMap = user.getEmbeddedTags();
+        EmbeddedEntity updatedEmbeddedVectorMap = user.getCachedInterestVector();
         Double expectedMagnitude = Math.sqrt(5.0);
         Assert.assertEquals(user.getMagnitude(), expectedMagnitude, epsilon);
         Assert.assertEquals((Double) updatedEmbeddedVectorMap.getProperty(Tag.EDUCATION.getTag()), (2.0/expectedMagnitude), epsilon);

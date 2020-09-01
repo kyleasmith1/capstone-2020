@@ -96,7 +96,7 @@ public class CachedInterestVector {
     public static void addRoomUpdateCachedInterestVector(User user, Room room) {
         room.addFollower(user);
 
-        HashMap<String, Double> vectorHashMap = embeddedEntityToHashMap(user.getEmbeddedTags());
+        HashMap<String, Double> vectorHashMap = embeddedEntityToHashMap(user.getCachedInterestVector());
         denormalizeVectorHashMap(vectorHashMap, user.getMagnitude());
         addTagToDenormalizedVectorHashMap(vectorHashMap, room.getAllTags());
         
@@ -104,13 +104,13 @@ public class CachedInterestVector {
         renormalizeVectorHashMap(vectorHashMap, newMagnitude);
 
         user.setMagnitude(newMagnitude);
-        user.setEmbeddedTags(hashMapToEmbeddedEntity(vectorHashMap));
+        user.setCachedInterestVector(hashMapToEmbeddedEntity(vectorHashMap));
     }
 
     public static void removeRoomUpdateCachedInterestVector(User user, Room room) {
         room.removeFollower(user);
 
-        HashMap<String, Double> vectorHashMap = embeddedEntityToHashMap(user.getEmbeddedTags());
+        HashMap<String, Double> vectorHashMap = embeddedEntityToHashMap(user.getCachedInterestVector());
         denormalizeVectorHashMap(vectorHashMap, user.getMagnitude());
         removeTagFromDenormalizedVectorHashMap(vectorHashMap, room.getAllTags());
         
@@ -118,7 +118,7 @@ public class CachedInterestVector {
         renormalizeVectorHashMap(vectorHashMap, newMagnitude);
 
         user.setMagnitude(newMagnitude);
-        user.setEmbeddedTags(hashMapToEmbeddedEntity(vectorHashMap));
+        user.setCachedInterestVector(hashMapToEmbeddedEntity(vectorHashMap));
     }
 }
 

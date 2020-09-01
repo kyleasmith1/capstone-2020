@@ -47,6 +47,9 @@ public class CachedInterestVector {
     }
 
     public static void denormalizeVectorHashMap(HashMap<String, Double> vectorHashMap, Double magnitude) {
+        if (vectorHashMap.isEmpty()){
+            return;
+        }
         for(String tag : vectorHashMap.keySet()) {
             vectorHashMap.put(tag, (double) Math.round(((vectorHashMap.get(tag))*magnitude)));
         }

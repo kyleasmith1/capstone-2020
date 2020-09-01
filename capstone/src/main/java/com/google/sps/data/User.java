@@ -38,11 +38,11 @@ public class User {
         return (String) this.delegate.getProperty(User.NICKNAME_PROPERTY_KEY);
     }
 
-    public void setEmbeddedTags(EmbeddedEntity entity) {
+    public void setCachedInterestVector(EmbeddedEntity entity) {
         this.delegate.setProperty(User.TAGS_PROPERTY_KEY, entity);
     }
 
-    public EmbeddedEntity getEmbeddedTags() {
+    public EmbeddedEntity getCachedInterestVector() {
         return (EmbeddedEntity) this.delegate.getProperty(User.TAGS_PROPERTY_KEY);
     }
 

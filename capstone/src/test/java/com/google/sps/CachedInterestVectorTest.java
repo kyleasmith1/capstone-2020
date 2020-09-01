@@ -182,7 +182,6 @@ public final class CachedInterestVectorTest {
         CachedInterestVector.removeRoomUpdateCachedInterestVector(user, room);
 
         EmbeddedEntity updatedEmbeddedVectorMap = user.getEmbeddedTags();
-        System.out.println(updatedEmbeddedVectorMap);
         Double expectedMagnitude = Math.sqrt(5.0);
         Assert.assertEquals(user.getMagnitude(), expectedMagnitude, epsilon);
         Assert.assertEquals((Double) updatedEmbeddedVectorMap.getProperty(Tag.EDUCATION.getTag()), (2.0/expectedMagnitude), epsilon);

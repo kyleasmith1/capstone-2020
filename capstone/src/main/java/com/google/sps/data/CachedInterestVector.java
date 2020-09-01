@@ -55,8 +55,8 @@ public class CachedInterestVector {
         }
     }
  
-    public void addTagToDenormalizedVectorHashMap(HashMap<String, Double> vectorHashMap, ArrayList<String> tags) {
-        for(Tag tag : tags) {
+    public void addTagToDenormalizedVectorHashMap(HashMap<String, Double> vectorHashMap, List<String> tags) {
+        for(String tag : tags) {
             if (vectorHashMap.get(tag) == null) {
                 vectorHashMap.put(tag, 1.0d);
             } else {
@@ -65,8 +65,8 @@ public class CachedInterestVector {
         }
     }
 
-    public void removeTagFromDenormalizedVectorHashMap(HashMap<String, Double> vectorHashMap, ArrayList<String> tags) {
-        for(Tag tag : tags) {
+    public void removeTagFromDenormalizedVectorHashMap(HashMap<String, Double> vectorHashMap, List<String> tags) {
+        for(String tag : tags) {
             if (vectorHashMap.get(tag) == null) {
                 continue;
             } else {

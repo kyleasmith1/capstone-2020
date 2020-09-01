@@ -46,7 +46,7 @@ public class CachedInterestVector {
         return embeddedVectorMap;
     }
 
-    public void denormalizeVectorHashMap(HashMap<String, Double> vectorHashMap, Double magnitude) {
+    public static void denormalizeVectorHashMap(HashMap<String, Double> vectorHashMap, Double magnitude) {
         if (vectorHashMap.isEmpty()){
             return;
         }
@@ -55,7 +55,7 @@ public class CachedInterestVector {
         }
     }
  
-    public void addTagToDenormalizedVectorHashMap(HashMap<String, Double> vectorHashMap, List<String> tags) {
+    public static void addTagToDenormalizedVectorHashMap(HashMap<String, Double> vectorHashMap, List<String> tags) {
         for(String tag : tags) {
             if (vectorHashMap.get(tag) == null) {
                 vectorHashMap.put(tag, 1.0d);
@@ -65,7 +65,7 @@ public class CachedInterestVector {
         }
     }
 
-    public void removeTagFromDenormalizedVectorHashMap(HashMap<String, Double> vectorHashMap, List<String> tags) {
+    public static void removeTagFromDenormalizedVectorHashMap(HashMap<String, Double> vectorHashMap, List<String> tags) {
         for(String tag : tags) {
             if (vectorHashMap.get(tag) == null) {
                 continue;
@@ -78,7 +78,7 @@ public class CachedInterestVector {
         }
     }
  
-    public Double magnitude(HashMap<String, Double> vectorHashMap) {
+    public static Double magnitude(HashMap<String, Double> vectorHashMap) {
         double sum = 0;
         for (String tag : vectorHashMap.keySet()) {
             double value = vectorHashMap.get(tag);
@@ -87,7 +87,7 @@ public class CachedInterestVector {
         return Math.sqrt(sum);
     }
  
-    public void renormalizeVectorHashMap(HashMap<String, Double> vectorHashMap, Double magnitude) {
+    public static void renormalizeVectorHashMap(HashMap<String, Double> vectorHashMap, Double magnitude) {
         for(String tag : vectorHashMap.keySet()) {
             vectorHashMap.put(tag, ((vectorHashMap.get(tag))/magnitude));
         }

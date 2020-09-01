@@ -34,10 +34,6 @@ public class User {
         return (String) this.delegate.getProperty(User.USER_ID_PROPERTY_KEY);
     }
 
-    public EmbeddedEntity getEmbeddedTags() {
-        return (EmbeddedEntity) this.delegate.getProperty(User.TAGS_PROPERTY_KEY);
-    }
-
     public String getNickname() {
         return (String) this.delegate.getProperty(User.NICKNAME_PROPERTY_KEY);
     }

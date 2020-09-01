@@ -55,24 +55,24 @@ public class CachedInterestVector {
         }
     }
  
-    public void addTagToDenormalizedVectorHashMap(HashMap<String, Double> vectorHashMap, Set<Tag> tags) {
+    public void addTagToDenormalizedVectorHashMap(HashMap<String, Double> vectorHashMap, ArrayList<String> tags) {
         for(Tag tag : tags) {
-            if (vectorHashMap.get(tag.getTag()) == null) {
-                vectorHashMap.put(tag.getTag(), 1.0d);
+            if (vectorHashMap.get(tag) == null) {
+                vectorHashMap.put(tag, 1.0d);
             } else {
-                vectorHashMap.put(tag.getTag(), vectorHashMap.get(tag.getTag()) + 1);
+                vectorHashMap.put(tag, vectorHashMap.get(tag) + 1);
             }
         }
     }
 
-    public void removeTagFromDenormalizedVectorHashMap(HashMap<String, Double> vectorHashMap, Set<Tag> tags) throws IOException {
+    public void removeTagFromDenormalizedVectorHashMap(HashMap<String, Double> vectorHashMap, ArrayList<String> tags) {
         for(Tag tag : tags) {
-            if (vectorHashMap.get(tag.getTag()) == null) {
-                throw new IOException();
+            if (vectorHashMap.get(tag) == null) {
+                continue;
             } else {
-                vectorHashMap.put(tag.getTag(), vectorHashMap.get(tag.getTag()) - 1);
-                if(vectorHashMap.get(tag.getTag()) == 0.0){
-                    vectorHashMap.remove(tag.getTag());
+                vectorHashMap.put(tag, vectorHashMap.get(tag) - 1);
+                if(vectorHashMap.get(tag) == 0.0){
+                    vectorHashMap.remove(tag);
                 }
             }
         }

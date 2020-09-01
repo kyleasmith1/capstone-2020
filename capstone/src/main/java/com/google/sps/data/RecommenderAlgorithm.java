@@ -16,6 +16,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.EmbeddedEntity;
 import com.google.appengine.api.datastore.FetchOptions;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
@@ -57,6 +58,19 @@ public class RecommenderAlgorithm {
                 vectorHashMap.put(tag.getTag(), 1.0d);
             } else {
                 vectorHashMap.put(tag.getTag(), vectorHashMap.get(tag.getTag()) + 1);
+            }
+        }
+    }
+
+    public void removeTagFromDenormalizedVectorHashMap(HashMap<String, Double> vectorHashMap, Set<Tag> tags) throws IOException {
+        for(Tag tag : tags) {
+            if (vectorHashMap.get(tag.getTag()) == null) {
+                throw new IOException();
+            } else {
+                vectorHashMap.put(tag.getTag(), vectorHashMap.get(tag.getTag()) - 1);
+                if(vectorHashMap.get(tag.getTag()) == 0.0){
+                    vectorHashMap.remove(tag.getTag());
+                }
             }
         }
     }

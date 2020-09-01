@@ -117,8 +117,3 @@ public class CachedInterestVector {
         user.setCachedInterestVector(hashMapToEmbeddedEntity(vectorHashMap));
     }
 }
-
-
-
-
-

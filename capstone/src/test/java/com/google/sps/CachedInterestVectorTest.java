@@ -42,38 +42,40 @@ public final class CachedInterestVectorTest {
 
     @Test
     public void embeddedEntityToHashMapTest(){
+        Double magnitude = 3.0;
         EmbeddedEntity embeddedVectorMap = new EmbeddedEntity();
-        embeddedVectorMap.setProperty(Tag.EDUCATION.getTag(), (2.0/3.0));
-        embeddedVectorMap.setProperty(Tag.COOKING.getTag(), (2.0/3.0));
-        embeddedVectorMap.setProperty(Tag.FITNESS.getTag(), (1.0/3.0));
+        embeddedVectorMap.setProperty(Tag.EDUCATION.getTag(), (2.0/magnitude));
+        embeddedVectorMap.setProperty(Tag.COOKING.getTag(), (2.0/magnitude));
+        embeddedVectorMap.setProperty(Tag.FITNESS.getTag(), (1.0/magnitude));
 
         HashMap<String, Double> vectorHashMap = CachedInterestVector.embeddedEntityToHashMap(embeddedVectorMap);
-        Assert.assertEquals(vectorHashMap.get(Tag.EDUCATION.getTag()), (2.0/3.0), epsilon);
-        Assert.assertEquals(vectorHashMap.get(Tag.COOKING.getTag()), (2.0/3.0), epsilon);
-        Assert.assertEquals(vectorHashMap.get(Tag.FITNESS.getTag()), (1.0/3.0), epsilon);
+        Assert.assertEquals(vectorHashMap.get(Tag.EDUCATION.getTag()), (2.0/magnitude), epsilon);
+        Assert.assertEquals(vectorHashMap.get(Tag.COOKING.getTag()), (2.0/magnitude), epsilon);
+        Assert.assertEquals(vectorHashMap.get(Tag.FITNESS.getTag()), (1.0/magnitude), epsilon);
     }
 
     @Test
     public void hashMapToEmbeddedEntityTest(){
+        Double magnitude = 3.0;
         HashMap<String, Double> vectorHashMap = new HashMap<>();
-        vectorHashMap.put(Tag.EDUCATION.getTag(), (2.0/3.0));
-        vectorHashMap.put(Tag.COOKING.getTag(), (2.0/3.0));
-        vectorHashMap.put(Tag.FITNESS.getTag(), (1.0/3.0));
+        vectorHashMap.put(Tag.EDUCATION.getTag(), (2.0/magnitude));
+        vectorHashMap.put(Tag.COOKING.getTag(), (2.0/magnitude));
+        vectorHashMap.put(Tag.FITNESS.getTag(), (1.0/magnitude));
 
         EmbeddedEntity embeddedVectorMap = CachedInterestVector.hashMapToEmbeddedEntity(vectorHashMap);
 
-        Assert.assertEquals((double) embeddedVectorMap.getProperty(Tag.EDUCATION.getTag()), (2.0/3.0), epsilon);
-        Assert.assertEquals((double) embeddedVectorMap.getProperty(Tag.COOKING.getTag()), (2.0/3.0), epsilon);
-        Assert.assertEquals((double) embeddedVectorMap.getProperty(Tag.FITNESS.getTag()), (1.0/3.0), epsilon);
+        Assert.assertEquals((double) embeddedVectorMap.getProperty(Tag.EDUCATION.getTag()), (2.0/magnitude), epsilon);
+        Assert.assertEquals((double) embeddedVectorMap.getProperty(Tag.COOKING.getTag()), (2.0/magnitude), epsilon);
+        Assert.assertEquals((double) embeddedVectorMap.getProperty(Tag.FITNESS.getTag()), (1.0/magnitude), epsilon);
     }
 
     @Test
     public void denormalizeVectorHashMapTest() {
         Double magnitude = 3.0;
         HashMap<String, Double> vectorHashMap = new HashMap<>();
-        vectorHashMap.put(Tag.EDUCATION.getTag(), (2.0/3.0));
-        vectorHashMap.put(Tag.COOKING.getTag(), (2.0/3.0));
-        vectorHashMap.put(Tag.FITNESS.getTag(), (1.0/3.0));
+        vectorHashMap.put(Tag.EDUCATION.getTag(), (2.0/magnitude));
+        vectorHashMap.put(Tag.COOKING.getTag(), (2.0/magnitude));
+        vectorHashMap.put(Tag.FITNESS.getTag(), (1.0/magnitude));
 
         CachedInterestVector.denormalizeVectorHashMap(vectorHashMap, magnitude);
 
@@ -139,8 +141,8 @@ public final class CachedInterestVectorTest {
 
         CachedInterestVector.renormalizeVectorHashMap(vectorHashMap, magnitude);
 
-        Assert.assertEquals(vectorHashMap.get(Tag.EDUCATION.getTag()), (2.0/3.0), epsilon);
-        Assert.assertEquals(vectorHashMap.get(Tag.COOKING.getTag()), (2.0/3.0), epsilon);
-        Assert.assertEquals(vectorHashMap.get(Tag.FITNESS.getTag()), (1.0/3.0), epsilon);
+        Assert.assertEquals(vectorHashMap.get(Tag.EDUCATION.getTag()), (2.0/magnitude), epsilon);
+        Assert.assertEquals(vectorHashMap.get(Tag.COOKING.getTag()), (2.0/magnitude), epsilon);
+        Assert.assertEquals(vectorHashMap.get(Tag.FITNESS.getTag()), (1.0/magnitude), epsilon);
     }
 }

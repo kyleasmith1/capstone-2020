@@ -26,7 +26,7 @@ public final class RecommenderAlgorithmTest {
     private final LocalServiceTestHelper helper =
         new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
-    private static final List<String> TEST_CATEGORY_TAGS = Tag.CATEGORY_TAGS;
+    private static final List<Tag> TEST_CATEGORY_TAGS = Tag.CATEGORY_TAGS;
 
     private static User TEST_USER_SMITH;
     private static User TEST_USER_JOHN;
@@ -58,6 +58,6 @@ public final class RecommenderAlgorithmTest {
 
     @Test
     public void alwaysPass(){
-        
+
     }
 }

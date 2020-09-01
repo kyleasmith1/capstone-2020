@@ -37,6 +37,14 @@ public class RecommenderAlgorithm {
         return vectorHashMap;
     }
 
+    public static EmbeddedEntity hashMaptoEmbeddedEntity(HashMap<String, Double> vectorHashMap){
+        EmbeddedEntity embeddedVectorMap = new EmbeddedEntity();
+        for(String tag : vectorHashMap.keySet()) {
+            embeddedVectorMap.setProperty(tag, vectorHashMap.get(tag));
+        }
+        return embeddedVectorMap;
+    }
+
     public void denormalizeVectorHashMap(HashMap<String, Double> vectorHashMap, Double magnitude) {
         for(String tag : vectorHashMap.keySet()) {
             vectorHashMap.put(tag, (double) Math.round(((vectorHashMap.get(tag))*magnitude)));

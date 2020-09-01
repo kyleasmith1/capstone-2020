@@ -30,7 +30,7 @@ public class Room {
     @SuppressWarnings("unchecked")
     public void addTag(Tag tag) {
         if (this.entity.getProperty(Room.TAGS_PROPERTY_KEY) == null) {
-            return;
+            this.entity.setProperty(Room.TAGS_PROPERTY_KEY, new ArrayList<String>());
         }
         List<String> tags = (ArrayList<String>) this.entity.getProperty(Room.TAGS_PROPERTY_KEY);
         tags.add(tag.getTag());
@@ -38,6 +38,9 @@ public class Room {
     
     @SuppressWarnings("unchecked")
     public void removeTag(Tag tag) {
+        if (this.entity.getProperty(Room.TAGS_PROPERTY_KEY) == null) {
+            return;
+        }
         ArrayList<String> tags = (ArrayList<String>) this.entity.getProperty(Room.TAGS_PROPERTY_KEY);
         tags.remove(tag.getTag());
     }

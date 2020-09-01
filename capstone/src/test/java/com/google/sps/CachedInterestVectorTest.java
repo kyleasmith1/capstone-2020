@@ -143,4 +143,27 @@ public final class CachedInterestVectorTest {
         Assert.assertEquals(vectorHashMap.get(Tag.COOKING.getTag()), (2.0/3.0), epsilon);
         Assert.assertEquals(vectorHashMap.get(Tag.FITNESS.getTag()), (1.0/3.0), epsilon);
     }
+
+    @Test
+    public void addRoomUpdateCachedInterestVectorTest() {
+        User user = new User("123" , "John");
+        Room room = new Room(user, "Piano", "Piano Lessons");
+        room.addTag(Tag.EDUCATION);
+        room.addTag(Tag.MUSIC);
+        room.addTag(Tag.ART);
+
+        CachedInterestVector.addRoomUpdateCachedInterestVector(user, room);
+
+        EmbeddedEntity embeddedVectorMap = user.getEmbeddedTags();
+        Double expectedMagnitude = Math.sqrt(3.0);
+        Assert.assertEquals(user.getMagnitude(), expectedMagnitude, epsilon);
+        Assert.assertEquals((Double) embeddedVectorMap.getProperty(Tag.EDUCATION.getTag()), (1.0/expectedMagnitude), epsilon);
+        Assert.assertEquals((Double) embeddedVectorMap.getProperty(Tag.MUSIC.getTag()), (1.0/expectedMagnitude), epsilon);
+        Assert.assertEquals((Double) embeddedVectorMap.getProperty(Tag.ART.getTag()), (1.0/expectedMagnitude), epsilon);
+    }
+    
+    @Test
+    public void removeRoomUpdateCachedInterestVectorTest() {
+
+    }
 }

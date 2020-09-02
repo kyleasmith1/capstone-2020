@@ -129,7 +129,7 @@ h1 {
 #image-container {
     width: 467px;
     height: 275px;
-    overflow: scroll;
+    overflow: hidden;
     max-width: auto;
 }
 

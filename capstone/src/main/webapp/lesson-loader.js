@@ -201,7 +201,7 @@ function createImageDivElement(lesson) {
         <div id="modal-image-description"></div>
         <div class="small-spacing-bottom"></div>
         <div id="modal-title"><span>Image</span></div>
-        <iframe id="image-container" type="text/html" frameborder="0" allowfullscreen></iframe>
+        <img class="img-responsive" id="image-container"></img>
     `, "text/html");
     doc.getElementById("modal-image-description").innerHTML = capitalizeFLetter(lesson.entity.propertyMap.description);
     doc.getElementById("image-container").src = lesson.entity.propertyMap.url;

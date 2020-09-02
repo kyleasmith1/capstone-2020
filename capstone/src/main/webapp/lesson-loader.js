@@ -76,7 +76,7 @@ function createContent(title, description, content, urls) {
 function getUserStatus() {
     fetch("/join?room_id=" + getRoomId(), {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.text()).then((status) => {
         var followButton = document.getElementById("follow-button");
-        var createButton = document.getElementById("create-button");
+        var createButton = document.getElementById("create-button-lesson");
         if (status.length > 1) {
             followButton.style.display = "block";
             followButton.innerHTML = status;

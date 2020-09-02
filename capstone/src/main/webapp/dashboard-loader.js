@@ -17,11 +17,15 @@ function createRoom(title, description) {
 
 function getRooms(type='') {
     fetch("/dashboard", {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((roomsList) => {
+        var createRoomButton = document.getElementById("create-button-dashboard");
         if (type == RECOMMENDED_TYPE_NAME) {
+            createRoomButton.disabled = true;
             roomsList = roomsList[2];
         } else if (type == FOLLOWED_TYPE_NAME) {
+            createRoomButton.disabled = true;
             roomsList = roomsList[1];
         } else {
+            createRoomButton.disabled = false;
             roomsList = roomsList[0];
         }
         const roomElement = document.getElementById("room-container");
@@ -32,7 +36,6 @@ function getRooms(type='') {
     });
 }
 
-// TODO: Update search in future PR
 function getSearchResults(type='') {
    fetch("/search?search=" + document.getElementById('search').value, {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((roomList) => {
         const roomElement = document.getElementById("room-container");

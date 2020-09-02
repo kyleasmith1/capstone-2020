@@ -1,6 +1,5 @@
 package com.google.sps.data;
 
-import com.google.appengine.api.datastore.EmbeddedEntity;
 import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;

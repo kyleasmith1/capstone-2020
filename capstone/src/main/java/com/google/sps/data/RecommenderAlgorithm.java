@@ -55,7 +55,7 @@ public class RecommenderAlgorithm {
     private static TreeMap<Key, Double> getDistanceMaps(User user, Iterable<Entity> allOtherUsers) {
         TreeMap<Key, Double> userDistancePairs = new TreeMap<>();
         for (Entity otherUser : allOtherUsers) {
-            Double distance = RecommenderAlgorithm.distanceBetween(user.getEmbeddedTags(), (EmbeddedEntity) otherUser.getProperty(User.TAGS_PROPERTY_KEY));
+            Double distance = RecommenderAlgorithm.distanceBetween(user.getCachedInterestVector(), (EmbeddedEntity) otherUser.getProperty(User.TAGS_PROPERTY_KEY));
             userDistancePairs.put(otherUser.getKey(), distance);
         }
         return userDistancePairs;
@@ -65,7 +65,7 @@ public class RecommenderAlgorithm {
         double sum = 0;
         double delta = 0;
         for (Tag tag : Tag.CATEGORY_TAGS) {
-            if (userTagMap.getProperty(tag.getTag()) == null || otherTagMap.getProperty(tag.getTag()) == null) {
+            if (userTagMap.getProperty(tag.getTag()) == null && otherTagMap.getProperty(tag.getTag()) == null) {
                 continue;
             } else if (userTagMap.getProperty(tag.getTag()) == null) {
                 delta = (Double) otherTagMap.getProperty(tag.getTag());
@@ -79,7 +79,7 @@ public class RecommenderAlgorithm {
         return Math.sqrt(sum);
     }
 
-        private static List<Key> findSimilarRooms(User user, Key key, List<Key> rooms) {
+    private static List<Key> findSimilarRooms(User user, Key key, List<Key> rooms) {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Filter userRoomFilter = new FilterPredicate(Room.FOLLOWERS_PROPERTY_KEY, FilterOperator.NOT_EQUAL, key);
         Query userRoomQuery = new Query(Room.ROOM_ENTITY_NAME).setFilter(userRoomFilter);

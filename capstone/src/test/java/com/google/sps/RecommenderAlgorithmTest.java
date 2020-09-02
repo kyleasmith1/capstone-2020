@@ -187,256 +187,236 @@ public final class RecommenderAlgorithmTest {
         Assert.assertEquals(distances, 0.6058108930553725, epsilon);
     }
 
-    // @Test
-    // public void calculateShortestDistanceMultipleUsersMultipleRoomsTest() { 
-    //     TEST_ROOM_RUN.addTag(Tag.TAG_FITNESS);
-    //     TEST_ROOM_RUN.addFollower(TEST_USER_SMITH);
-    //     TEST_ROOM_RUN.addFollower(TEST_USER_JOHN);
-    //     TEST_ROOM_RUN.addFollower(TEST_USER_SAM);
-    //     DatabaseService.save(TEST_ROOM_RUN.getRoomEntity());
+    @Test
+    public void calculateShortestDistanceMultipleUsersMultipleRoomsTest() { 
+        TEST_ROOM_RUN.addTag(Tag.FITNESS);
+        TEST_ROOM_RUN.addFollower(TEST_USER_SMITH);
+        TEST_ROOM_RUN.addFollower(TEST_USER_JOHN);
+        TEST_ROOM_RUN.addFollower(TEST_USER_SAM);
+        DatabaseService.save(TEST_ROOM_RUN.getRoomEntity());
 
-    //     TEST_ROOM_COOK.addTag(Tag.TAG_COOKING);
-    //     TEST_ROOM_COOK.addFollower(TEST_USER_SMITH);
-    //     TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
-    //     DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
+        TEST_ROOM_COOK.addTag(Tag.COOKING);
+        TEST_ROOM_COOK.addFollower(TEST_USER_SMITH);
+        TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
+        DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
 
-    //     TEST_ROOM_POETRY.addTag(Tag.TAG_LITERATURE);
-    //     TEST_ROOM_POETRY.addFollower(TEST_USER_SMITH);
-    //     TEST_ROOM_POETRY.addFollower(TEST_USER_JOHN);
-    //     TEST_ROOM_POETRY.addFollower(TEST_USER_SAM);
-    //     DatabaseService.save(TEST_ROOM_POETRY.getRoomEntity());
+        TEST_ROOM_POETRY.addTag(Tag.LITERATURE);
+        TEST_ROOM_POETRY.addFollower(TEST_USER_SMITH);
+        TEST_ROOM_POETRY.addFollower(TEST_USER_JOHN);
+        TEST_ROOM_POETRY.addFollower(TEST_USER_SAM);
+        DatabaseService.save(TEST_ROOM_POETRY.getRoomEntity());
 
-    //     TEST_ROOM_COOK_TWO.addTag(Tag.TAG_COOKING);
-    //     TEST_ROOM_COOK_TWO.addFollower(TEST_USER_SMITH);
-    //     DatabaseService.save(TEST_ROOM_COOK_TWO.getRoomEntity());
+        TEST_ROOM_COOK_TWO.addTag(Tag.COOKING);
+        TEST_ROOM_COOK_TWO.addFollower(TEST_USER_SMITH);
+        DatabaseService.save(TEST_ROOM_COOK_TWO.getRoomEntity());
 
-    //     RecommenderAlgorithm.normalizeEmbeddedEntity(TEST_USER_SMITH);
-    //     RecommenderAlgorithm.normalizeEmbeddedEntity(TEST_USER_JOHN);
-    //     RecommenderAlgorithm.normalizeEmbeddedEntity(TEST_USER_SAM);
+        EmbeddedEntity smithTagMap = TEST_USER_SMITH.getCachedInterestVector();
+        EmbeddedEntity johnTagMap = TEST_USER_JOHN.getCachedInterestVector();
+        EmbeddedEntity samTagMap = TEST_USER_SAM.getCachedInterestVector();
 
-    //     EmbeddedEntity smithTagMap = TEST_USER_SMITH.getEmbeddedTags();
-    //     EmbeddedEntity johnTagMap = TEST_USER_JOHN.getEmbeddedTags();
-    //     EmbeddedEntity samTagMap = TEST_USER_SAM.getEmbeddedTags();
+        Double smithJohnDistance = RecommenderAlgorithm.distanceBetween(smithTagMap, johnTagMap);
+        Double smithSamDistance = RecommenderAlgorithm.distanceBetween(smithTagMap, samTagMap);
 
-    //     Double smithJohnDistance = RecommenderAlgorithm.distanceBetween(smithTagMap, johnTagMap);
-    //     Double smithSamDistance = RecommenderAlgorithm.distanceBetween(smithTagMap, samTagMap);
+        Assert.assertEquals(smithJohnDistance, 0.33820395745152554, epsilon);
+    }
 
-    //     Assert.assertEquals(smithJohnDistance, 0.33820395745152554, epsilon);
-    // }
+    /* ------------------------------------------------------------ */
 
-    // /* ------------------------------------------------------------ */
+    @Test
+    public void recommendRoomsOneUserOneRoomTest() { 
+        TEST_ROOM_RUN.addTag(Tag.FITNESS);
+        TEST_ROOM_RUN.addFollower(TEST_USER_SMITH);
+        DatabaseService.save(TEST_ROOM_RUN.getRoomEntity());
 
-    // @Test
-    // public void recommendRoomsOneUserOneRoomTest() { 
-    //     TEST_ROOM_RUN.addTag(Tag.TAG_FITNESS);
-    //     TEST_ROOM_RUN.addFollower(TEST_USER_SMITH);
-    //     DatabaseService.save(TEST_ROOM_RUN.getRoomEntity());
+        List<Key> recommended = RecommenderAlgorithm.recommendRooms(TEST_USER_SMITH, 10);
 
-    //     RecommenderAlgorithm.normalizeEmbeddedEntity(TEST_USER_SMITH);
+        Assert.assertEquals(recommended, new ArrayList<>());
+    }
 
-    //     List<Key> recommended = RecommenderAlgorithm.recommendRooms(TEST_USER_SMITH, 10);
+    @Test
+    public void recommendRoomsTwoUsersOneRecommendedRoomTest() { 
+        TEST_ROOM_RUN.addTag(Tag.FITNESS);
+        TEST_ROOM_RUN.addFollower(TEST_USER_SMITH);
+        TEST_ROOM_RUN.addFollower(TEST_USER_JOHN);
+        DatabaseService.save(TEST_ROOM_RUN.getRoomEntity());
 
-    //     Assert.assertEquals(recommended, new ArrayList<>());
-    // }
+        TEST_ROOM_COOK.addTag(Tag.COOKING);
+        TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
+        DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
 
-    // @Test
-    // public void recommendRoomsTwoUsersOneRecommendedRoomTest() { 
-    //     TEST_ROOM_RUN.addTag(Tag.TAG_FITNESS);
-    //     TEST_ROOM_RUN.addFollower(TEST_USER_SMITH);
-    //     TEST_ROOM_RUN.addFollower(TEST_USER_JOHN);
-    //     DatabaseService.save(TEST_ROOM_RUN.getRoomEntity());
+        List<Key> recommended = RecommenderAlgorithm.recommendRooms(TEST_USER_SMITH, 10);
+        List<Key> rooms = new ArrayList<>();
+        rooms.add(TEST_ROOM_COOK.getRoomKey());
 
-    //     TEST_ROOM_COOK.addTag(Tag.TAG_COOKING);
-    //     TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
-    //     DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
+        Assert.assertEquals(recommended, rooms);
+    }
 
-    //     RecommenderAlgorithm.normalizeAllEmbeddedEntities();
+    @Test
+    public void recommendRoomsTwoUsersMultipleRecommendedRoomsTest() { 
+        TEST_ROOM_RUN.addTag(Tag.FITNESS);
+        TEST_ROOM_RUN.addFollower(TEST_USER_SMITH);
+        TEST_ROOM_RUN.addFollower(TEST_USER_JOHN);
+        DatabaseService.save(TEST_ROOM_RUN.getRoomEntity());
 
-    //     List<Key> recommended = RecommenderAlgorithm.recommendRooms(TEST_USER_SMITH, 10);
-    //     List<Key> rooms = new ArrayList<>();
-    //     rooms.add(TEST_ROOM_COOK.getRoomKey());
+        TEST_ROOM_COOK.addTag(Tag.COOKING);
+        TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
+        DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
 
-    //     Assert.assertEquals(recommended, rooms);
-    // }
+        TEST_ROOM_POETRY.addTag(Tag.LITERATURE);
+        TEST_ROOM_POETRY.addTag(Tag.EDUCATION);
+        TEST_ROOM_POETRY.addFollower(TEST_USER_JOHN);
+        DatabaseService.save(TEST_ROOM_POETRY.getRoomEntity());
 
-    // @Test
-    // public void recommendRoomsTwoUsersMultipleRecommendedRoomsTest() { 
-    //     TEST_ROOM_RUN.addTag(Tag.TAG_FITNESS);
-    //     TEST_ROOM_RUN.addFollower(TEST_USER_SMITH);
-    //     TEST_ROOM_RUN.addFollower(TEST_USER_JOHN);
-    //     DatabaseService.save(TEST_ROOM_RUN.getRoomEntity());
+        List<Key> recommended = RecommenderAlgorithm.recommendRooms(TEST_USER_SMITH, 10);
+        List<Key> rooms = new ArrayList<>();
+        rooms.add(TEST_ROOM_POETRY.getRoomKey());
+        rooms.add(TEST_ROOM_COOK.getRoomKey());
 
-    //     TEST_ROOM_COOK.addTag(Tag.TAG_COOKING);
-    //     TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
-    //     DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
+        Assert.assertEquals(recommended, rooms);
+    }
 
-    //     TEST_ROOM_POETRY.addTag(Tag.TAG_LITERATURE);
-    //     TEST_ROOM_POETRY.addTag(Tag.TAG_EDUCATION);
-    //     TEST_ROOM_POETRY.addFollower(TEST_USER_JOHN);
-    //     DatabaseService.save(TEST_ROOM_POETRY.getRoomEntity());
+    @Test
+    public void recommendRoomsMultipleUsersNoSimilarRoomsTest() { 
+        TEST_ROOM_RUN.addTag(Tag.FITNESS);
+        TEST_ROOM_RUN.addFollower(TEST_USER_SMITH);
+        DatabaseService.save(TEST_ROOM_RUN.getRoomEntity());
 
-    //     RecommenderAlgorithm.normalizeAllEmbeddedEntities();
+        TEST_ROOM_COOK.addTag(Tag.COOKING);
+        TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
+        DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
 
-    //     List<Key> recommended = RecommenderAlgorithm.recommendRooms(TEST_USER_SMITH, 10);
-    //     List<Key> rooms = new ArrayList<>();
-    //     rooms.add(TEST_ROOM_POETRY.getRoomKey());
-    //     rooms.add(TEST_ROOM_COOK.getRoomKey());
+        TEST_ROOM_POETRY.addTag(Tag.LITERATURE);
+        TEST_ROOM_POETRY.addFollower(TEST_USER_ADAM);
+        DatabaseService.save(TEST_ROOM_POETRY.getRoomEntity());
 
-    //     Assert.assertEquals(recommended, rooms);
-    // }
+        TEST_ROOM_SCIENCE.addTag(Tag.EDUCATION);
+        TEST_ROOM_SCIENCE.addFollower(TEST_USER_BILL);
+        DatabaseService.save(TEST_ROOM_SCIENCE.getRoomEntity());
 
-    // @Test
-    // public void recommendRoomsMultipleUsersNoSimilarRoomsTest() { 
-    //     TEST_ROOM_RUN.addTag(Tag.TAG_FITNESS);
-    //     TEST_ROOM_RUN.addFollower(TEST_USER_SMITH);
-    //     DatabaseService.save(TEST_ROOM_RUN.getRoomEntity());
+        List<Key> recommended = RecommenderAlgorithm.recommendRooms(TEST_USER_SMITH, 10);
+        List<Key> rooms = new ArrayList<>();
+        rooms.add(TEST_ROOM_SCIENCE.getRoomKey());
+        rooms.add(TEST_ROOM_POETRY.getRoomKey());
+        rooms.add(TEST_ROOM_COOK.getRoomKey());
 
-    //     TEST_ROOM_COOK.addTag(Tag.TAG_COOKING);
-    //     TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
-    //     DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
+        Assert.assertEquals(recommended, rooms);
+    }
 
-    //     TEST_ROOM_POETRY.addTag(Tag.TAG_LITERATURE);
-    //     TEST_ROOM_POETRY.addFollower(TEST_USER_ADAM);
-    //     DatabaseService.save(TEST_ROOM_POETRY.getRoomEntity());
+    @Test
+    public void recommendRoomsMultipleUsersMultipleRecommendedRoomsTest() { 
+        TEST_ROOM_RUN.addTag(Tag.FITNESS);
+        TEST_ROOM_RUN.addFollower(TEST_USER_SMITH);
+        TEST_ROOM_RUN.addFollower(TEST_USER_JOHN);
+        TEST_ROOM_RUN.addFollower(TEST_USER_BILL);
+        TEST_ROOM_RUN.addFollower(TEST_USER_SAM);
+        DatabaseService.save(TEST_ROOM_RUN.getRoomEntity());
 
-    //     TEST_ROOM_SCIENCE.addTag(Tag.TAG_EDUCATION);
-    //     TEST_ROOM_SCIENCE.addFollower(TEST_USER_BILL);
-    //     DatabaseService.save(TEST_ROOM_SCIENCE.getRoomEntity());
+        TEST_ROOM_COOK.addTag(Tag.COOKING);
+        TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
+        TEST_ROOM_COOK.addFollower(TEST_USER_SAM);
+        DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
 
-    //     RecommenderAlgorithm.normalizeAllEmbeddedEntities();
+        TEST_ROOM_POETRY.addTag(Tag.LITERATURE);
+        TEST_ROOM_POETRY.addTag(Tag.EDUCATION);
+        TEST_ROOM_POETRY.addFollower(TEST_USER_JOHN);
+        TEST_ROOM_POETRY.addFollower(TEST_USER_BILL);
+        DatabaseService.save(TEST_ROOM_POETRY.getRoomEntity());
 
-    //     List<Key> recommended = RecommenderAlgorithm.recommendRooms(TEST_USER_SMITH, 10);
-    //     List<Key> rooms = new ArrayList<>();
-    //     rooms.add(TEST_ROOM_SCIENCE.getRoomKey());
-    //     rooms.add(TEST_ROOM_POETRY.getRoomKey());
-    //     rooms.add(TEST_ROOM_COOK.getRoomKey());
+        TEST_ROOM_COOK_TWO.addTag(Tag.COOKING);
+        TEST_ROOM_COOK_TWO.addFollower(TEST_USER_SAM);
+        TEST_ROOM_COOK_TWO.addFollower(TEST_USER_BILL);
+        DatabaseService.save(TEST_ROOM_COOK_TWO.getRoomEntity());
 
-    //     Assert.assertEquals(recommended, rooms);
-    // }
+        TEST_ROOM_SCIENCE.addTag(Tag.EDUCATION);
+        TEST_ROOM_SCIENCE.addFollower(TEST_USER_BILL);
+        TEST_ROOM_SCIENCE.addFollower(TEST_USER_JOHN);
+        DatabaseService.save(TEST_ROOM_SCIENCE.getRoomEntity());
 
-    // @Test
-    // public void recommendRoomsMultipleUsersMultipleRecommendedRoomsTest() { 
-    //     TEST_ROOM_RUN.addTag(Tag.TAG_FITNESS);
-    //     TEST_ROOM_RUN.addFollower(TEST_USER_SMITH);
-    //     TEST_ROOM_RUN.addFollower(TEST_USER_JOHN);
-    //     TEST_ROOM_RUN.addFollower(TEST_USER_BILL);
-    //     TEST_ROOM_RUN.addFollower(TEST_USER_SAM);
-    //     DatabaseService.save(TEST_ROOM_RUN.getRoomEntity());
+        List<Key> recommended = RecommenderAlgorithm.recommendRooms(TEST_USER_SMITH, 10);
+        List<Key> rooms = new ArrayList<>();
+        rooms.add(TEST_ROOM_POETRY.getRoomKey());
+        rooms.add(TEST_ROOM_COOK_TWO.getRoomKey());
+        rooms.add(TEST_ROOM_SCIENCE.getRoomKey());
+        rooms.add(TEST_ROOM_COOK.getRoomKey());
 
-    //     TEST_ROOM_COOK.addTag(Tag.TAG_COOKING);
-    //     TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
-    //     TEST_ROOM_COOK.addFollower(TEST_USER_SAM);
-    //     DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
+        Assert.assertEquals(recommended, rooms);
+    }
 
-    //     TEST_ROOM_POETRY.addTag(Tag.TAG_LITERATURE);
-    //     TEST_ROOM_POETRY.addTag(Tag.TAG_EDUCATION);
-    //     TEST_ROOM_POETRY.addFollower(TEST_USER_JOHN);
-    //     TEST_ROOM_POETRY.addFollower(TEST_USER_BILL);
-    //     DatabaseService.save(TEST_ROOM_POETRY.getRoomEntity());
+    @Test
+    public void recommendRoomsMultipleUsersSameRoomsTest() { 
+        TEST_ROOM_RUN.addTag(Tag.FITNESS);
+        TEST_ROOM_RUN.addFollower(TEST_USER_SMITH);
+        TEST_ROOM_RUN.addFollower(TEST_USER_JOHN);
+        TEST_ROOM_RUN.addFollower(TEST_USER_BILL);
+        TEST_ROOM_RUN.addFollower(TEST_USER_SAM);
+        DatabaseService.save(TEST_ROOM_RUN.getRoomEntity());
 
-    //     TEST_ROOM_COOK_TWO.addTag(Tag.TAG_COOKING);
-    //     TEST_ROOM_COOK_TWO.addFollower(TEST_USER_SAM);
-    //     TEST_ROOM_COOK_TWO.addFollower(TEST_USER_BILL);
-    //     DatabaseService.save(TEST_ROOM_COOK_TWO.getRoomEntity());
+        TEST_ROOM_COOK.addTag(Tag.COOKING);
+        TEST_ROOM_COOK.addFollower(TEST_USER_SMITH);
+        TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
+        TEST_ROOM_COOK.addFollower(TEST_USER_BILL);
+        TEST_ROOM_COOK.addFollower(TEST_USER_SAM);
+        DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
 
-    //     TEST_ROOM_SCIENCE.addTag(Tag.TAG_EDUCATION);
-    //     TEST_ROOM_SCIENCE.addFollower(TEST_USER_BILL);
-    //     TEST_ROOM_SCIENCE.addFollower(TEST_USER_JOHN);
-    //     DatabaseService.save(TEST_ROOM_SCIENCE.getRoomEntity());
+        TEST_ROOM_POETRY.addTag(Tag.LITERATURE);
+        TEST_ROOM_POETRY.addTag(Tag.EDUCATION);
+        TEST_ROOM_POETRY.addFollower(TEST_USER_SMITH);
+        TEST_ROOM_POETRY.addFollower(TEST_USER_JOHN);
+        TEST_ROOM_POETRY.addFollower(TEST_USER_BILL);
+        TEST_ROOM_POETRY.addFollower(TEST_USER_SAM);
+        DatabaseService.save(TEST_ROOM_POETRY.getRoomEntity());
 
-    //     RecommenderAlgorithm.normalizeAllEmbeddedEntities();
+        TEST_ROOM_COOK_TWO.addTag(Tag.COOKING);
+        TEST_ROOM_COOK_TWO.addFollower(TEST_USER_SMITH);
+        TEST_ROOM_COOK_TWO.addFollower(TEST_USER_JOHN);
+        TEST_ROOM_COOK_TWO.addFollower(TEST_USER_BILL);
+        TEST_ROOM_COOK_TWO.addFollower(TEST_USER_SAM);
+        DatabaseService.save(TEST_ROOM_COOK_TWO.getRoomEntity());
 
-    //     List<Key> recommended = RecommenderAlgorithm.recommendRooms(TEST_USER_SMITH, 10);
-    //     List<Key> rooms = new ArrayList<>();
-    //     rooms.add(TEST_ROOM_POETRY.getRoomKey());
-    //     rooms.add(TEST_ROOM_COOK_TWO.getRoomKey());
-    //     rooms.add(TEST_ROOM_SCIENCE.getRoomKey());
-    //     rooms.add(TEST_ROOM_COOK.getRoomKey());
+        TEST_ROOM_SCIENCE.addTag(Tag.EDUCATION);
+        TEST_ROOM_SCIENCE.addFollower(TEST_USER_SMITH);
+        TEST_ROOM_SCIENCE.addFollower(TEST_USER_JOHN);
+        TEST_ROOM_SCIENCE.addFollower(TEST_USER_BILL);
+        TEST_ROOM_SCIENCE.addFollower(TEST_USER_SAM);
+        DatabaseService.save(TEST_ROOM_SCIENCE.getRoomEntity());
 
-    //     Assert.assertEquals(recommended, rooms);
-    // }
+        List<Key> recommended = RecommenderAlgorithm.recommendRooms(TEST_USER_SMITH, 10);
+        Assert.assertEquals(recommended, new ArrayList<>());
+    }
 
-    // @Test
-    // public void recommendRoomsMultipleUsersSameRoomsTest() { 
-    //     TEST_ROOM_RUN.addTag(Tag.TAG_FITNESS);
-    //     TEST_ROOM_RUN.addFollower(TEST_USER_SMITH);
-    //     TEST_ROOM_RUN.addFollower(TEST_USER_JOHN);
-    //     TEST_ROOM_RUN.addFollower(TEST_USER_BILL);
-    //     TEST_ROOM_RUN.addFollower(TEST_USER_SAM);
-    //     DatabaseService.save(TEST_ROOM_RUN.getRoomEntity());
+    @Test
+    public void recommendRoomsMultipleUsersNoTagsTest() { 
+        TEST_ROOM_COOK.addFollower(TEST_USER_SMITH);
+        TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
+        DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
 
-    //     TEST_ROOM_COOK.addTag(Tag.TAG_COOKING);
-    //     TEST_ROOM_COOK.addFollower(TEST_USER_SMITH);
-    //     TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
-    //     TEST_ROOM_COOK.addFollower(TEST_USER_BILL);
-    //     TEST_ROOM_COOK.addFollower(TEST_USER_SAM);
-    //     DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
+        TEST_ROOM_COOK_TWO.addFollower(TEST_USER_BILL);
+        TEST_ROOM_COOK_TWO.addFollower(TEST_USER_SAM);
+        DatabaseService.save(TEST_ROOM_COOK_TWO.getRoomEntity());
 
-    //     TEST_ROOM_POETRY.addTag(Tag.TAG_LITERATURE);
-    //     TEST_ROOM_POETRY.addTag(Tag.TAG_EDUCATION);
-    //     TEST_ROOM_POETRY.addFollower(TEST_USER_SMITH);
-    //     TEST_ROOM_POETRY.addFollower(TEST_USER_JOHN);
-    //     TEST_ROOM_POETRY.addFollower(TEST_USER_BILL);
-    //     TEST_ROOM_POETRY.addFollower(TEST_USER_SAM);
-    //     DatabaseService.save(TEST_ROOM_POETRY.getRoomEntity());
+        List<Key> rooms = new ArrayList<>();
+        rooms.add(TEST_ROOM_COOK_TWO.getRoomKey());
 
-    //     TEST_ROOM_COOK_TWO.addTag(Tag.TAG_COOKING);
-    //     TEST_ROOM_COOK_TWO.addFollower(TEST_USER_SMITH);
-    //     TEST_ROOM_COOK_TWO.addFollower(TEST_USER_JOHN);
-    //     TEST_ROOM_COOK_TWO.addFollower(TEST_USER_BILL);
-    //     TEST_ROOM_COOK_TWO.addFollower(TEST_USER_SAM);
-    //     DatabaseService.save(TEST_ROOM_COOK_TWO.getRoomEntity());
+        List<Key> recommended = RecommenderAlgorithm.recommendRooms(TEST_USER_SMITH, 10);
+        Assert.assertEquals(recommended, rooms);
+    }
 
-    //     TEST_ROOM_SCIENCE.addTag(Tag.TAG_EDUCATION);
-    //     TEST_ROOM_SCIENCE.addFollower(TEST_USER_SMITH);
-    //     TEST_ROOM_SCIENCE.addFollower(TEST_USER_JOHN);
-    //     TEST_ROOM_SCIENCE.addFollower(TEST_USER_BILL);
-    //     TEST_ROOM_SCIENCE.addFollower(TEST_USER_SAM);
-    //     DatabaseService.save(TEST_ROOM_SCIENCE.getRoomEntity());
+    @Test
+    public void recommendRoomsMultipleUsersSameTagsTest() { 
+        TEST_ROOM_COOK.addTag(Tag.COOKING);
+        TEST_ROOM_COOK.addFollower(TEST_USER_SMITH);
+        TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
+        DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
 
-    //     RecommenderAlgorithm.normalizeAllEmbeddedEntities();
+        TEST_ROOM_COOK_TWO.addTag(Tag.COOKING);
+        TEST_ROOM_COOK_TWO.addFollower(TEST_USER_BILL);
+        TEST_ROOM_COOK_TWO.addFollower(TEST_USER_SAM);
+        DatabaseService.save(TEST_ROOM_COOK_TWO.getRoomEntity());
 
-    //     List<Key> recommended = RecommenderAlgorithm.recommendRooms(TEST_USER_SMITH, 10);
-    //     Assert.assertEquals(recommended, new ArrayList<>());
-    // }
+        List<Key> rooms = new ArrayList<>();
+        rooms.add(TEST_ROOM_COOK_TWO.getRoomKey());
 
-    // @Test
-    // public void recommendRoomsMultipleUsersNoTagsTest() { 
-    //     TEST_ROOM_COOK.addFollower(TEST_USER_SMITH);
-    //     TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
-    //     DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
-
-    //     TEST_ROOM_COOK_TWO.addFollower(TEST_USER_BILL);
-    //     TEST_ROOM_COOK_TWO.addFollower(TEST_USER_SAM);
-    //     DatabaseService.save(TEST_ROOM_COOK_TWO.getRoomEntity());
-
-    //     RecommenderAlgorithm.normalizeAllEmbeddedEntities();
-
-    //     List<Key> rooms = new ArrayList<>();
-    //     rooms.add(TEST_ROOM_COOK_TWO.getRoomKey());
-
-    //     List<Key> recommended = RecommenderAlgorithm.recommendRooms(TEST_USER_SMITH, 10);
-    //     Assert.assertEquals(recommended, rooms);
-    // }
-
-    // @Test
-    // public void recommendRoomsMultipleUsersSameTagsTest() { 
-    //     TEST_ROOM_COOK.addTag(Tag.TAG_COOKING);
-    //     TEST_ROOM_COOK.addFollower(TEST_USER_SMITH);
-    //     TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
-    //     DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
-
-    //     TEST_ROOM_COOK_TWO.addTag(Tag.TAG_COOKING);
-    //     TEST_ROOM_COOK_TWO.addFollower(TEST_USER_BILL);
-    //     TEST_ROOM_COOK_TWO.addFollower(TEST_USER_SAM);
-    //     DatabaseService.save(TEST_ROOM_COOK_TWO.getRoomEntity());
-
-    //     RecommenderAlgorithm.normalizeAllEmbeddedEntities();
-
-    //     List<Key> rooms = new ArrayList<>();
-    //     rooms.add(TEST_ROOM_COOK_TWO.getRoomKey());
-
-    //     List<Key> recommended = RecommenderAlgorithm.recommendRooms(TEST_USER_SMITH, 10);
-    //     Assert.assertEquals(recommended, rooms);
-    // }
+        List<Key> recommended = RecommenderAlgorithm.recommendRooms(TEST_USER_SMITH, 10);
+        Assert.assertEquals(recommended, rooms);
+    }
 }

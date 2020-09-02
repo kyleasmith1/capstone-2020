@@ -96,19 +96,17 @@
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="image-form" enctype="multipart/form-data" method="POST">
                     <div class="modal-body">
                             <p>Image Information: </p>
                             <input type="text" id="image-title" placeholder="Title">
-                            <p><input type="text" id="image-description" placeholder="Description"></p> 
-                            <p>Upload An Image: </p>
-                            <p><input type="file" id="image-input"></p>
+                            <input type="text" id="image-description" placeholder="Description">
+                            <p><input type="text" id="image-url" placeholder="Image Url"></p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" form="image-form" class="btn btn-secondary" onclick="getBlobUrlAndLessons('image-form')" data-dismiss="modal">Create Image</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="createImage(document.getElementById('image-title').value, 
+                        document.getElementById('image-description').value, document.getElementById('image-url').value)">Create Image</button>
                     </div>
-                </form>
             </div>
         </div>
     </div>

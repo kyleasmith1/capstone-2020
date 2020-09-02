@@ -15,22 +15,33 @@ import java.net.URL;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import com.google.sps.data.Image;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
+import com.google.sps.service.DatabaseService;
 
 @WebServlet("/image")
 public class ImageHandlerServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String title = request.getParameter("image-title");
+        String description = request.getParameter("image-description");
         String imageUrl = getImageUrl(request);
+
+        System.out.println(title + ": " + description);
+        System.out.println("IMAGE: " + imageUrl);
+
+        Image image = new Image(title, description, imageUrl);
+        System.out.println("IMAGE: " + image);
+        System.out.println("ENTITY: " + image.getLessonEntity());
+
+        DatabaseService.save(image.getLessonEntity());
+
         response.setStatus(HttpServletResponse.SC_OK);
+        response.sendRedirect("/lesson.html");
     }
 
     public String getImageUrl(HttpServletRequest request) throws IOException {
@@ -43,7 +54,6 @@ public class ImageHandlerServlet extends HttpServlet {
         }
 
         BlobKey blobKey = blobKeys.get(0);
-
         BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(blobKey);
         if (blobInfo.getSize() == 0) {
             blobstoreService.delete(blobKey);

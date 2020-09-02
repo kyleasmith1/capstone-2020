@@ -96,20 +96,19 @@
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form id="image-form" enctype="multipart/form-data" method="POST">
-                        <p>Image Information: </p>
-                        <input type="text" id="image-title" placeholder="Title" required>
-                        <p><input type="text" id="image-description" placeholder="Description" required></p> 
-                        <p>Upload An Image: </p>
-                        <input type="file" id="image-input" required>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="createImage(document.getElementById('image-title').value, document.getElementById('image-description').value, 
-                    document.getElementById('image-input').value)" data-dismiss="modal">Create Image</button>
-                </div>
+                <form id="image-form" enctype="multipart/form-data" method="POST">
+                    <div class="modal-body">
+                            <p>Image Information: </p>
+                            <input type="text" id="image-title" placeholder="Title">
+                            <p><input type="text" id="image-description" placeholder="Description"></p> 
+                            <p>Upload An Image: </p>
+                            <p><input type="file" id="image-input"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" form="image-form" class="btn btn-secondary" onclick="getBlobUrlAndLessons('image-form')" data-dismiss="modal">Create Image</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

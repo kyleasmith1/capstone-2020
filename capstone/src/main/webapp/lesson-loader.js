@@ -48,24 +48,6 @@ function createVideo(title, description, url) {
     });
 }
 
-function getBlobUrl(url) {
-    fetch("/blobstore", {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((uploadUrl) => {
-        return uploadUrl;
-    });
-}
-
-function createImage(title, description, url) {
-    url = getBlobUrl(url);
-    var imageData = JSON.stringify({"type": IMAGE, "title": title, "description": description, "url": url});
-    fetch(queryString, {method: "POST", headers: new Headers({ID_TOKEN}), body: imageData}).then((resp) => {
-        if (resp.ok){
-            getLessons();
-        } else {
-            alert("Error has occured");
-        }
-    });
-}
-
 function createContent(title, description, content, urls) {
     var contentData = JSON.stringify({"type": CONTENT, "title": title, "description": description, "content": content, "urls": urls.split(", ")});
     fetch(queryString, {method: "POST", headers: new Headers({ID_TOKEN}), body: contentData}).then((resp) => {
@@ -105,6 +87,15 @@ function createHyperLink(url) {
     doc.getElementById("object-url").href = url;
     doc.getElementById("object-url").innerHTML = url;
     return doc.body;
+}
+
+function getBlobUrlAndLessons(form) {
+    fetch('/blobstore', {method: "GET", headers: new Headers({ID_TOKEN})})
+        .then(response => response.text())
+        .then((imageUrl) => {
+            document.getElementById(form).action = imageUrl;
+        });
+    getLessons();
 }
 
 function getLessons() {
@@ -198,6 +189,7 @@ function createImageDivElement(lesson) {
     let doc = domparser.parseFromString(`
         <iframe id="image-container" type="text/html" frameborder="0"></iframe>
     `, "text/html");
+    console.log(lesson.entity.propertyMap.url);
     doc.getElementById("image-container").src = lesson.entity.propertyMap.url;
     return doc.body;
 }

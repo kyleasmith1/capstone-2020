@@ -93,114 +93,99 @@ public final class RecommenderAlgorithmTest {
         Assert.assertEquals(distances, 0.0, epsilon);
     }
 
-    // @Test
-    // public void calculateDistanceTwoUsersSameRoomsTest() { 
-    //     TEST_ROOM_RUN.addTag(Tag.TAG_FITNESS);
-    //     TEST_ROOM_RUN.addFollower(TEST_USER_SMITH);
-    //     TEST_ROOM_RUN.addFollower(TEST_USER_JOHN);
-    //     DatabaseService.save(TEST_ROOM_RUN.getRoomEntity());
+    @Test
+    public void calculateDistanceTwoUsersSameRoomsTest() { 
+        TEST_ROOM_RUN.addTag(Tag.FITNESS);
+        TEST_ROOM_RUN.addFollower(TEST_USER_SMITH);
+        TEST_ROOM_RUN.addFollower(TEST_USER_JOHN);
+        DatabaseService.save(TEST_ROOM_RUN.getRoomEntity());
 
-    //     TEST_ROOM_COOK.addTag(Tag.TAG_COOKING);
-    //     TEST_ROOM_COOK.addFollower(TEST_USER_SMITH);
-    //     TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
-    //     DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
+        TEST_ROOM_COOK.addTag(Tag.COOKING);
+        TEST_ROOM_COOK.addFollower(TEST_USER_SMITH);
+        TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
+        DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
 
-    //     RecommenderAlgorithm.normalizeEmbeddedEntity(TEST_USER_SMITH);
-    //     RecommenderAlgorithm.normalizeEmbeddedEntity(TEST_USER_JOHN);
+        EmbeddedEntity userTagMap = TEST_USER_SMITH.getCachedInterestVector();
+        EmbeddedEntity otherTagMap = TEST_USER_JOHN.getCachedInterestVector();
 
-    //     EmbeddedEntity userTagMap = TEST_USER_SMITH.getEmbeddedTags();
-    //     EmbeddedEntity otherTagMap = TEST_USER_JOHN.getEmbeddedTags();
+        Double distances = RecommenderAlgorithm.distanceBetween(userTagMap, otherTagMap);
+        Assert.assertEquals(distances, 0.0, epsilon);
+    }
 
-    //     Double distances = RecommenderAlgorithm.distanceBetween(userTagMap, otherTagMap);
-    //     Assert.assertEquals(distances, 0.0, epsilon);
-    // }
+    @Test
+    public void calculateDistanceTwoUsersDifferentRoomsSameTagTest() { 
+        TEST_ROOM_COOK_TWO.addTag(Tag.COOKING);
+        TEST_ROOM_COOK_TWO.addFollower(TEST_USER_SMITH);
+        DatabaseService.save(TEST_ROOM_COOK_TWO.getRoomEntity());
 
-    // @Test
-    // public void calculateDistanceTwoUsersDifferentRoomsSameTagTest() { 
-    //     TEST_ROOM_COOK_TWO.addTag(Tag.TAG_COOKING);
-    //     TEST_ROOM_COOK_TWO.addFollower(TEST_USER_SMITH);
-    //     DatabaseService.save(TEST_ROOM_COOK_TWO.getRoomEntity());
+        TEST_ROOM_COOK.addTag(Tag.COOKING);
+        TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
+        DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
 
-    //     TEST_ROOM_COOK.addTag(Tag.TAG_COOKING);
-    //     TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
-    //     DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
+        EmbeddedEntity userTagMap = TEST_USER_SMITH.getCachedInterestVector();
+        EmbeddedEntity otherTagMap = TEST_USER_JOHN.getCachedInterestVector();
 
-    //     RecommenderAlgorithm.normalizeEmbeddedEntity(TEST_USER_SMITH);
-    //     RecommenderAlgorithm.normalizeEmbeddedEntity(TEST_USER_JOHN);
+        Double distances = RecommenderAlgorithm.distanceBetween(userTagMap, otherTagMap);
+        Assert.assertEquals(distances, 0.0, epsilon);
+    }
 
-    //     EmbeddedEntity userTagMap = TEST_USER_SMITH.getEmbeddedTags();
-    //     EmbeddedEntity otherTagMap = TEST_USER_JOHN.getEmbeddedTags();
+    @Test
+    public void calculateDistanceTwoUsersDifferentRoomsTest() { 
+        TEST_ROOM_RUN.addTag(Tag.FITNESS);
+        TEST_ROOM_RUN.addFollower(TEST_USER_SMITH);
+        DatabaseService.save(TEST_ROOM_RUN.getRoomEntity());
 
-    //     Double distances = RecommenderAlgorithm.distanceBetween(userTagMap, otherTagMap);
-    //     Assert.assertEquals(distances, 0.0, epsilon);
-    // }
+        TEST_ROOM_COOK.addTag(Tag.COOKING);
+        TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
+        DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
 
-    // @Test
-    // public void calculateDistanceTwoUsersDifferentRoomsTest() { 
-    //     TEST_ROOM_RUN.addTag(Tag.TAG_FITNESS);
-    //     TEST_ROOM_RUN.addFollower(TEST_USER_SMITH);
-    //     DatabaseService.save(TEST_ROOM_RUN.getRoomEntity());
+        EmbeddedEntity userTagMap = TEST_USER_SMITH.getCachedInterestVector();
+        EmbeddedEntity otherTagMap = TEST_USER_JOHN.getCachedInterestVector();
 
-    //     TEST_ROOM_COOK.addTag(Tag.TAG_COOKING);
-    //     TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
-    //     DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
+        Double distances = RecommenderAlgorithm.distanceBetween(userTagMap, otherTagMap);
+        Assert.assertEquals(distances, 1.4142135623730951, epsilon);
+    }
 
-    //     RecommenderAlgorithm.normalizeEmbeddedEntity(TEST_USER_SMITH);
-    //     RecommenderAlgorithm.normalizeEmbeddedEntity(TEST_USER_JOHN);
+    @Test
+    public void calculateDistanceTwoUsersOneSimilarRoomTest() { 
+        TEST_ROOM_RUN.addTag(Tag.FITNESS);
+        TEST_ROOM_RUN.addFollower(TEST_USER_SMITH);
+        DatabaseService.save(TEST_ROOM_RUN.getRoomEntity());
 
-    //     EmbeddedEntity userTagMap = TEST_USER_SMITH.getEmbeddedTags();
-    //     EmbeddedEntity otherTagMap = TEST_USER_JOHN.getEmbeddedTags();
+        TEST_ROOM_COOK.addTag(Tag.COOKING);
+        TEST_ROOM_COOK.addFollower(TEST_USER_SMITH);
+        TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
+        DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
 
-    //     Double distances = RecommenderAlgorithm.distanceBetween(userTagMap, otherTagMap);
-    //     Assert.assertEquals(distances, 1.4142135623730951, epsilon);
-    // }
+        EmbeddedEntity userTagMap = TEST_USER_SMITH.getCachedInterestVector();
+        EmbeddedEntity otherTagMap = TEST_USER_JOHN.getCachedInterestVector();
 
-    // @Test
-    // public void calculateDistanceTwoUsersOneSimilarRoomTest() { 
-    //     TEST_ROOM_RUN.addTag(Tag.TAG_FITNESS);
-    //     TEST_ROOM_RUN.addFollower(TEST_USER_SMITH);
-    //     DatabaseService.save(TEST_ROOM_RUN.getRoomEntity());
+        Double distances = RecommenderAlgorithm.distanceBetween(userTagMap, otherTagMap);
+        Assert.assertEquals(distances, 0.7653668647301795, epsilon);
+    }
 
-    //     TEST_ROOM_COOK.addTag(Tag.TAG_COOKING);
-    //     TEST_ROOM_COOK.addFollower(TEST_USER_SMITH);
-    //     TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
-    //     DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
+    @Test
+    public void calculateDistanceTwoUsersTwoSimilarRoomsMultipleRoomsTest() { 
+        TEST_ROOM_RUN.addTag(Tag.FITNESS);
+        TEST_ROOM_RUN.addFollower(TEST_USER_SMITH);
+        TEST_ROOM_RUN.addFollower(TEST_USER_JOHN);
+        DatabaseService.save(TEST_ROOM_RUN.getRoomEntity());
 
-    //     RecommenderAlgorithm.normalizeEmbeddedEntity(TEST_USER_SMITH);
-    //     RecommenderAlgorithm.normalizeEmbeddedEntity(TEST_USER_JOHN);
+        TEST_ROOM_COOK.addTag(Tag.COOKING);
+        TEST_ROOM_COOK.addFollower(TEST_USER_SMITH);
+        TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
+        DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
 
-    //     EmbeddedEntity userTagMap = TEST_USER_SMITH.getEmbeddedTags();
-    //     EmbeddedEntity otherTagMap = TEST_USER_JOHN.getEmbeddedTags();
+        TEST_ROOM_POETRY.addTag(Tag.LITERATURE);
+        TEST_ROOM_POETRY.addFollower(TEST_USER_SMITH);
+        DatabaseService.save(TEST_ROOM_POETRY.getRoomEntity());
 
-    //     Double distances = RecommenderAlgorithm.distanceBetween(userTagMap, otherTagMap);
-    //     Assert.assertEquals(distances, 0.7653668647301795, epsilon);
-    // }
+        EmbeddedEntity userTagMap = TEST_USER_SMITH.getCachedInterestVector();
+        EmbeddedEntity otherTagMap = TEST_USER_JOHN.getCachedInterestVector();
 
-    // @Test
-    // public void calculateDistanceTwoUsersTwoSimilarRoomsMultipleRoomsTest() { 
-    //     TEST_ROOM_RUN.addTag(Tag.TAG_FITNESS);
-    //     TEST_ROOM_RUN.addFollower(TEST_USER_SMITH);
-    //     TEST_ROOM_RUN.addFollower(TEST_USER_JOHN);
-    //     DatabaseService.save(TEST_ROOM_RUN.getRoomEntity());
-
-    //     TEST_ROOM_COOK.addTag(Tag.TAG_COOKING);
-    //     TEST_ROOM_COOK.addFollower(TEST_USER_SMITH);
-    //     TEST_ROOM_COOK.addFollower(TEST_USER_JOHN);
-    //     DatabaseService.save(TEST_ROOM_COOK.getRoomEntity());
-
-    //     TEST_ROOM_POETRY.addTag(Tag.TAG_LITERATURE);
-    //     TEST_ROOM_POETRY.addFollower(TEST_USER_SMITH);
-    //     DatabaseService.save(TEST_ROOM_POETRY.getRoomEntity());
-
-    //     RecommenderAlgorithm.normalizeEmbeddedEntity(TEST_USER_SMITH);
-    //     RecommenderAlgorithm.normalizeEmbeddedEntity(TEST_USER_JOHN);
-
-    //     EmbeddedEntity userTagMap = TEST_USER_SMITH.getEmbeddedTags();
-    //     EmbeddedEntity otherTagMap = TEST_USER_JOHN.getEmbeddedTags();
-
-    //     Double distances = RecommenderAlgorithm.distanceBetween(userTagMap, otherTagMap);
-    //     Assert.assertEquals(distances, 0.6058108930553725, epsilon);
-    // }
+        Double distances = RecommenderAlgorithm.distanceBetween(userTagMap, otherTagMap);
+        Assert.assertEquals(distances, 0.6058108930553725, epsilon);
+    }
 
     // @Test
     // public void calculateShortestDistanceMultipleUsersMultipleRoomsTest() { 

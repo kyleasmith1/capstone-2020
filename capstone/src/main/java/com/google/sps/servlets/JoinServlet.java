@@ -27,10 +27,34 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/join")
 public class JoinServlet extends HttpServlet {
 
-    private static final String JOIN_PROPERTY_KEY = "join";
-    private static final String UNJOIN_PROPERTY_KEY = "unjoin";
+    private static final String FOLLOW_PROPERTY_KEY = "follow";
+    private static final String UNFOLLOW_PROPERTY_KEY = "unfollow";
     private static final String ROOM_ID_PROPERTY_KEY = "room_id";
     private static final String ACTION_PROPERTY_KEY = "action";
+
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        User user = (User) request.getAttribute(User.USER_ENTITY_NAME);
+        PreparedQuery roomResults = datastore.prepare(new Query(Room.ROOM_ENTITY_NAME));
+        Room room = null;
+        String status = "";
+
+        for(Entity entity : roomResults.asIterable()) {
+            if (new Room(entity).getRoomKey().getId() == Long.parseLong(request.getParameter(JoinServlet.ROOM_ID_PROPERTY_KEY))) {
+                room = new Room(entity);
+            }
+        }
+
+        if (room.getAllFollowers().contains(user.getUserKey()) && !room.getHost().toString().equals(user.getUserKey().toString())) {
+            status = "Unfollow";
+        } else if (!room.getAllFollowers().contains(user.getUserKey()) && !room.getHost().toString().equals(user.getUserKey().toString())) {
+            status = "Follow";
+        }
+
+        response.setContentType("text/html");
+        response.getWriter().println(status);
+    }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -45,11 +69,11 @@ public class JoinServlet extends HttpServlet {
             }
         }
 
-        if (request.getParameter(JoinServlet.ACTION_PROPERTY_KEY).equals(JoinServlet.JOIN_PROPERTY_KEY) && !(room.getAllFollowers().contains(user.getUserKey()))) {
+        if (request.getParameter(JoinServlet.ACTION_PROPERTY_KEY).equals(JoinServlet.FOLLOW_PROPERTY_KEY) && !(room.getAllFollowers().contains(user.getUserKey()))) {
             room.addFollower(user);
         } 
         
-        if (request.getParameter(JoinServlet.ACTION_PROPERTY_KEY).equals(JoinServlet.UNJOIN_PROPERTY_KEY)) {
+        if (request.getParameter(JoinServlet.ACTION_PROPERTY_KEY).equals(JoinServlet.UNFOLLOW_PROPERTY_KEY)) {
             room.removeFollower(user);
         }
 

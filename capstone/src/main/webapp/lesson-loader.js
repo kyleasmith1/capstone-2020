@@ -6,7 +6,10 @@ const VIDEO = "video";
 const CONTENT = "content";
 const IMAGE = "image";
 
-const queryString = "/lesson?room_id=" + getRoomId() + "&action=" + getJoinStatus();
+const FOLLOW = "follow";
+const UNFOLLOW = "unfollow";
+
+const queryString = "/lesson?room_id=" + getRoomId();
 const videoPath = "https://www.youtube.com/embed/";
 
 function createForm(title, description) {
@@ -70,24 +73,33 @@ function createContent(title, description, content, urls) {
     });
 }
 
-function joinRoom() {
-    return fetch("/join?room_id=" + getRoomId() + "&action=join", {method: "POST", headers: new Headers({ID_TOKEN})}); 
+function getUserStatus() {
+    fetch("/join?room_id=" + getRoomId(), {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.text()).then((status) => {
+        var followButton = document.getElementById("follow-button");
+        var createButton = document.getElementById("create-button");
+        if (status.length > 1) {
+            followButton.style.display = "block";
+            followButton.innerHTML = status;
+        } else {
+            createButton.style.display = "block";
+        }
+    });
 }
 
-function unjoinRoom() {
-    return fetch("/join?room_id=" + getRoomId() + "&action=unjoin", {method: "POST", headers: new Headers({ID_TOKEN})});
+function toggleFollowStatus() {
+    status = document.getElementById("follow-button").innerHTML;
+    if (status == "" || status == "Unfollow") {
+        status = UNFOLLOW;
+        document.getElementById('follow-button').innerHTML = capitalizeFLetter(FOLLOW);
+    } else {
+        status = FOLLOW;
+        document.getElementById('follow-button').innerHTML = capitalizeFLetter(UNFOLLOW);
+    }
+    fetch("/join?room_id=" + getRoomId() + "&action=" + status, {method: "POST", headers: new Headers({ID_TOKEN})});
 }
 
 function getRoomId() {
     return new URL(window.location.href).searchParams.get("room_id");
-}
-
-function getJoinStatus() {
-    var action = new URL(window.location.href).searchParams.get("action");
-    if (action == null) {
-        return "unjoin";
-    }
-    return action;
 }
 
 function createHyperLink(url) {
@@ -106,6 +118,7 @@ function getRadioOption() {
 }
 
 function getLessons() {
+    getUserStatus();
     fetch(queryString, {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((lessonsList) => {
         const lessonElement = document.getElementById("lesson-container");
         lessonElement.innerHTML = "";

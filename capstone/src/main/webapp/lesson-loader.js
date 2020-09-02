@@ -100,15 +100,6 @@ function createHyperLink(url) {
     return doc.body;
 }
 
-function getBlobUrlAndLessons(form) {
-    fetch('/blobstore', {method: "GET", headers: new Headers({ID_TOKEN})})
-        .then(response => response.text())
-        .then((imageUrl) => {
-            document.getElementById(form).action = imageUrl;
-        });
-    getLessons();
-}
-
 function getLessons() {
     fetch(queryString, {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((lessonsList) => {
         const lessonElement = document.getElementById("lesson-container");

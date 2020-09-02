@@ -32,7 +32,8 @@ body {
     color: #2c2c2c;
 }
 
-.btn-outline-danger {
+.btn-danger {
+    background-color: #db4437;
     border-color: #db4437;
 }
 
@@ -207,6 +208,10 @@ p {
 #player {
     width: 467px;
     height: 275px;
+}
+
+.radio-modal {
+    margin-left: 20px;
 }
 
 .small-text {

@@ -33,7 +33,7 @@ function signOut() {
 
 function getDescription(object) {
     if (object.entity.propertyMap.description == "") {
-        return "";
+        return "Description: ";
     }
     return "Description: " + capitalizeFLetter(object.entity.propertyMap.description);
 }

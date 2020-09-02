@@ -100,6 +100,11 @@ function createHyperLink(url) {
     return doc.body;
 }
 
+function getRadioOption() {
+    var radio = document.getElementById("select-button");
+    radio.setAttribute("data-target", document.querySelector('input[name="radio-content"]:checked').value);
+}
+
 function getLessons() {
     fetch(queryString, {method: "GET", headers: new Headers({ID_TOKEN})}).then(response => response.json()).then((lessonsList) => {
         const lessonElement = document.getElementById("lesson-container");
@@ -129,7 +134,7 @@ function getModal(lesson) {
 function createLessonCardDivElement(lesson) {
     let domparser = new DOMParser();
     let doc = domparser.parseFromString(`
-        <div class="card border border-primary margin margin-left">
+        <div class="card margin margin-left">
             <img class="card-img-top" src="/assets/soundwave.svg" alt="Lesson Card">
             <div class="card-body text-center">
                 <h5 class="card-title" id="lesson-title"></h5>
@@ -137,7 +142,7 @@ function createLessonCardDivElement(lesson) {
                 <div class="card-text small-text" id="lesson-description"></div>
                 <div class="small-spacing-bottom"></div>
                 <button type="button" id="lesson-modal" class="btn btn-default" data-toggle="modal" data-target="#ModalCenterLessons">View</button>
-                <button type="button" id="lesson-delete" class="btn btn-default" data-toggle="modal" data-target="#ModalCenterLessonDelete">Delete</button>
+                <button type="button" id="lesson-delete" class="btn btn-default">Delete</button>
             </div>
         </div>
         `, "text/html");
@@ -147,7 +152,7 @@ function createLessonCardDivElement(lesson) {
     doc.getElementById("lesson-modal").addEventListener("click", function() {
         getModal(lesson);
     });
-    document.getElementById("lesson-delete-button").addEventListener("click", function() {
+    doc.getElementById("lesson-delete").addEventListener("click", function() {
         deleteFromDatastore(lesson);
     });
     return doc.body;

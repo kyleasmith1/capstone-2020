@@ -63,7 +63,7 @@ function createRoomDivElement(room) {
                     <div class="card-text small-text">Tag(s): </div>
                     <div class="small-spacing-bottom"></div>
                     <div class="btn btn-default" id="room-link">Go</div>
-                    <button type="button" id="room-delete" class="btn btn-default" data-toggle="modal" data-target="#ModalCenterRoomDelete">Delete</button>
+                    <button type="button" id="room-delete" class="btn btn-default">Delete</button>
                 </div>
             </div>
             `, "text/html");
@@ -73,7 +73,7 @@ function createRoomDivElement(room) {
     doc.getElementById("room-link").addEventListener("click", function() {
         window.location.href = "lesson.html?room_id=" + room.entity.key.id;
     });
-    document.getElementById("room-delete-button").addEventListener("click", function() {
+    doc.getElementById("room-delete").addEventListener("click", function() {
         deleteFromDatastore(room);
     });
     return doc.body;

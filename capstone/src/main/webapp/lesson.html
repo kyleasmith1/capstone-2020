@@ -20,25 +20,43 @@
         </ul>
         <div class="text-inline">
             <ul class="navbar-nav navbar-expand-lg">
-                <li class="nav-item margin-right"><button type="button" class="btn btn-default" onclick="joinRoom()">Join</button></li>
-                <li class="nav-item margin-right"><button type="button" class="btn btn-default" onclick="unjoinRoom()">Unjoin</button></li>
+                <li class="nav-item margin-right"><button type="button" class="btn btn-default" onclick="joinRoom()">Follow</button></li>
+                <li class="nav-item margin-right"><button type="button" class="btn btn-default" onclick="unjoinRoom()">Unfollow</button></li>
                 <li class="nav-item margin-right">
-                    <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="/assets/plus.svg"> Create
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                            <button type="button" class="dropdown-item btn-default" data-toggle="modal" data-target="#ModalCenterContent">Content</button>
-                            <button type="button" class="dropdown-item btn-default" data-toggle="modal" data-target="#ModalCenterForm">Form</button>
-                            <button type="button" class="dropdown-item btn-default" data-toggle="modal" data-target="#ModalCenterImage">Image</button>
-                            <button type="button" class="dropdown-item btn-default" data-toggle="modal" data-target="#ModalCenterVideo">Video</button>
-                        </div>
-                    </div>
+                    <button class="btn btn-default" type="button" data-toggle="modal" data-target="#ModalCenterCreate">
+                        <img src="/assets/plus.svg"> Create
+                    </button>
                 </li> 
                 <li class="nav-item"><div id="signout"></div></li>
             </ul>
         </div>
     </nav>
+
+    <div class="modal fade" id="ModalCenterCreate" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalCenterTitle">Make Your Own</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <p>Please Choose A Lesson:</p>
+                        <input type="radio"  name="radio-content" value="#ModalCenterContent"> Content
+                        <input type="radio" class="radio-modal" name="radio-content" value="#ModalCenterForm"> Form
+                        <input type="radio" class="radio-modal" name="radio-content" value="#ModalCenterImage"> Image
+                        <input type="radio" class="radio-modal" name="radio-content" value="#ModalCenterVideo"> Video
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" id="select-button" data-toggle="modal" onclick=getRadioOption() data-dismiss="modal">Select</button>
+                </div>
+            </div>
+        </div>
+    </div>
  
     <div class="modal fade" id="ModalCenterForm" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -158,23 +176,6 @@
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="ModalCenterLessonDelete" tabindex="-1" role="dialog" aria-labelledby="modal-type" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Are You Sure You Want to Delete This Lesson?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-danger" id="lesson-delete-button" data-dismiss="modal">Yes</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                </div>
-            </div>
-        </div>
-    </div>    
 
     <script src="config.js"></script>
     <script src="authenticate.js"></script>

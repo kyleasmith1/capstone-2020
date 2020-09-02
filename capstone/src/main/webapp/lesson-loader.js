@@ -148,13 +148,13 @@ function createLessonCardDivElement(lesson) {
     let domparser = new DOMParser();
     let doc = domparser.parseFromString(`
         <div class="card margin margin-left">
-            <img class="card-img-top" src="/assets/soundwave.svg" alt="Lesson Card">
+            <img class="card-img-top img-card" src="/assets/door-open.svg" alt="Lesson Card">
             <div class="card-body text-center">
                 <h5 class="card-title" id="lesson-title"></h5>
                 <div class="card-text small-text" id="lesson-type"></div>
                 <div class="card-text small-text" id="lesson-description"></div>
                 <div class="small-spacing-bottom"></div>
-                <button type="button" id="lesson-modal" class="btn btn-default" data-toggle="modal" data-target="#ModalCenterLessons">View</button>
+                <button type="button" id="lesson-modal" class="btn btn-default" data-toggle="modal" data-target="#ModalCenterLessons">Open</button>
                 <button type="button" id="lesson-delete" class="btn btn-default">Delete</button>
             </div>
         </div>
@@ -174,8 +174,11 @@ function createLessonCardDivElement(lesson) {
 function createVideoDivElement(lesson) {
     let domparser = new DOMParser();
     let doc = domparser.parseFromString(`
+        <div id="modal-video-description"></div>
+        <div id="modal-title"><span>Video</span></div>
         <iframe id="player" type="text/html" frameborder="0" allowfullscreen></iframe>
     `, "text/html");
+    doc.getElementById("modal-video-description").innerHTML = capitalizeFLetter(lesson.entity.propertyMap.description);
     doc.getElementById("player").src = videoPath + new URL(lesson.entity.propertyMap.url).searchParams.get("v");
     return doc.body;
 }

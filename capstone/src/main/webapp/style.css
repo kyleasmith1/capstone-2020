@@ -115,7 +115,7 @@ body {
     color: #2c2c2c;
 }
 
-#create-button-lesson, #follow-button {
+#create-button-lesson, #follow-button, #room-delete, #lesson-delete {
     display: none;
 }
 
@@ -151,6 +151,14 @@ h1 {
 .home-img {
     width: 125px;
     height: 125px;
+}
+
+.img-card {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 30px;
+    width: 80%;
 }
 
 #image-container {

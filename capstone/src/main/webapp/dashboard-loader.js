@@ -58,14 +58,14 @@ function createRoomDivElement(room) {
     let domparser = new DOMParser();
     let doc = domparser.parseFromString(`
             <div class="card margin margin-left">
-                <img class="card-img-top" src="/assets/soundwave.svg" alt="Room Card">
+                <img class="card-img-top img-card" src="/assets/brightness-alt-high.svg" alt="Room Card">
                 <div class="card-body text-center">
                     <h5 class="card-title" id="room-title"></h5>
                     <div class="card-text small-text" id="room-followers"></div>
                     <div class="card-text small-text" id="room-description"></div>
                     <div class="card-text small-text">Tag(s): </div>
                     <div class="small-spacing-bottom"></div>
-                    <div class="btn btn-default" id="room-link">Go</div>
+                    <div class="btn btn-default" id="room-link">View</div>
                     <button type="button" id="room-delete" class="btn btn-default">Delete</button>
                 </div>
             </div>

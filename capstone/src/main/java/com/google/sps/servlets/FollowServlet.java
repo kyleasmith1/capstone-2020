@@ -56,11 +56,11 @@ public class FollowServlet extends HttpServlet {
         Room room = new Room(FilterService.getEntity(Room.ROOM_ENTITY_NAME, roomId));
 
         if (request.getParameter(FollowServlet.ACTION_QUERY_PARAMETER).equals(Action.FOLLOW.asLowerCase()) && !(room.getAllFollowers().contains(user.getUserKey()))) {
-            CachedInterestVector.addRoomUpdateCachedInterestVector(user, room);
+            room.addFollower(user);
         } 
         
         if (request.getParameter(FollowServlet.ACTION_QUERY_PARAMETER).equals(Action.UNFOLLOW.asLowerCase())) {
-            CachedInterestVector.removeRoomUpdateCachedInterestVector(user, room);
+            room.removeFollower(user);
         }
 
         DatabaseService.save(user.getUserEntity());
